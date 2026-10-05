@@ -21,6 +21,7 @@ type Listing = {
 export default function ListingCard({ listing }: { listing: Listing }) {
   const { isWishlisted, toggleWishlist } = useWishlistStore();
   const wishlisted = isWishlisted(listing.id);
+
   return (
     <div className="bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-md transition overflow-hidden group">
       <div className="relative h-48 bg-gray-100">
@@ -49,3 +50,43 @@ export default function ListingCard({ listing }: { listing: Listing }) {
             className={wishlisted ? "fill-primary text-primary" : "text-gray-500"}
           />
         </button>
+
+        <span className="absolute top-3 left-3 bg-primary text-white text-xs font-semibold px-2 py-1 rounded-full">
+          {listing.listingType === "RENT" ? "For Rent" : "For Sale"}
+        </span>
+      </div>
+
+      <Link href={`/listings/${listing.id}`} className="block p-4">
+        <h3 className="font-semibold text-gray-900 truncate">{listing.title}</h3>
+        <p className="text-gray-500 text-sm flex items-center gap-1 mt-1">
+          <MapPin size={14} /> {listing.address}
+        </p>
+
+        <div className="flex items-center gap-4 text-gray-500 text-sm mt-3">
+          {listing.bedroom && (
+            <span className="flex items-center gap-1">
+              <BedDouble size={14} /> {listing.bedroom}
+            </span>
+          )}
+          {listing.bathroom && (
+            <span className="flex items-center gap-1">
+              <Bath size={14} /> {listing.bathroom}
+            </span>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between mt-4">
+          <p className="text-primary font-bold">
+            ৳{listing.price.toLocaleString()}
+            {listing.listingType === "RENT" && <span className="text-gray-400 text-xs font-normal"> /month</span>}
+          </p>
+          {listing.owner?.verified && (
+            <span className="flex items-center gap-1 text-xs text-primary">
+              <BadgeCheck size={14} /> Verified
+            </span>
+          )}
+        </div>
+      </Link>
+    </div>
+  );
+}
