@@ -23,18 +23,23 @@ export default function Navbar() {
           <Link href="/listings?type=SALE" className="text-gray-600 hover:text-primary text-sm font-medium">
             Buy / Sell
           </Link>
-          <Link href="/wishlist" className="text-gray-600 hover:text-primary text-sm font-medium flex items-center gap-1">
-            <Heart size={16} /> Wishlist
+          <Link href="/listings/new" className="text-gray-600 hover:text-primary text-sm font-medium">
+            List Your Property
           </Link>
         </nav>
 
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4">
+          <Link href="/wishlist" className="text-gray-600 hover:text-primary">
+            <Heart size={20} />
+          </Link>
+
           <Link href="/login">
             <Button variant="ghost" className="text-gray-700">Log In</Button>
           </Link>
-          <Link href="/listings/new">
+
+          <Link href="/signup">
             <Button className="bg-primary hover:bg-primary/90 text-white">
-              List Your Property
+              Sign Up
             </Button>
           </Link>
         </div>
@@ -48,10 +53,13 @@ export default function Navbar() {
         <div className="md:hidden flex flex-col gap-3 px-4 pb-4 bg-white border-t border-gray-100">
           <Link href="/listings?type=RENT" className="py-2 text-gray-700">Rent</Link>
           <Link href="/listings?type=SALE" className="py-2 text-gray-700">Buy / Sell</Link>
-          <Link href="/wishlist" className="py-2 text-gray-700">Wishlist</Link>
+          <Link href="/listings/new" className="py-2 text-gray-700">List Your Property</Link>
+          <Link href="/wishlist" className="py-2 text-gray-700 flex items-center gap-2">
+            <Heart size={18} /> Wishlist
+          </Link>
           <Link href="/login" className="py-2 text-gray-700">Log In</Link>
-          <Link href="/listings/new">
-            <Button className="bg-primary text-white w-full">List Your Property</Button>
+          <Link href="/signup">
+            <Button className="bg-primary text-white w-full">Sign Up</Button>
           </Link>
         </div>
       )}
