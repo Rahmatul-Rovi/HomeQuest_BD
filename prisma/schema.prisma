@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model Listing {
+  id              String   @id @default(cuid())
+  title           String
+  description     String
+  listingType     ListingType
+  category        Category
+  price           Int
+  bedroom         Int?
+  bathroom        Int?
+  areaSize        Int?
+  bachelorAllowed Boolean  @default(true)
+  address         String
+  lat             Float?
+  lng             Float?
+  images          String[]
+  status          ListingStatus @default(ACTIVE)
+  ownerId         String
+  owner           User     @relation(fields: [ownerId], references: [id])
+  createdAt       DateTime @default(now())
+}
+
+enum ListingType {
+  RENT
+  SALE
+}
+
+enum Category {
+  FULL_FLAT
+  MESS
+  SEAT
+  SUBLET
+  FLAT_SALE
+  LAND_SALE
+}
+
+enum ListingStatus {
+  ACTIVE
+  RENTED
+  SOLD
+  PENDING
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String?
+  role      Role     @default(TENANT)
+  verified  Boolean  @default(false)
+  listings  Listing[]
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  TENANT
+  OWNER
+  ADMIN
+}
