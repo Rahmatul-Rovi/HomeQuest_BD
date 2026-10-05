@@ -25,3 +25,28 @@ export default function Hero() {
           Verified flats, mess, sublets, and properties for sale — all across Bangladesh.
           No brokers, no hassle.
         </p>
+
+        {/* Search Card */}
+        <div className="bg-white rounded-2xl shadow-lg p-3 md:p-4 max-w-3xl mx-auto">
+          <div className="flex gap-2 mb-3">
+            <button
+              onClick={() => setListingType("RENT")}
+              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition ${
+                listingType === "RENT"
+                  ? "bg-primary text-white"
+                  : "bg-gray-100 text-gray-600"
+              }`}
+            >
+              For Rent
+            </button>
+            <button
+              onClick={() => setListingType("SALE")}
+              className={`flex-1 py-2 rounded-lg text-sm font-semibold transition ${
+                listingType === "SALE"
+                  ? "bg-primary text-white"
+                  : "bg-gray-100 text-gray-600"
+              }`}
+            >
+              For Sale
+            </button>
+          </div>
