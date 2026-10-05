@@ -50,3 +50,27 @@ export default function Hero() {
               For Sale
             </button>
           </div>
+
+          <div className="flex flex-col md:flex-row gap-2">
+            <div className="flex items-center flex-1 border border-gray-200 rounded-lg px-3">
+              <MapPin size={18} className="text-gray-400 mr-2" />
+              <input
+                type="text"
+                placeholder="Search by area (e.g. Mirpur, Dhanmondi)"
+                value={area}
+                onChange={(e) => setArea(e.target.value)}
+                className="w-full py-3 text-sm outline-none"
+              />
+            </div>
+            <Button
+              onClick={handleSearch}
+              className="bg-primary hover:bg-primary/90 text-white px-6 flex items-center gap-2"
+            >
+              <Search size={18} /> Search
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
