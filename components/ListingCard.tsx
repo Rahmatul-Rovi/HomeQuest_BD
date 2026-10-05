@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, BedDouble, Bath, MapPin, BadgeCheck } from "lucide-react";
-import { useWishlistStore } from "@/store/wishlistStore";
+import { useWishlistStore } from "@/src/store/wishlistStore";
 
 type Listing = {
   id: string;
