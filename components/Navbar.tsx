@@ -38,3 +38,23 @@ export default function Navbar() {
             </Button>
           </Link>
         </div>
+
+        <button className="md:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+          <Menu />
+        </button>
+      </div>
+
+      {menuOpen && (
+        <div className="md:hidden flex flex-col gap-3 px-4 pb-4 bg-white border-t border-gray-100">
+          <Link href="/listings?type=RENT" className="py-2 text-gray-700">Rent</Link>
+          <Link href="/listings?type=SALE" className="py-2 text-gray-700">Buy / Sell</Link>
+          <Link href="/wishlist" className="py-2 text-gray-700">Wishlist</Link>
+          <Link href="/login" className="py-2 text-gray-700">Log In</Link>
+          <Link href="/listings/new">
+            <Button className="bg-primary text-white w-full">List Your Property</Button>
+          </Link>
+        </div>
+      )}
+    </header>
+  );
+}
