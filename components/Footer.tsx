@@ -14,7 +14,8 @@ export default function Footer() {
             properties — no brokers, no hassle.
           </p>
         </div>
-          {/* Quick Links */}
+
+        {/* Quick Links */}
         <div>
           <h4 className="text-white font-semibold mb-4 text-sm">Quick Links</h4>
           <ul className="space-y-2 text-sm">
@@ -35,3 +36,39 @@ export default function Footer() {
             <li><Link href="/privacy" className="hover:text-primary transition">Privacy Policy</Link></li>
           </ul>
         </div>
+
+        {/* Contact */}
+        <div>
+          <h4 className="text-white font-semibold mb-4 text-sm">Contact Us</h4>
+          <ul className="space-y-3 text-sm">
+            <li className="flex items-center gap-2">
+              <MapPin size={16} className="text-primary shrink-0" />
+              Dhaka, Bangladesh
+            </li>
+            <li className="flex items-center gap-2">
+              <Phone size={16} className="text-primary shrink-0" />
+              +880 1XXX-XXXXXX
+            </li>
+            <li className="flex items-center gap-2">
+              <Mail size={16} className="text-primary shrink-0" />
+              support@homequestbd.com
+            </li>
+            <li className="flex items-center gap-2 pt-2">
+              <a
+                href="#"
+                className="bg-gray-800 p-2 rounded-full hover:bg-primary transition"
+                aria-label="Facebook"
+              >
+                <Facebook size={16} />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="border-t border-gray-800 py-5 text-center text-xs text-gray-500">
+        © {new Date().getFullYear()} HomeQuest BD. All rights reserved.
+      </div>
+    </footer>
+  );
+}
