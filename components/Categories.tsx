@@ -27,3 +27,21 @@ export default function Categories() {
           Whatever you&apos;re looking for, we&apos;ve got it covered.
         </p>
       </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        {categories.map(({ label, icon: Icon, type, category }) => (
+          <Link
+            key={category}
+            href={`/listings?type=${type}&category=${category}`}
+            className="group flex flex-col items-center gap-3 bg-white border border-gray-100 rounded-2xl p-6 hover:border-primary hover:shadow-md transition"
+          >
+            <div className="bg-primary-light p-3.5 rounded-xl group-hover:bg-primary transition">
+              <Icon size={24} className="text-primary group-hover:text-white transition" />
+            </div>
+            <span className="text-sm font-semibold text-gray-700">{label}</span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
