@@ -24,3 +24,33 @@ export async function GET(req: NextRequest) {
     if (category) {
       where.category = category as Prisma.EnumCategoryFilter["equals"];
     }
+
+    if (area) {
+      where.address = { contains: area, mode: "insensitive" };
+    }
+
+    if (minPrice || maxPrice) {
+      where.price = {};
+      if (minPrice) where.price.gte = Number(minPrice);
+      if (maxPrice) where.price.lte = Number(maxPrice);
+    }
+
+    if (bachelorOnly === "true") {
+      where.bachelorAllowed = true;
+    }
+
+    const listings = await prisma.listing.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      include: { owner: { select: { name: true, verified: true } } },
+    });
+
+    return NextResponse.json(listings);
+  } catch (error) {
+    console.error("GET /api/listings error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch listings" },
+      { status: 500 }
+    );
+  }
+}
