@@ -9,7 +9,7 @@ const reviews = [
     location: "Dhanmondi, Dhaka",
     rating: 5,
     text: "Found a 2-bedroom flat within 3 days. The owner was already verified so I felt safe booking a visit.",
-    avatar: "https://i.pravatar.cc/150?img=47",
+    avatar: "https://i.pravatar.cc/150?img=32",  
   },
   {
     name: "Tanvir Hasan",
@@ -23,7 +23,7 @@ const reviews = [
     location: "Mohammadpur, Dhaka",
     rating: 4,
     text: "The map search made it so easy to find a mess close to my university. Saved me hours of walking around.",
-    avatar: "https://i.pravatar.cc/150?img=32",
+    avatar: "https://i.pravatar.cc/150?img=47",
   },
   {
     name: "Rafiul Islam",

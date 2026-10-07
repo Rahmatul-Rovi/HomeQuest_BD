@@ -3,6 +3,8 @@ import FeaturedListings from "@/components/FeaturedListings";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
+import Testimonials from "@/components/Testimonials";
+import TrustBadges from "@/components/TrustBadges";
 import Image from "next/image";
 
 export default function Home() {
@@ -12,6 +14,8 @@ export default function Home() {
        <Hero/>
        <Categories/>
        <FeaturedListings/>
+       <TrustBadges/>
+       <Testimonials/>
        <Footer/>
    </main>
   );
