@@ -23,7 +23,7 @@ export default function ListingGrid() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
+  useEffect(() => {
     setLoading(true);
     fetch(`/api/listings?${searchParams.toString()}`)
       .then((res) => res.json())
@@ -51,3 +51,26 @@ export default function ListingGrid() {
       </div>
     );
   }
+
+  if (listings.length === 0) {
+    return (
+      <div className="text-center py-20 text-gray-400">
+        <p className="text-lg font-medium">No properties found</p>
+        <p className="text-sm mt-1">Try adjusting your filters.</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <p className="text-sm text-gray-500 mb-4">
+        {listings.length} propert{listings.length === 1 ? "y" : "ies"} found
+      </p>
+      <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+        {listings.map((listing) => (
+          <ListingCard key={listing.id} listing={listing} />
+        ))}
+      </div>
+    </>
+  );
+}
