@@ -23,3 +23,20 @@ const steps = [
     badge: "Verified Owner",
   },
 ];
+
+export default function HowItWorks() {
+  return (
+    <section className="py-16 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50/50 via-white to-white overflow-hidden">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 mb-3 text-xs font-semibold tracking-wider text-emerald-700 uppercase bg-emerald-100/80 rounded-full">
+            <Sparkles size={14} /> Simple 3-Step Process
+          </span>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+            How <span className="text-emerald-600">HomeQuest BD</span> Works
+          </h2>
+          <p className="text-gray-500 text-sm md:text-base mt-3">
+            Finding your next home has never been this simple, safe, and broker-free.
+          </p>
+        </div>
