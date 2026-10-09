@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { useWishlistStore } from "@/store/wishlistStore";
+
 import {
   MapPin,
   BedDouble,
@@ -21,6 +21,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { useWishlistStore } from "@/src/store/wishlistStore";
 
 type ListingDetail = {
   id: string;
@@ -57,7 +58,7 @@ export default function ListingDetailsPage() {
 
   const { isWishlisted, toggleWishlist } = useWishlistStore();
 
-   useEffect(() => {
+  useEffect(() => {
     fetch(`/api/listings/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Not found");
@@ -77,6 +78,7 @@ export default function ListingDetailsPage() {
         });
       });
   }, [id]);
+
 
   const handleProtectedAction = (actionLabel: string) => {
     const isLoggedIn = false;
@@ -99,7 +101,7 @@ export default function ListingDetailsPage() {
       return;
     }
 
-    // If Logged then actual booking/chat logic 
+    // Logged in hole actual booking/chat logic eikhane hobe
   };
 
   if (loading) {
@@ -166,7 +168,7 @@ export default function ListingDetailsPage() {
                     }
                     className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow"
                   >
-                     <ChevronRight size={20} />
+                    <ChevronRight size={20} />
                   </button>
                   <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
                     {images.map((_, i) => (
@@ -197,7 +199,7 @@ export default function ListingDetailsPage() {
             />
           </button>
 
-           <span className="absolute top-4 left-4 bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+          <span className="absolute top-4 left-4 bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full">
             {listing.listingType === "RENT" ? "For Rent" : "For Sale"}
           </span>
         </div>
@@ -234,8 +236,7 @@ export default function ListingDetailsPage() {
                   <Bath size={18} className="text-primary" /> {listing.bathroom} Bathrooms
                 </div>
               )}
-
-               {listing.areaSize && (
+              {listing.areaSize && (
                 <div className="flex items-center gap-2 text-gray-600 text-sm">
                   <Ruler size={18} className="text-primary" /> {listing.areaSize} sq ft
                 </div>
@@ -269,3 +270,27 @@ export default function ListingDetailsPage() {
                 )}
               </div>
             </div>
+
+            <div className="space-y-2.5">
+              <Button
+                onClick={() => handleProtectedAction("book a visit")}
+                className="w-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center gap-2"
+              >
+                <CalendarCheck size={18} /> Book a Visit
+              </Button>
+              <Button
+                onClick={() => handleProtectedAction("message the owner")}
+                variant="outline"
+                className="w-full border-primary text-primary hover:bg-primary-light flex items-center justify-center gap-2"
+              >
+                <MessageCircleMore size={18} /> Message Owner
+              </Button>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <Footer />
+    </main>
+  );
+}
