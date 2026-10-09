@@ -2,6 +2,7 @@ import Categories from "@/components/Categories";
 import FeaturedListings from "@/components/FeaturedListings";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
+import HowItWorks from "@/components/HowItWorks";
 import ListPropertyCTA from "@/components/ListPropertyCTA";
 import Navbar from "@/components/Navbar";
 import Testimonials from "@/components/Testimonials";
@@ -15,6 +16,7 @@ export default function Home() {
        <Hero/>
        <Categories/>
        <FeaturedListings/>
+       <HowItWorks/>
        <TrustBadges/>
        <ListPropertyCTA/>
        <Testimonials/>
