@@ -234,3 +234,38 @@ export default function ListingDetailsPage() {
                   <Bath size={18} className="text-primary" /> {listing.bathroom} Bathrooms
                 </div>
               )}
+
+               {listing.areaSize && (
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <Ruler size={18} className="text-primary" /> {listing.areaSize} sq ft
+                </div>
+              )}
+              <div className="flex items-center gap-2 text-gray-600 text-sm">
+                <BadgeCheck size={18} className="text-primary" />
+                {listing.bachelorAllowed ? "Bachelor Allowed" : "Family Only"}
+              </div>
+            </div>
+
+            <h2 className="font-semibold text-gray-900 mb-2">Description</h2>
+            <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
+              {listing.description}
+            </p>
+          </div>
+
+          {/* Right: Owner Card + Actions */}
+          <aside className="h-fit bg-white border border-gray-100 rounded-2xl shadow-sm p-5 sticky top-20">
+            <div className="flex items-center gap-3 mb-4 pb-4 border-b border-gray-100">
+              <div className="w-11 h-11 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold">
+                {listing.owner.name.charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <p className="font-semibold text-gray-900 text-sm">{listing.owner.name}</p>
+                {listing.owner.verified ? (
+                  <span className="flex items-center gap-1 text-xs text-primary">
+                    <BadgeCheck size={13} /> Verified Owner
+                  </span>
+                ) : (
+                  <span className="text-xs text-gray-400">Not Verified</span>
+                )}
+              </div>
+            </div>
