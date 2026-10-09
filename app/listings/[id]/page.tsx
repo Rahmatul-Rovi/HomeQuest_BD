@@ -165,4 +165,34 @@ export default function ListingDetailsPage() {
                       setActiveImage((p) => (p === images.length - 1 ? 0 : p + 1))
                     }
                     className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow"
-                  ></button>
+                  >
+                     <ChevronRight size={20} />
+                  </button>
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                    {images.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`w-2 h-2 rounded-full ${
+                          i === activeImage ? "bg-white" : "bg-white/50"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-gray-400">
+              No Image Available
+            </div>
+          )}
+
+          <button
+            onClick={() => toggleWishlist(listing.id)}
+            className="absolute top-4 right-4 bg-white/90 hover:bg-white p-2.5 rounded-full shadow"
+          >
+            <Heart
+              size={20}
+              className={wishlisted ? "fill-primary text-primary" : "text-gray-500"}
+            />
+          </button>
