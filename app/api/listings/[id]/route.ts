@@ -16,3 +16,17 @@ export async function GET(
         },
       },
     });
+
+    if (!listing) {
+      return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(listing);
+  } catch (error) {
+    console.error("GET /api/listings/[id] error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch listing" },
+      { status: 500 }
+    );
+  }
+}
