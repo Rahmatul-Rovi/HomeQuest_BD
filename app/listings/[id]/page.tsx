@@ -32,3 +32,24 @@ export default function ListingDetailsPage() {
   const [activeImage, setActiveImage] = useState(0);
 
   const { isWishlisted, toggleWishlist } = useWishlistStore();
+
+   useEffect(() => {
+    fetch(`/api/listings/${id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Not found");
+        return res.json();
+      })
+      .then((data) => {
+        setListing(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        Swal.fire({
+          icon: "error",
+          title: "Not Found",
+          text: "This listing could not be found.",
+          confirmButtonColor: "#16A34A",
+        });
+      });
+  }, [id]);
