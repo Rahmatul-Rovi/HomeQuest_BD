@@ -196,3 +196,41 @@ export default function ListingDetailsPage() {
               className={wishlisted ? "fill-primary text-primary" : "text-gray-500"}
             />
           </button>
+
+           <span className="absolute top-4 left-4 bg-primary text-white text-xs font-semibold px-3 py-1.5 rounded-full">
+            {listing.listingType === "RENT" ? "For Rent" : "For Sale"}
+          </span>
+        </div>
+
+        <div className="grid lg:grid-cols-[1fr_340px] gap-8">
+          {/* Left: Details */}
+          <div>
+            <span className="text-primary text-xs font-semibold uppercase tracking-wide">
+              {CATEGORY_LABELS[listing.category] || listing.category}
+            </span>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mt-1 mb-2">
+              {listing.title}
+            </h1>
+            <p className="text-gray-500 flex items-center gap-1.5 mb-4">
+              <MapPin size={16} /> {listing.address}
+            </p>
+
+            <p className="text-primary text-2xl font-bold mb-6">
+              ৳{listing.price.toLocaleString()}
+              {listing.listingType === "RENT" && (
+                <span className="text-gray-400 text-sm font-normal"> /month</span>
+              )}
+            </p>
+
+            {/* Quick Specs */}
+            <div className="flex flex-wrap gap-4 mb-6 border-y border-gray-200 py-4">
+              {listing.bedroom && (
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <BedDouble size={18} className="text-primary" /> {listing.bedroom} Bedrooms
+                </div>
+              )}
+              {listing.bathroom && (
+                <div className="flex items-center gap-2 text-gray-600 text-sm">
+                  <Bath size={18} className="text-primary" /> {listing.bathroom} Bathrooms
+                </div>
+              )}
