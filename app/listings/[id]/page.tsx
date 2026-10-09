@@ -102,4 +102,31 @@ export default function ListingDetailsPage() {
     // If Logged then actual booking/chat logic 
   };
 
-  
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-white">
+        <Navbar />
+        <div className="max-w-6xl mx-auto px-4 py-10 animate-pulse space-y-6">
+          <div className="h-96 bg-gray-100 rounded-2xl" />
+          <div className="h-6 w-2/3 bg-gray-100 rounded" />
+          <div className="h-4 w-1/3 bg-gray-100 rounded" />
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  if (!listing) {
+    return (
+      <main className="min-h-screen bg-white">
+        <Navbar />
+        <div className="max-w-xl mx-auto px-4 py-24 text-center">
+          <p className="text-gray-500">Listing not found.</p>
+          <Link href="/listings" className="text-primary text-sm font-medium hover:underline">
+            ← Back to listings
+          </Link>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
