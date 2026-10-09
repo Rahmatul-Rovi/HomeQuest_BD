@@ -130,3 +130,39 @@ export default function ListingDetailsPage() {
       </main>
     );
   }
+
+  const images = listing.images.length > 0 ? listing.images : [];
+  const wishlisted = isWishlisted(listing.id);
+
+  return (
+    <main className="min-h-screen bg-gray-50">
+      <Navbar />
+
+      <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
+        {/* Image Gallery */}
+        <div className="relative h-72 sm:h-[420px] rounded-2xl overflow-hidden bg-gray-100 mb-6">
+          {images.length > 0 ? (
+            <>
+              <Image
+                src={images[activeImage]}
+                alt={listing.title}
+                fill
+                className="object-cover"
+                priority
+              />
+              {images.length > 1 && (
+                <>
+                  <button
+                    onClick={() =>
+                      setActiveImage((p) => (p === 0 ? images.length - 1 : p - 1))
+                    }
+                    className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={() =>
+                      setActiveImage((p) => (p === images.length - 1 ? 0 : p + 1))
+                    }
+                    className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white p-2 rounded-full shadow"
+                  ></button>
