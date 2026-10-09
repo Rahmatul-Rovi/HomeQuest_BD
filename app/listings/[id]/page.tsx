@@ -1,3 +1,27 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import Swal from "sweetalert2";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { useWishlistStore } from "@/store/wishlistStore";
+import {
+  MapPin,
+  BedDouble,
+  Bath,
+  Ruler,
+  BadgeCheck,
+  Heart,
+  MessageCircleMore,
+  CalendarCheck,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+
 type ListingDetail = {
   id: string;
   title: string;
@@ -53,3 +77,29 @@ export default function ListingDetailsPage() {
         });
       });
   }, [id]);
+
+  const handleProtectedAction = (actionLabel: string) => {
+    const isLoggedIn = false;
+
+    if (!isLoggedIn) {
+      Swal.fire({
+        icon: "info",
+        title: "Login Required",
+        text: `Please log in to ${actionLabel}.`,
+        showCancelButton: true,
+        confirmButtonText: "Log In",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#16A34A",
+        cancelButtonColor: "#9CA3AF",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = `/login?redirect=/listings/${id}`;
+        }
+      });
+      return;
+    }
+
+    // If Logged then actual booking/chat logic 
+  };
+
+  
