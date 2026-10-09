@@ -13,3 +13,19 @@ export default function ListingsPage() {
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8">
           Browse Properties
         </h1>
+
+        <div className="grid lg:grid-cols-[280px_1fr] gap-8">
+          <Suspense fallback={<div className="h-96 bg-gray-100 rounded-2xl animate-pulse" />}>
+            <ListingFilters />
+          </Suspense>
+
+          <Suspense fallback={<div className="h-96 bg-gray-100 rounded-2xl animate-pulse" />}>
+            <ListingGrid />
+          </Suspense>
+        </div>
+      </div>
+
+      <Footer />
+    </main>
+  );
+}
