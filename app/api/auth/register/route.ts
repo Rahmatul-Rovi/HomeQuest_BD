@@ -12,6 +12,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
       return NextResponse.json(
@@ -29,3 +30,16 @@ export async function POST(req: NextRequest) {
         password: hashedPassword,
       },
     });
+
+    return NextResponse.json(
+      { id: user.id, email: user.email },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("Register error:", error);
+    return NextResponse.json(
+      { error: "Something went wrong. Please try again." },
+      { status: 500 }
+    );
+  }
+}
