@@ -40,3 +40,28 @@ export default function LoginPage() {
       });
       return;
     }
+
+      Swal.fire({
+      icon: "success",
+      title: "Welcome Back!",
+      timer: 1200,
+      showConfirmButton: false,
+    }).then(() => {
+      router.push(redirectTo);
+      router.refresh();
+    });
+  };
+
+  return (
+    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+        <div className="flex justify-center mb-6">
+          <Logo />
+        </div>
+
+        <h1 className="text-xl font-bold text-gray-900 text-center mb-1">
+          Welcome Back
+        </h1>
+        <p className="text-gray-500 text-sm text-center mb-6">
+          Log in to continue to HomeQuest BD
+        </p>
