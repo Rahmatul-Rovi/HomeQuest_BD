@@ -41,7 +41,7 @@ export default function LoginPage() {
       return;
     }
 
-      Swal.fire({
+    Swal.fire({
       icon: "success",
       title: "Welcome Back!",
       timer: 1200,
@@ -66,7 +66,7 @@ export default function LoginPage() {
           Log in to continue to HomeQuest BD
         </p>
 
-         {/* Google Login */}
+        {/* Google Login */}
         <button
           onClick={() => signIn("google", { callbackUrl: redirectTo })}
           className="w-full flex items-center justify-center gap-3 border border-gray-200 rounded-lg py-2.5 mb-5 hover:bg-gray-50 transition text-sm font-medium text-gray-700"
@@ -91,7 +91,8 @@ export default function LoginPage() {
           </svg>
           Continue with Google
         </button>
-         <div className="flex items-center gap-3 mb-5">
+
+        <div className="flex items-center gap-3 mb-5">
           <div className="flex-1 h-px bg-gray-200" />
           <span className="text-xs text-gray-400">OR</span>
           <div className="flex-1 h-px bg-gray-200" />
@@ -109,7 +110,7 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                placeholder="Enter Your Email"
                 className="w-full py-2.5 text-sm outline-none"
               />
             </div>
@@ -119,7 +120,7 @@ export default function LoginPage() {
             <label className="text-sm font-medium text-gray-700 mb-1.5 block">
               Password
             </label>
-               <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary">
+            <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary">
               <Lock size={18} className="text-gray-400 mr-2 shrink-0" />
               <input
                 type={showPassword ? "text" : "password"}
@@ -147,3 +148,14 @@ export default function LoginPage() {
             {loading ? "Logging in..." : "Log In"}
           </Button>
         </form>
+
+        <p className="text-center text-sm text-gray-500 mt-6">
+          Don&apos;t have an account?{" "}
+          <Link href="/signup" className="text-primary font-medium hover:underline">
+            Sign up
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
+}
