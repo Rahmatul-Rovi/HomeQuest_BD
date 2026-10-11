@@ -5,6 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import Swal from "sweetalert2";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
@@ -53,6 +55,9 @@ export default function LoginPage() {
   };
 
   return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar/>
+    
     <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
         <div className="flex justify-center mb-6">
@@ -157,5 +162,7 @@ export default function LoginPage() {
         </p>
       </div>
     </main>
+     <Footer/>
+    </div>
   );
 }
