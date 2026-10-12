@@ -41,3 +41,27 @@ export default function SignupPage() {
         setLoading(false);
         return;
       }
+
+       // Signup success hole automatically login kore dao
+      await signIn("credentials", { email, password, redirect: false });
+
+      Swal.fire({
+        icon: "success",
+        title: "Account Created!",
+        text: "Welcome to HomeQuest BD.",
+        timer: 1500,
+        showConfirmButton: false,
+      }).then(() => {
+        router.push("/");
+        router.refresh();
+      });
+    } catch {
+      setLoading(false);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Could not create account. Please try again.",
+        confirmButtonColor: "#16A34A",
+      });
+    }
+  };
