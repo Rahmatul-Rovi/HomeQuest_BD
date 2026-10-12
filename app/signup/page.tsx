@@ -104,3 +104,27 @@ export default function SignupPage() {
           </svg>
           Continue with Google
         </button>
+
+          <div className="flex items-center gap-3 mb-5">
+          <div className="flex-1 h-px bg-gray-200" />
+          <span className="text-xs text-gray-400">OR</span>
+          <div className="flex-1 h-px bg-gray-200" />
+        </div>
+
+        <form onSubmit={handleSignup} className="space-y-4">
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+              Full Name
+            </label>
+            <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary">
+              <User size={18} className="text-gray-400 mr-2 shrink-0" />
+              <input
+                type="text"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your full name"
+                className="w-full py-2.5 text-sm outline-none"
+              />
+            </div>
+          </div>
