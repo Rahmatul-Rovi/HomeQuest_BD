@@ -17,3 +17,27 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+
+   const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Signup Failed",
+          text: data.error || "Something went wrong.",
+          confirmButtonColor: "#16A34A",
+        });
+        setLoading(false);
+        return;
+      }
