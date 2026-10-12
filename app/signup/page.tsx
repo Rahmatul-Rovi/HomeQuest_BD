@@ -144,3 +144,27 @@ export default function SignupPage() {
               />
             </div>
           </div>
+            <div>
+            <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+              Password
+            </label>
+            <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary">
+              <Lock size={18} className="text-gray-400 mr-2 shrink-0" />
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="At least 6 characters"
+                className="w-full py-2.5 text-sm outline-none"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-gray-400 hover:text-gray-600 shrink-0"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+          </div>
