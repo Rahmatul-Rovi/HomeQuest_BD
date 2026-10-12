@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import Swal from "sweetalert2";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
@@ -66,6 +68,8 @@ export default function SignupPage() {
   };
 
   return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+    <Navbar />
     <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
         <div className="flex justify-center mb-6">
@@ -140,7 +144,7 @@ export default function SignupPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
+                placeholder="Enter Your Email"
                 className="w-full py-2.5 text-sm outline-none"
               />
             </div>
@@ -188,5 +192,7 @@ export default function SignupPage() {
         </p>
       </div>
     </main>
+    <Footer/>
+    </div>
   );
 }
