@@ -128,3 +128,19 @@ export default function SignupPage() {
               />
             </div>
           </div>
+          <div>
+            <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+              Email
+            </label>
+            <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary">
+              <Mail size={18} className="text-gray-400 mr-2 shrink-0" />
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className="w-full py-2.5 text-sm outline-none"
+              />
+            </div>
+          </div>
