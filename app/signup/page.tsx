@@ -18,7 +18,7 @@ export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
-   const handleSignup = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
@@ -42,7 +42,6 @@ export default function SignupPage() {
         return;
       }
 
-       // Signup success hole automatically login kore dao
       await signIn("credentials", { email, password, redirect: false });
 
       Swal.fire({
@@ -65,6 +64,7 @@ export default function SignupPage() {
       });
     }
   };
+
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-10">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
@@ -105,7 +105,7 @@ export default function SignupPage() {
           Continue with Google
         </button>
 
-          <div className="flex items-center gap-3 mb-5">
+        <div className="flex items-center gap-3 mb-5">
           <div className="flex-1 h-px bg-gray-200" />
           <span className="text-xs text-gray-400">OR</span>
           <div className="flex-1 h-px bg-gray-200" />
@@ -128,6 +128,7 @@ export default function SignupPage() {
               />
             </div>
           </div>
+
           <div>
             <label className="text-sm font-medium text-gray-700 mb-1.5 block">
               Email
@@ -144,7 +145,8 @@ export default function SignupPage() {
               />
             </div>
           </div>
-            <div>
+
+          <div>
             <label className="text-sm font-medium text-gray-700 mb-1.5 block">
               Password
             </label>
@@ -168,3 +170,23 @@ export default function SignupPage() {
               </button>
             </div>
           </div>
+
+          <Button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-primary hover:bg-primary-dark text-white"
+          >
+            {loading ? "Creating account..." : "Sign Up"}
+          </Button>
+        </form>
+
+        <p className="text-center text-sm text-gray-500 mt-6">
+          Already have an account?{" "}
+          <Link href="/login" className="text-primary font-medium hover:underline">
+            Log in
+          </Link>
+        </p>
+      </div>
+    </main>
+  );
+}
