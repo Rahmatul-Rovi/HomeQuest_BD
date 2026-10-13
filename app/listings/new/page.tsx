@@ -109,3 +109,39 @@ export default function NewListingPage() {
       setSubmitting(false);
     }
   };
+
+   return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+
+      <main className="flex-1 max-w-3xl mx-auto px-4 py-10 w-full">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+          List Your Property
+        </h1>
+        <p className="text-gray-500 text-sm mb-8">
+          Fill in the details below to publish your property on HomeQuest BD.
+        </p>
+
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-6">
+          {/* Photos */}
+          <div>
+            <label className="text-sm font-semibold text-gray-700 mb-2 block">
+              Photos
+            </label>
+            <ImageUploader images={images} onChange={setImages} />
+          </div>
+
+          {/* Title */}
+          <div>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+              Title
+            </label>
+            <input
+              type="text"
+              required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="e.g. Spacious 2-Bed Flat in Mirpur"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
+            />
+          </div>
