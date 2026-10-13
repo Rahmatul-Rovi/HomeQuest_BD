@@ -145,3 +145,37 @@ export default function NewListingPage() {
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
             />
           </div>
+
+            {/* Category */}
+          <div>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+              Category
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary bg-white"
+            >
+              {CATEGORIES.map((c) => (
+                <option key={c.value} value={c.value}>
+                  {c.label} ({c.type === "RENT" ? "For Rent" : "For Sale"})
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Price */}
+          <div>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+              Price (৳)
+            </label>
+            <input
+              type="number"
+              required
+              min={0}
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="e.g. 15000"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
+            />
+          </div>
