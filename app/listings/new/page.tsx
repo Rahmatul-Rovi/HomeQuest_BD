@@ -15,7 +15,6 @@ const CATEGORIES = [
   { label: "Seat", value: "SEAT", type: "RENT" },
   { label: "Sublet", value: "SUBLET", type: "RENT" },
   { label: "Flat for Sale", value: "FLAT_SALE", type: "SALE" },
-  { label: "Land for Sale", value: "LAND_SALE", type: "SALE" },
 ];
 
 export default function NewListingPage() {
@@ -42,7 +41,7 @@ export default function NewListingPage() {
     );
   }
 
-   if (status === "unauthenticated") {
+  if (status === "unauthenticated") {
     Swal.fire({
       icon: "info",
       title: "Login Required",
@@ -68,7 +67,7 @@ export default function NewListingPage() {
 
     const listingType = CATEGORIES.find((c) => c.value === category)?.type;
 
-     try {
+    try {
       const res = await fetch("/api/listings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -110,7 +109,7 @@ export default function NewListingPage() {
     }
   };
 
-   return (
+  return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
 
@@ -146,7 +145,7 @@ export default function NewListingPage() {
             />
           </div>
 
-            {/* Category */}
+          {/* Category */}
           <div>
             <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
               Category
@@ -234,3 +233,44 @@ export default function NewListingPage() {
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
             />
           </div>
+
+          {/* Description */}
+          <div>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+              Description
+            </label>
+            <textarea
+              required
+              rows={4}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Describe the property, nearby landmarks, facilities etc."
+              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary resize-none"
+            />
+          </div>
+
+          {/* Bachelor Allowed */}
+          <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={bachelorAllowed}
+              onChange={(e) => setBachelorAllowed(e.target.checked)}
+              className="accent-primary w-4 h-4"
+            />
+            Bachelors Allowed
+          </label>
+
+          <Button
+            type="submit"
+            disabled={submitting}
+            className="w-full bg-primary hover:bg-primary-dark text-white py-6 text-base"
+          >
+            {submitting ? "Publishing..." : "Publish Listing"}
+          </Button>
+        </form>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
