@@ -17,3 +17,27 @@ const CATEGORIES = [
   { label: "Flat for Sale", value: "FLAT_SALE", type: "SALE" },
   { label: "Land for Sale", value: "LAND_SALE", type: "SALE" },
 ];
+
+export default function NewListingPage() {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("FULL_FLAT");
+  const [price, setPrice] = useState("");
+  const [bedroom, setBedroom] = useState("");
+  const [bathroom, setBathroom] = useState("");
+  const [areaSize, setAreaSize] = useState("");
+  const [bachelorAllowed, setBachelorAllowed] = useState(true);
+  const [address, setAddress] = useState("");
+  const [images, setImages] = useState<string[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+
+  if (status === "loading") {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-400 text-sm">Loading...</p>
+      </main>
+    );
+  }
