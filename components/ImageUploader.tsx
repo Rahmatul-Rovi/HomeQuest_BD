@@ -26,7 +26,8 @@ export default function ImageUploader({ images, onChange }: Props) {
         "upload_preset",
         process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!
       );
-       try {
+
+      try {
         const res = await fetch(
           `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
           { method: "POST", body: formData }
@@ -61,3 +62,29 @@ export default function ImageUploader({ images, onChange }: Props) {
             </button>
           </div>
         ))}
+
+        <label className="h-24 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center gap-1 cursor-pointer hover:border-primary transition">
+          {uploading ? (
+            <Loader2 size={20} className="animate-spin text-primary" />
+          ) : (
+            <>
+              <Upload size={18} className="text-gray-400" />
+              <span className="text-xs text-gray-400">Add Photo</span>
+            </>
+          )}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleUpload}
+            disabled={uploading}
+            className="hidden"
+          />
+        </label>
+      </div>
+      <p className="text-xs text-gray-400">
+        Upload clear photos of the property. First photo will be the cover image.
+      </p>
+    </div>
+  );
+}
