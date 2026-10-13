@@ -41,3 +41,29 @@ export default function NewListingPage() {
       </main>
     );
   }
+
+   if (status === "unauthenticated") {
+    Swal.fire({
+      icon: "info",
+      title: "Login Required",
+      text: "Please log in to list your property.",
+      confirmButtonColor: "#16A34A",
+    }).then(() => router.push("/login?redirect=/listings/new"));
+    return null;
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (images.length === 0) {
+      Swal.fire({
+        icon: "warning",
+        title: "Add at least one photo",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+
+    const listingType = CATEGORIES.find((c) => c.value === category)?.type;
