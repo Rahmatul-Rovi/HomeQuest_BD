@@ -67,3 +67,45 @@ export default function NewListingPage() {
     setSubmitting(true);
 
     const listingType = CATEGORIES.find((c) => c.value === category)?.type;
+
+     try {
+      const res = await fetch("/api/listings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          description,
+          listingType,
+          category,
+          price: Number(price),
+          bedroom: bedroom ? Number(bedroom) : null,
+          bathroom: bathroom ? Number(bathroom) : null,
+          areaSize: areaSize ? Number(areaSize) : null,
+          bachelorAllowed,
+          address,
+          images,
+          ownerId: session?.user?.id,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed");
+
+      const data = await res.json();
+
+      Swal.fire({
+        icon: "success",
+        title: "Listing Published!",
+        text: "Your property is now live on HomeQuest BD.",
+        confirmButtonColor: "#16A34A",
+      }).then(() => router.push(`/listings/${data.id}`));
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something Went Wrong",
+        text: "Could not publish your listing. Please try again.",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
