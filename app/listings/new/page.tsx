@@ -179,3 +179,58 @@ export default function NewListingPage() {
               className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
             />
           </div>
+
+          {/* Bedroom / Bathroom / Area */}
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+                Bedrooms
+              </label>
+              <input
+                type="number"
+                min={0}
+                value={bedroom}
+                onChange={(e) => setBedroom(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+                Bathrooms
+              </label>
+              <input
+                type="number"
+                min={0}
+                value={bathroom}
+                onChange={(e) => setBathroom(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+                Area (sqft)
+              </label>
+              <input
+                type="number"
+                min={0}
+                value={areaSize}
+                onChange={(e) => setAreaSize(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
+              />
+            </div>
+          </div>
+
+          {/* Address */}
+          <div>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
+              Address
+            </label>
+            <input
+              type="text"
+              required
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+              placeholder="e.g. House 12, Road 5, Mirpur 10, Dhaka"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary"
+            />
+          </div>
