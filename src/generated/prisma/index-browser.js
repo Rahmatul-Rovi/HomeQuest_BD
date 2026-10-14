@@ -140,6 +140,17 @@ exports.Prisma.ListingScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.VisitRequestScalarFieldEnum = {
+  id: 'id',
+  listingId: 'listingId',
+  tenantId: 'tenantId',
+  visitDate: 'visitDate',
+  visitTime: 'visitTime',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -215,6 +226,14 @@ exports.ListingStatus = exports.$Enums.ListingStatus = {
   PENDING: 'PENDING'
 };
 
+exports.VisitStatus = exports.$Enums.VisitStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Role = exports.$Enums.Role = {
   TENANT: 'TENANT',
   OWNER: 'OWNER',
@@ -223,6 +242,7 @@ exports.Role = exports.$Enums.Role = {
 
 exports.Prisma.ModelName = {
   Listing: 'Listing',
+  VisitRequest: 'VisitRequest',
   User: 'User',
   Account: 'Account',
   Session: 'Session',
