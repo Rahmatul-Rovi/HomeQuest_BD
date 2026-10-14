@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Listing {
-  id              String        @id @default(cuid())
+  id              String         @id @default(cuid())
   title           String
   description     String
   listingType     ListingType
@@ -17,15 +17,16 @@ model Listing {
   bedroom         Int?
   bathroom        Int?
   areaSize        Int?
-  bachelorAllowed Boolean       @default(true)
+  bachelorAllowed Boolean        @default(true)
   address         String
   lat             Float?
   lng             Float?
   images          String[]
-  status          ListingStatus @default(ACTIVE)
+  status          ListingStatus  @default(ACTIVE)
   ownerId         String
-  owner           User          @relation(fields: [ownerId], references: [id])
-  createdAt       DateTime      @default(now())
+  owner           User           @relation(fields: [ownerId], references: [id])
+  visitRequests   VisitRequest[]
+  createdAt       DateTime       @default(now())
 }
 
 enum ListingType {
@@ -49,19 +50,41 @@ enum ListingStatus {
   PENDING
 }
 
+model VisitRequest {
+  id        String      @id @default(cuid())
+  listingId String
+  listing   Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  tenantId  String
+  tenant    User        @relation("TenantRequests", fields: [tenantId], references: [id], onDelete: Cascade)
+  visitDate DateTime
+  visitTime String
+  message   String?
+  status    VisitStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+}
+
+enum VisitStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
 model User {
-  id            String    @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String
-  email         String    @unique
+  email         String         @unique
   emailVerified DateTime?
   image         String?
   password      String?
-  role          Role      @default(TENANT)
-  verified      Boolean   @default(false)
+  role          Role           @default(TENANT)
+  verified      Boolean        @default(false)
   listings      Listing[]
   accounts      Account[]
   sessions      Session[]
-  createdAt     DateTime  @default(now())
+  visitRequests VisitRequest[] @relation("TenantRequests")
+  createdAt     DateTime       @default(now())
 }
 
 model Account {

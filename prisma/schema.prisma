@@ -26,6 +26,7 @@ model Listing {
   status          ListingStatus @default(ACTIVE)
   ownerId         String
   owner           User     @relation(fields: [ownerId], references: [id])
+  visitRequests   VisitRequest[]
   createdAt       DateTime @default(now())
 }
 
@@ -50,6 +51,27 @@ enum ListingStatus {
   PENDING
 }
 
+model VisitRequest {
+  id         String        @id @default(cuid())
+  listingId  String
+  listing    Listing       @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  tenantId   String
+  tenant     User          @relation("TenantRequests", fields: [tenantId], references: [id], onDelete: Cascade)
+  visitDate  DateTime
+  visitTime  String
+  message    String?
+  status     VisitStatus   @default(PENDING)
+  createdAt  DateTime      @default(now())
+}
+
+enum VisitStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String
@@ -62,6 +84,7 @@ model User {
   listings      Listing[]
   accounts      Account[]
   sessions      Session[]
+  visitRequests  VisitRequest[] @relation("TenantRequests")
   createdAt     DateTime  @default(now())
 }
 

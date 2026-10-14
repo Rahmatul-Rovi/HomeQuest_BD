@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type Listing = $Result.DefaultSelection<Prisma.$ListingPayload>
 /**
+ * Model VisitRequest
+ * 
+ */
+export type VisitRequest = $Result.DefaultSelection<Prisma.$VisitRequestPayload>
+/**
  * Model User
  * 
  */
@@ -73,6 +78,17 @@ export const ListingStatus: {
 export type ListingStatus = (typeof ListingStatus)[keyof typeof ListingStatus]
 
 
+export const VisitStatus: {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  REJECTED: 'REJECTED',
+  COMPLETED: 'COMPLETED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type VisitStatus = (typeof VisitStatus)[keyof typeof VisitStatus]
+
+
 export const Role: {
   TENANT: 'TENANT',
   OWNER: 'OWNER',
@@ -94,6 +110,10 @@ export const Category: typeof $Enums.Category
 export type ListingStatus = $Enums.ListingStatus
 
 export const ListingStatus: typeof $Enums.ListingStatus
+
+export type VisitStatus = $Enums.VisitStatus
+
+export const VisitStatus: typeof $Enums.VisitStatus
 
 export type Role = $Enums.Role
 
@@ -229,6 +249,16 @@ export class PrismaClient<
     * ```
     */
   get listing(): Prisma.ListingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.visitRequest`: Exposes CRUD operations for the **VisitRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VisitRequests
+    * const visitRequests = await prisma.visitRequest.findMany()
+    * ```
+    */
+  get visitRequest(): Prisma.VisitRequestDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.user`: Exposes CRUD operations for the **User** model.
@@ -717,6 +747,7 @@ export namespace Prisma {
 
   export const ModelName: {
     Listing: 'Listing',
+    VisitRequest: 'VisitRequest',
     User: 'User',
     Account: 'Account',
     Session: 'Session',
@@ -736,7 +767,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "listing" | "user" | "account" | "session" | "verificationToken"
+      modelProps: "listing" | "visitRequest" | "user" | "account" | "session" | "verificationToken"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -811,6 +842,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ListingCountArgs<ExtArgs>
             result: $Utils.Optional<ListingCountAggregateOutputType> | number
+          }
+        }
+      }
+      VisitRequest: {
+        payload: Prisma.$VisitRequestPayload<ExtArgs>
+        fields: Prisma.VisitRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VisitRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VisitRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.VisitRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VisitRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>
+          }
+          findMany: {
+            args: Prisma.VisitRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>[]
+          }
+          create: {
+            args: Prisma.VisitRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>
+          }
+          createMany: {
+            args: Prisma.VisitRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VisitRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.VisitRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>
+          }
+          update: {
+            args: Prisma.VisitRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.VisitRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VisitRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VisitRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.VisitRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VisitRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.VisitRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVisitRequest>
+          }
+          groupBy: {
+            args: Prisma.VisitRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VisitRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VisitRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<VisitRequestCountAggregateOutputType> | number
           }
         }
       }
@@ -1234,6 +1339,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     listing?: ListingOmit
+    visitRequest?: VisitRequestOmit
     user?: UserOmit
     account?: AccountOmit
     session?: SessionOmit
@@ -1314,6 +1420,37 @@ export namespace Prisma {
 
 
   /**
+   * Count Type ListingCountOutputType
+   */
+
+  export type ListingCountOutputType = {
+    visitRequests: number
+  }
+
+  export type ListingCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    visitRequests?: boolean | ListingCountOutputTypeCountVisitRequestsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ListingCountOutputType without action
+   */
+  export type ListingCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ListingCountOutputType
+     */
+    select?: ListingCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ListingCountOutputType without action
+   */
+  export type ListingCountOutputTypeCountVisitRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VisitRequestWhereInput
+  }
+
+
+  /**
    * Count Type UserCountOutputType
    */
 
@@ -1321,12 +1458,14 @@ export namespace Prisma {
     listings: number
     accounts: number
     sessions: number
+    visitRequests: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listings?: boolean | UserCountOutputTypeCountListingsArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
+    visitRequests?: boolean | UserCountOutputTypeCountVisitRequestsArgs
   }
 
   // Custom InputTypes
@@ -1359,6 +1498,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SessionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountVisitRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VisitRequestWhereInput
   }
 
 
@@ -1677,6 +1823,8 @@ export namespace Prisma {
     ownerId?: boolean
     createdAt?: boolean
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    visitRequests?: boolean | Listing$visitRequestsArgs<ExtArgs>
+    _count?: boolean | ListingCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["listing"]>
 
   export type ListingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1744,6 +1892,8 @@ export namespace Prisma {
   export type ListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "listingType" | "category" | "price" | "bedroom" | "bathroom" | "areaSize" | "bachelorAllowed" | "address" | "lat" | "lng" | "images" | "status" | "ownerId" | "createdAt", ExtArgs["result"]["listing"]>
   export type ListingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
+    visitRequests?: boolean | Listing$visitRequestsArgs<ExtArgs>
+    _count?: boolean | ListingCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ListingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     owner?: boolean | UserDefaultArgs<ExtArgs>
@@ -1756,6 +1906,7 @@ export namespace Prisma {
     name: "Listing"
     objects: {
       owner: Prisma.$UserPayload<ExtArgs>
+      visitRequests: Prisma.$VisitRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2170,6 +2321,7 @@ export namespace Prisma {
   export interface Prisma__ListingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     owner<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    visitRequests<T extends Listing$visitRequestsArgs<ExtArgs> = {}>(args?: Subset<T, Listing$visitRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2617,6 +2769,30 @@ export namespace Prisma {
   }
 
   /**
+   * Listing.visitRequests
+   */
+  export type Listing$visitRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    where?: VisitRequestWhereInput
+    orderBy?: VisitRequestOrderByWithRelationInput | VisitRequestOrderByWithRelationInput[]
+    cursor?: VisitRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VisitRequestScalarFieldEnum | VisitRequestScalarFieldEnum[]
+  }
+
+  /**
    * Listing without action
    */
   export type ListingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2632,6 +2808,1116 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ListingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VisitRequest
+   */
+
+  export type AggregateVisitRequest = {
+    _count: VisitRequestCountAggregateOutputType | null
+    _min: VisitRequestMinAggregateOutputType | null
+    _max: VisitRequestMaxAggregateOutputType | null
+  }
+
+  export type VisitRequestMinAggregateOutputType = {
+    id: string | null
+    listingId: string | null
+    tenantId: string | null
+    visitDate: Date | null
+    visitTime: string | null
+    message: string | null
+    status: $Enums.VisitStatus | null
+    createdAt: Date | null
+  }
+
+  export type VisitRequestMaxAggregateOutputType = {
+    id: string | null
+    listingId: string | null
+    tenantId: string | null
+    visitDate: Date | null
+    visitTime: string | null
+    message: string | null
+    status: $Enums.VisitStatus | null
+    createdAt: Date | null
+  }
+
+  export type VisitRequestCountAggregateOutputType = {
+    id: number
+    listingId: number
+    tenantId: number
+    visitDate: number
+    visitTime: number
+    message: number
+    status: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type VisitRequestMinAggregateInputType = {
+    id?: true
+    listingId?: true
+    tenantId?: true
+    visitDate?: true
+    visitTime?: true
+    message?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type VisitRequestMaxAggregateInputType = {
+    id?: true
+    listingId?: true
+    tenantId?: true
+    visitDate?: true
+    visitTime?: true
+    message?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type VisitRequestCountAggregateInputType = {
+    id?: true
+    listingId?: true
+    tenantId?: true
+    visitDate?: true
+    visitTime?: true
+    message?: true
+    status?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type VisitRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VisitRequest to aggregate.
+     */
+    where?: VisitRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VisitRequests to fetch.
+     */
+    orderBy?: VisitRequestOrderByWithRelationInput | VisitRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VisitRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VisitRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VisitRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VisitRequests
+    **/
+    _count?: true | VisitRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VisitRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VisitRequestMaxAggregateInputType
+  }
+
+  export type GetVisitRequestAggregateType<T extends VisitRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateVisitRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVisitRequest[P]>
+      : GetScalarType<T[P], AggregateVisitRequest[P]>
+  }
+
+
+
+
+  export type VisitRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VisitRequestWhereInput
+    orderBy?: VisitRequestOrderByWithAggregationInput | VisitRequestOrderByWithAggregationInput[]
+    by: VisitRequestScalarFieldEnum[] | VisitRequestScalarFieldEnum
+    having?: VisitRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VisitRequestCountAggregateInputType | true
+    _min?: VisitRequestMinAggregateInputType
+    _max?: VisitRequestMaxAggregateInputType
+  }
+
+  export type VisitRequestGroupByOutputType = {
+    id: string
+    listingId: string
+    tenantId: string
+    visitDate: Date
+    visitTime: string
+    message: string | null
+    status: $Enums.VisitStatus
+    createdAt: Date
+    _count: VisitRequestCountAggregateOutputType | null
+    _min: VisitRequestMinAggregateOutputType | null
+    _max: VisitRequestMaxAggregateOutputType | null
+  }
+
+  type GetVisitRequestGroupByPayload<T extends VisitRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VisitRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VisitRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VisitRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], VisitRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VisitRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    listingId?: boolean
+    tenantId?: boolean
+    visitDate?: boolean
+    visitTime?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    listing?: boolean | ListingDefaultArgs<ExtArgs>
+    tenant?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["visitRequest"]>
+
+  export type VisitRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    listingId?: boolean
+    tenantId?: boolean
+    visitDate?: boolean
+    visitTime?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    listing?: boolean | ListingDefaultArgs<ExtArgs>
+    tenant?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["visitRequest"]>
+
+  export type VisitRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    listingId?: boolean
+    tenantId?: boolean
+    visitDate?: boolean
+    visitTime?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+    listing?: boolean | ListingDefaultArgs<ExtArgs>
+    tenant?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["visitRequest"]>
+
+  export type VisitRequestSelectScalar = {
+    id?: boolean
+    listingId?: boolean
+    tenantId?: boolean
+    visitDate?: boolean
+    visitTime?: boolean
+    message?: boolean
+    status?: boolean
+    createdAt?: boolean
+  }
+
+  export type VisitRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "listingId" | "tenantId" | "visitDate" | "visitTime" | "message" | "status" | "createdAt", ExtArgs["result"]["visitRequest"]>
+  export type VisitRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    listing?: boolean | ListingDefaultArgs<ExtArgs>
+    tenant?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VisitRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    listing?: boolean | ListingDefaultArgs<ExtArgs>
+    tenant?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VisitRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    listing?: boolean | ListingDefaultArgs<ExtArgs>
+    tenant?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $VisitRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VisitRequest"
+    objects: {
+      listing: Prisma.$ListingPayload<ExtArgs>
+      tenant: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      listingId: string
+      tenantId: string
+      visitDate: Date
+      visitTime: string
+      message: string | null
+      status: $Enums.VisitStatus
+      createdAt: Date
+    }, ExtArgs["result"]["visitRequest"]>
+    composites: {}
+  }
+
+  type VisitRequestGetPayload<S extends boolean | null | undefined | VisitRequestDefaultArgs> = $Result.GetResult<Prisma.$VisitRequestPayload, S>
+
+  type VisitRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VisitRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VisitRequestCountAggregateInputType | true
+    }
+
+  export interface VisitRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VisitRequest'], meta: { name: 'VisitRequest' } }
+    /**
+     * Find zero or one VisitRequest that matches the filter.
+     * @param {VisitRequestFindUniqueArgs} args - Arguments to find a VisitRequest
+     * @example
+     * // Get one VisitRequest
+     * const visitRequest = await prisma.visitRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VisitRequestFindUniqueArgs>(args: SelectSubset<T, VisitRequestFindUniqueArgs<ExtArgs>>): Prisma__VisitRequestClient<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VisitRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VisitRequestFindUniqueOrThrowArgs} args - Arguments to find a VisitRequest
+     * @example
+     * // Get one VisitRequest
+     * const visitRequest = await prisma.visitRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VisitRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, VisitRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VisitRequestClient<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VisitRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitRequestFindFirstArgs} args - Arguments to find a VisitRequest
+     * @example
+     * // Get one VisitRequest
+     * const visitRequest = await prisma.visitRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VisitRequestFindFirstArgs>(args?: SelectSubset<T, VisitRequestFindFirstArgs<ExtArgs>>): Prisma__VisitRequestClient<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VisitRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitRequestFindFirstOrThrowArgs} args - Arguments to find a VisitRequest
+     * @example
+     * // Get one VisitRequest
+     * const visitRequest = await prisma.visitRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VisitRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, VisitRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__VisitRequestClient<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VisitRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VisitRequests
+     * const visitRequests = await prisma.visitRequest.findMany()
+     * 
+     * // Get first 10 VisitRequests
+     * const visitRequests = await prisma.visitRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const visitRequestWithIdOnly = await prisma.visitRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VisitRequestFindManyArgs>(args?: SelectSubset<T, VisitRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VisitRequest.
+     * @param {VisitRequestCreateArgs} args - Arguments to create a VisitRequest.
+     * @example
+     * // Create one VisitRequest
+     * const VisitRequest = await prisma.visitRequest.create({
+     *   data: {
+     *     // ... data to create a VisitRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends VisitRequestCreateArgs>(args: SelectSubset<T, VisitRequestCreateArgs<ExtArgs>>): Prisma__VisitRequestClient<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VisitRequests.
+     * @param {VisitRequestCreateManyArgs} args - Arguments to create many VisitRequests.
+     * @example
+     * // Create many VisitRequests
+     * const visitRequest = await prisma.visitRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VisitRequestCreateManyArgs>(args?: SelectSubset<T, VisitRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VisitRequests and returns the data saved in the database.
+     * @param {VisitRequestCreateManyAndReturnArgs} args - Arguments to create many VisitRequests.
+     * @example
+     * // Create many VisitRequests
+     * const visitRequest = await prisma.visitRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VisitRequests and only return the `id`
+     * const visitRequestWithIdOnly = await prisma.visitRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VisitRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, VisitRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VisitRequest.
+     * @param {VisitRequestDeleteArgs} args - Arguments to delete one VisitRequest.
+     * @example
+     * // Delete one VisitRequest
+     * const VisitRequest = await prisma.visitRequest.delete({
+     *   where: {
+     *     // ... filter to delete one VisitRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VisitRequestDeleteArgs>(args: SelectSubset<T, VisitRequestDeleteArgs<ExtArgs>>): Prisma__VisitRequestClient<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VisitRequest.
+     * @param {VisitRequestUpdateArgs} args - Arguments to update one VisitRequest.
+     * @example
+     * // Update one VisitRequest
+     * const visitRequest = await prisma.visitRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VisitRequestUpdateArgs>(args: SelectSubset<T, VisitRequestUpdateArgs<ExtArgs>>): Prisma__VisitRequestClient<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VisitRequests.
+     * @param {VisitRequestDeleteManyArgs} args - Arguments to filter VisitRequests to delete.
+     * @example
+     * // Delete a few VisitRequests
+     * const { count } = await prisma.visitRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VisitRequestDeleteManyArgs>(args?: SelectSubset<T, VisitRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VisitRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VisitRequests
+     * const visitRequest = await prisma.visitRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VisitRequestUpdateManyArgs>(args: SelectSubset<T, VisitRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VisitRequests and returns the data updated in the database.
+     * @param {VisitRequestUpdateManyAndReturnArgs} args - Arguments to update many VisitRequests.
+     * @example
+     * // Update many VisitRequests
+     * const visitRequest = await prisma.visitRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VisitRequests and only return the `id`
+     * const visitRequestWithIdOnly = await prisma.visitRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VisitRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, VisitRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VisitRequest.
+     * @param {VisitRequestUpsertArgs} args - Arguments to update or create a VisitRequest.
+     * @example
+     * // Update or create a VisitRequest
+     * const visitRequest = await prisma.visitRequest.upsert({
+     *   create: {
+     *     // ... data to create a VisitRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VisitRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VisitRequestUpsertArgs>(args: SelectSubset<T, VisitRequestUpsertArgs<ExtArgs>>): Prisma__VisitRequestClient<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VisitRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitRequestCountArgs} args - Arguments to filter VisitRequests to count.
+     * @example
+     * // Count the number of VisitRequests
+     * const count = await prisma.visitRequest.count({
+     *   where: {
+     *     // ... the filter for the VisitRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends VisitRequestCountArgs>(
+      args?: Subset<T, VisitRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VisitRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VisitRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VisitRequestAggregateArgs>(args: Subset<T, VisitRequestAggregateArgs>): Prisma.PrismaPromise<GetVisitRequestAggregateType<T>>
+
+    /**
+     * Group by VisitRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VisitRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VisitRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VisitRequestGroupByArgs['orderBy'] }
+        : { orderBy?: VisitRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VisitRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVisitRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VisitRequest model
+   */
+  readonly fields: VisitRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VisitRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VisitRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    listing<T extends ListingDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ListingDefaultArgs<ExtArgs>>): Prisma__ListingClient<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    tenant<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VisitRequest model
+   */
+  interface VisitRequestFieldRefs {
+    readonly id: FieldRef<"VisitRequest", 'String'>
+    readonly listingId: FieldRef<"VisitRequest", 'String'>
+    readonly tenantId: FieldRef<"VisitRequest", 'String'>
+    readonly visitDate: FieldRef<"VisitRequest", 'DateTime'>
+    readonly visitTime: FieldRef<"VisitRequest", 'String'>
+    readonly message: FieldRef<"VisitRequest", 'String'>
+    readonly status: FieldRef<"VisitRequest", 'VisitStatus'>
+    readonly createdAt: FieldRef<"VisitRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VisitRequest findUnique
+   */
+  export type VisitRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VisitRequest to fetch.
+     */
+    where: VisitRequestWhereUniqueInput
+  }
+
+  /**
+   * VisitRequest findUniqueOrThrow
+   */
+  export type VisitRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VisitRequest to fetch.
+     */
+    where: VisitRequestWhereUniqueInput
+  }
+
+  /**
+   * VisitRequest findFirst
+   */
+  export type VisitRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VisitRequest to fetch.
+     */
+    where?: VisitRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VisitRequests to fetch.
+     */
+    orderBy?: VisitRequestOrderByWithRelationInput | VisitRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VisitRequests.
+     */
+    cursor?: VisitRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VisitRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VisitRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VisitRequests.
+     */
+    distinct?: VisitRequestScalarFieldEnum | VisitRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VisitRequest findFirstOrThrow
+   */
+  export type VisitRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VisitRequest to fetch.
+     */
+    where?: VisitRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VisitRequests to fetch.
+     */
+    orderBy?: VisitRequestOrderByWithRelationInput | VisitRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VisitRequests.
+     */
+    cursor?: VisitRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VisitRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VisitRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VisitRequests.
+     */
+    distinct?: VisitRequestScalarFieldEnum | VisitRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VisitRequest findMany
+   */
+  export type VisitRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VisitRequests to fetch.
+     */
+    where?: VisitRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VisitRequests to fetch.
+     */
+    orderBy?: VisitRequestOrderByWithRelationInput | VisitRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VisitRequests.
+     */
+    cursor?: VisitRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VisitRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VisitRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VisitRequests.
+     */
+    distinct?: VisitRequestScalarFieldEnum | VisitRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VisitRequest create
+   */
+  export type VisitRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VisitRequest.
+     */
+    data: XOR<VisitRequestCreateInput, VisitRequestUncheckedCreateInput>
+  }
+
+  /**
+   * VisitRequest createMany
+   */
+  export type VisitRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VisitRequests.
+     */
+    data: VisitRequestCreateManyInput | VisitRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VisitRequest createManyAndReturn
+   */
+  export type VisitRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many VisitRequests.
+     */
+    data: VisitRequestCreateManyInput | VisitRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VisitRequest update
+   */
+  export type VisitRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VisitRequest.
+     */
+    data: XOR<VisitRequestUpdateInput, VisitRequestUncheckedUpdateInput>
+    /**
+     * Choose, which VisitRequest to update.
+     */
+    where: VisitRequestWhereUniqueInput
+  }
+
+  /**
+   * VisitRequest updateMany
+   */
+  export type VisitRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VisitRequests.
+     */
+    data: XOR<VisitRequestUpdateManyMutationInput, VisitRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which VisitRequests to update
+     */
+    where?: VisitRequestWhereInput
+    /**
+     * Limit how many VisitRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VisitRequest updateManyAndReturn
+   */
+  export type VisitRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update VisitRequests.
+     */
+    data: XOR<VisitRequestUpdateManyMutationInput, VisitRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which VisitRequests to update
+     */
+    where?: VisitRequestWhereInput
+    /**
+     * Limit how many VisitRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VisitRequest upsert
+   */
+  export type VisitRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VisitRequest to update in case it exists.
+     */
+    where: VisitRequestWhereUniqueInput
+    /**
+     * In case the VisitRequest found by the `where` argument doesn't exist, create a new VisitRequest with this data.
+     */
+    create: XOR<VisitRequestCreateInput, VisitRequestUncheckedCreateInput>
+    /**
+     * In case the VisitRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VisitRequestUpdateInput, VisitRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * VisitRequest delete
+   */
+  export type VisitRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    /**
+     * Filter which VisitRequest to delete.
+     */
+    where: VisitRequestWhereUniqueInput
+  }
+
+  /**
+   * VisitRequest deleteMany
+   */
+  export type VisitRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VisitRequests to delete
+     */
+    where?: VisitRequestWhereInput
+    /**
+     * Limit how many VisitRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VisitRequest without action
+   */
+  export type VisitRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
   }
 
 
@@ -2834,6 +4120,7 @@ export namespace Prisma {
     listings?: boolean | User$listingsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    visitRequests?: boolean | User$visitRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2878,6 +4165,7 @@ export namespace Prisma {
     listings?: boolean | User$listingsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
+    visitRequests?: boolean | User$visitRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2889,6 +4177,7 @@ export namespace Prisma {
       listings: Prisma.$ListingPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
+      visitRequests: Prisma.$VisitRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3297,6 +4586,7 @@ export namespace Prisma {
     listings<T extends User$listingsArgs<ExtArgs> = {}>(args?: Subset<T, User$listingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ListingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    visitRequests<T extends User$visitRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$visitRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VisitRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3797,6 +5087,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: SessionScalarFieldEnum | SessionScalarFieldEnum[]
+  }
+
+  /**
+   * User.visitRequests
+   */
+  export type User$visitRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitRequest
+     */
+    select?: VisitRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VisitRequest
+     */
+    omit?: VisitRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VisitRequestInclude<ExtArgs> | null
+    where?: VisitRequestWhereInput
+    orderBy?: VisitRequestOrderByWithRelationInput | VisitRequestOrderByWithRelationInput[]
+    cursor?: VisitRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VisitRequestScalarFieldEnum | VisitRequestScalarFieldEnum[]
   }
 
   /**
@@ -7067,6 +8381,20 @@ export namespace Prisma {
   export type ListingScalarFieldEnum = (typeof ListingScalarFieldEnum)[keyof typeof ListingScalarFieldEnum]
 
 
+  export const VisitRequestScalarFieldEnum: {
+    id: 'id',
+    listingId: 'listingId',
+    tenantId: 'tenantId',
+    visitDate: 'visitDate',
+    visitTime: 'visitTime',
+    message: 'message',
+    status: 'status',
+    createdAt: 'createdAt'
+  };
+
+  export type VisitRequestScalarFieldEnum = (typeof VisitRequestScalarFieldEnum)[keyof typeof VisitRequestScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -7254,6 +8582,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'VisitStatus'
+   */
+  export type EnumVisitStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VisitStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'VisitStatus[]'
+   */
+  export type ListEnumVisitStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VisitStatus[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Role'
    */
   export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -7292,6 +8634,7 @@ export namespace Prisma {
     ownerId?: StringFilter<"Listing"> | string
     createdAt?: DateTimeFilter<"Listing"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    visitRequests?: VisitRequestListRelationFilter
   }
 
   export type ListingOrderByWithRelationInput = {
@@ -7313,6 +8656,7 @@ export namespace Prisma {
     ownerId?: SortOrder
     createdAt?: SortOrder
     owner?: UserOrderByWithRelationInput
+    visitRequests?: VisitRequestOrderByRelationAggregateInput
   }
 
   export type ListingWhereUniqueInput = Prisma.AtLeast<{
@@ -7337,6 +8681,7 @@ export namespace Prisma {
     ownerId?: StringFilter<"Listing"> | string
     createdAt?: DateTimeFilter<"Listing"> | Date | string
     owner?: XOR<UserScalarRelationFilter, UserWhereInput>
+    visitRequests?: VisitRequestListRelationFilter
   }, "id">
 
   export type ListingOrderByWithAggregationInput = {
@@ -7387,6 +8732,79 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Listing"> | Date | string
   }
 
+  export type VisitRequestWhereInput = {
+    AND?: VisitRequestWhereInput | VisitRequestWhereInput[]
+    OR?: VisitRequestWhereInput[]
+    NOT?: VisitRequestWhereInput | VisitRequestWhereInput[]
+    id?: StringFilter<"VisitRequest"> | string
+    listingId?: StringFilter<"VisitRequest"> | string
+    tenantId?: StringFilter<"VisitRequest"> | string
+    visitDate?: DateTimeFilter<"VisitRequest"> | Date | string
+    visitTime?: StringFilter<"VisitRequest"> | string
+    message?: StringNullableFilter<"VisitRequest"> | string | null
+    status?: EnumVisitStatusFilter<"VisitRequest"> | $Enums.VisitStatus
+    createdAt?: DateTimeFilter<"VisitRequest"> | Date | string
+    listing?: XOR<ListingScalarRelationFilter, ListingWhereInput>
+    tenant?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type VisitRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    listingId?: SortOrder
+    tenantId?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    message?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    listing?: ListingOrderByWithRelationInput
+    tenant?: UserOrderByWithRelationInput
+  }
+
+  export type VisitRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VisitRequestWhereInput | VisitRequestWhereInput[]
+    OR?: VisitRequestWhereInput[]
+    NOT?: VisitRequestWhereInput | VisitRequestWhereInput[]
+    listingId?: StringFilter<"VisitRequest"> | string
+    tenantId?: StringFilter<"VisitRequest"> | string
+    visitDate?: DateTimeFilter<"VisitRequest"> | Date | string
+    visitTime?: StringFilter<"VisitRequest"> | string
+    message?: StringNullableFilter<"VisitRequest"> | string | null
+    status?: EnumVisitStatusFilter<"VisitRequest"> | $Enums.VisitStatus
+    createdAt?: DateTimeFilter<"VisitRequest"> | Date | string
+    listing?: XOR<ListingScalarRelationFilter, ListingWhereInput>
+    tenant?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type VisitRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    listingId?: SortOrder
+    tenantId?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    message?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    _count?: VisitRequestCountOrderByAggregateInput
+    _max?: VisitRequestMaxOrderByAggregateInput
+    _min?: VisitRequestMinOrderByAggregateInput
+  }
+
+  export type VisitRequestScalarWhereWithAggregatesInput = {
+    AND?: VisitRequestScalarWhereWithAggregatesInput | VisitRequestScalarWhereWithAggregatesInput[]
+    OR?: VisitRequestScalarWhereWithAggregatesInput[]
+    NOT?: VisitRequestScalarWhereWithAggregatesInput | VisitRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VisitRequest"> | string
+    listingId?: StringWithAggregatesFilter<"VisitRequest"> | string
+    tenantId?: StringWithAggregatesFilter<"VisitRequest"> | string
+    visitDate?: DateTimeWithAggregatesFilter<"VisitRequest"> | Date | string
+    visitTime?: StringWithAggregatesFilter<"VisitRequest"> | string
+    message?: StringNullableWithAggregatesFilter<"VisitRequest"> | string | null
+    status?: EnumVisitStatusWithAggregatesFilter<"VisitRequest"> | $Enums.VisitStatus
+    createdAt?: DateTimeWithAggregatesFilter<"VisitRequest"> | Date | string
+  }
+
   export type UserWhereInput = {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -7403,6 +8821,7 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
+    visitRequests?: VisitRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -7418,6 +8837,7 @@ export namespace Prisma {
     listings?: ListingOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
+    visitRequests?: VisitRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -7436,6 +8856,7 @@ export namespace Prisma {
     listings?: ListingListRelationFilter
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
+    visitRequests?: VisitRequestListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -7672,6 +9093,7 @@ export namespace Prisma {
     status?: $Enums.ListingStatus
     createdAt?: Date | string
     owner: UserCreateNestedOneWithoutListingsInput
+    visitRequests?: VisitRequestCreateNestedManyWithoutListingInput
   }
 
   export type ListingUncheckedCreateInput = {
@@ -7692,6 +9114,7 @@ export namespace Prisma {
     status?: $Enums.ListingStatus
     ownerId: string
     createdAt?: Date | string
+    visitRequests?: VisitRequestUncheckedCreateNestedManyWithoutListingInput
   }
 
   export type ListingUpdateInput = {
@@ -7712,6 +9135,7 @@ export namespace Prisma {
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     owner?: UserUpdateOneRequiredWithoutListingsNestedInput
+    visitRequests?: VisitRequestUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateInput = {
@@ -7732,6 +9156,7 @@ export namespace Prisma {
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     ownerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitRequests?: VisitRequestUncheckedUpdateManyWithoutListingNestedInput
   }
 
   export type ListingCreateManyInput = {
@@ -7793,6 +9218,81 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type VisitRequestCreateInput = {
+    id?: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+    listing: ListingCreateNestedOneWithoutVisitRequestsInput
+    tenant: UserCreateNestedOneWithoutVisitRequestsInput
+  }
+
+  export type VisitRequestUncheckedCreateInput = {
+    id?: string
+    listingId: string
+    tenantId: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+  }
+
+  export type VisitRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listing?: ListingUpdateOneRequiredWithoutVisitRequestsNestedInput
+    tenant?: UserUpdateOneRequiredWithoutVisitRequestsNestedInput
+  }
+
+  export type VisitRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    listingId?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitRequestCreateManyInput = {
+    id?: string
+    listingId: string
+    tenantId: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+  }
+
+  export type VisitRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    listingId?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
@@ -7806,6 +9306,7 @@ export namespace Prisma {
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestCreateNestedManyWithoutTenantInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -7821,6 +9322,7 @@ export namespace Prisma {
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type UserUpdateInput = {
@@ -7836,6 +9338,7 @@ export namespace Prisma {
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7851,6 +9354,7 @@ export namespace Prisma {
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8181,9 +9685,19 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type VisitRequestListRelationFilter = {
+    every?: VisitRequestWhereInput
+    some?: VisitRequestWhereInput
+    none?: VisitRequestWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type VisitRequestOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ListingCountOrderByAggregateInput = {
@@ -8380,17 +9894,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -8404,6 +9907,90 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type EnumVisitStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VisitStatus | EnumVisitStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VisitStatus[] | ListEnumVisitStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VisitStatus[] | ListEnumVisitStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisitStatusFilter<$PrismaModel> | $Enums.VisitStatus
+  }
+
+  export type ListingScalarRelationFilter = {
+    is?: ListingWhereInput
+    isNot?: ListingWhereInput
+  }
+
+  export type VisitRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    listingId?: SortOrder
+    tenantId?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VisitRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    listingId?: SortOrder
+    tenantId?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VisitRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    listingId?: SortOrder
+    tenantId?: SortOrder
+    visitDate?: SortOrder
+    visitTime?: SortOrder
+    message?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type EnumVisitStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VisitStatus | EnumVisitStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VisitStatus[] | ListEnumVisitStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VisitStatus[] | ListEnumVisitStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisitStatusWithAggregatesFilter<$PrismaModel> | $Enums.VisitStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVisitStatusFilter<$PrismaModel>
+    _max?: NestedEnumVisitStatusFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type EnumRoleFilter<$PrismaModel = never> = {
@@ -8491,24 +10078,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type EnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -8633,6 +10202,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type VisitRequestCreateNestedManyWithoutListingInput = {
+    create?: XOR<VisitRequestCreateWithoutListingInput, VisitRequestUncheckedCreateWithoutListingInput> | VisitRequestCreateWithoutListingInput[] | VisitRequestUncheckedCreateWithoutListingInput[]
+    connectOrCreate?: VisitRequestCreateOrConnectWithoutListingInput | VisitRequestCreateOrConnectWithoutListingInput[]
+    createMany?: VisitRequestCreateManyListingInputEnvelope
+    connect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+  }
+
+  export type VisitRequestUncheckedCreateNestedManyWithoutListingInput = {
+    create?: XOR<VisitRequestCreateWithoutListingInput, VisitRequestUncheckedCreateWithoutListingInput> | VisitRequestCreateWithoutListingInput[] | VisitRequestUncheckedCreateWithoutListingInput[]
+    connectOrCreate?: VisitRequestCreateOrConnectWithoutListingInput | VisitRequestCreateOrConnectWithoutListingInput[]
+    createMany?: VisitRequestCreateManyListingInputEnvelope
+    connect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -8694,6 +10277,70 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutListingsInput, UserUpdateWithoutListingsInput>, UserUncheckedUpdateWithoutListingsInput>
   }
 
+  export type VisitRequestUpdateManyWithoutListingNestedInput = {
+    create?: XOR<VisitRequestCreateWithoutListingInput, VisitRequestUncheckedCreateWithoutListingInput> | VisitRequestCreateWithoutListingInput[] | VisitRequestUncheckedCreateWithoutListingInput[]
+    connectOrCreate?: VisitRequestCreateOrConnectWithoutListingInput | VisitRequestCreateOrConnectWithoutListingInput[]
+    upsert?: VisitRequestUpsertWithWhereUniqueWithoutListingInput | VisitRequestUpsertWithWhereUniqueWithoutListingInput[]
+    createMany?: VisitRequestCreateManyListingInputEnvelope
+    set?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    disconnect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    delete?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    connect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    update?: VisitRequestUpdateWithWhereUniqueWithoutListingInput | VisitRequestUpdateWithWhereUniqueWithoutListingInput[]
+    updateMany?: VisitRequestUpdateManyWithWhereWithoutListingInput | VisitRequestUpdateManyWithWhereWithoutListingInput[]
+    deleteMany?: VisitRequestScalarWhereInput | VisitRequestScalarWhereInput[]
+  }
+
+  export type VisitRequestUncheckedUpdateManyWithoutListingNestedInput = {
+    create?: XOR<VisitRequestCreateWithoutListingInput, VisitRequestUncheckedCreateWithoutListingInput> | VisitRequestCreateWithoutListingInput[] | VisitRequestUncheckedCreateWithoutListingInput[]
+    connectOrCreate?: VisitRequestCreateOrConnectWithoutListingInput | VisitRequestCreateOrConnectWithoutListingInput[]
+    upsert?: VisitRequestUpsertWithWhereUniqueWithoutListingInput | VisitRequestUpsertWithWhereUniqueWithoutListingInput[]
+    createMany?: VisitRequestCreateManyListingInputEnvelope
+    set?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    disconnect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    delete?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    connect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    update?: VisitRequestUpdateWithWhereUniqueWithoutListingInput | VisitRequestUpdateWithWhereUniqueWithoutListingInput[]
+    updateMany?: VisitRequestUpdateManyWithWhereWithoutListingInput | VisitRequestUpdateManyWithWhereWithoutListingInput[]
+    deleteMany?: VisitRequestScalarWhereInput | VisitRequestScalarWhereInput[]
+  }
+
+  export type ListingCreateNestedOneWithoutVisitRequestsInput = {
+    create?: XOR<ListingCreateWithoutVisitRequestsInput, ListingUncheckedCreateWithoutVisitRequestsInput>
+    connectOrCreate?: ListingCreateOrConnectWithoutVisitRequestsInput
+    connect?: ListingWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutVisitRequestsInput = {
+    create?: XOR<UserCreateWithoutVisitRequestsInput, UserUncheckedCreateWithoutVisitRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVisitRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type EnumVisitStatusFieldUpdateOperationsInput = {
+    set?: $Enums.VisitStatus
+  }
+
+  export type ListingUpdateOneRequiredWithoutVisitRequestsNestedInput = {
+    create?: XOR<ListingCreateWithoutVisitRequestsInput, ListingUncheckedCreateWithoutVisitRequestsInput>
+    connectOrCreate?: ListingCreateOrConnectWithoutVisitRequestsInput
+    upsert?: ListingUpsertWithoutVisitRequestsInput
+    connect?: ListingWhereUniqueInput
+    update?: XOR<XOR<ListingUpdateToOneWithWhereWithoutVisitRequestsInput, ListingUpdateWithoutVisitRequestsInput>, ListingUncheckedUpdateWithoutVisitRequestsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutVisitRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutVisitRequestsInput, UserUncheckedCreateWithoutVisitRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVisitRequestsInput
+    upsert?: UserUpsertWithoutVisitRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVisitRequestsInput, UserUpdateWithoutVisitRequestsInput>, UserUncheckedUpdateWithoutVisitRequestsInput>
+  }
+
   export type ListingCreateNestedManyWithoutOwnerInput = {
     create?: XOR<ListingCreateWithoutOwnerInput, ListingUncheckedCreateWithoutOwnerInput> | ListingCreateWithoutOwnerInput[] | ListingUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutOwnerInput | ListingCreateOrConnectWithoutOwnerInput[]
@@ -8713,6 +10360,13 @@ export namespace Prisma {
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
     createMany?: SessionCreateManyUserInputEnvelope
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
+  }
+
+  export type VisitRequestCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VisitRequestCreateWithoutTenantInput, VisitRequestUncheckedCreateWithoutTenantInput> | VisitRequestCreateWithoutTenantInput[] | VisitRequestUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VisitRequestCreateOrConnectWithoutTenantInput | VisitRequestCreateOrConnectWithoutTenantInput[]
+    createMany?: VisitRequestCreateManyTenantInputEnvelope
+    connect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
   }
 
   export type ListingUncheckedCreateNestedManyWithoutOwnerInput = {
@@ -8736,12 +10390,15 @@ export namespace Prisma {
     connect?: SessionWhereUniqueInput | SessionWhereUniqueInput[]
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
+  export type VisitRequestUncheckedCreateNestedManyWithoutTenantInput = {
+    create?: XOR<VisitRequestCreateWithoutTenantInput, VisitRequestUncheckedCreateWithoutTenantInput> | VisitRequestCreateWithoutTenantInput[] | VisitRequestUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VisitRequestCreateOrConnectWithoutTenantInput | VisitRequestCreateOrConnectWithoutTenantInput[]
+    createMany?: VisitRequestCreateManyTenantInputEnvelope
+    connect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type EnumRoleFieldUpdateOperationsInput = {
@@ -8790,6 +10447,20 @@ export namespace Prisma {
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
   }
 
+  export type VisitRequestUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VisitRequestCreateWithoutTenantInput, VisitRequestUncheckedCreateWithoutTenantInput> | VisitRequestCreateWithoutTenantInput[] | VisitRequestUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VisitRequestCreateOrConnectWithoutTenantInput | VisitRequestCreateOrConnectWithoutTenantInput[]
+    upsert?: VisitRequestUpsertWithWhereUniqueWithoutTenantInput | VisitRequestUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VisitRequestCreateManyTenantInputEnvelope
+    set?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    disconnect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    delete?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    connect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    update?: VisitRequestUpdateWithWhereUniqueWithoutTenantInput | VisitRequestUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VisitRequestUpdateManyWithWhereWithoutTenantInput | VisitRequestUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VisitRequestScalarWhereInput | VisitRequestScalarWhereInput[]
+  }
+
   export type ListingUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<ListingCreateWithoutOwnerInput, ListingUncheckedCreateWithoutOwnerInput> | ListingCreateWithoutOwnerInput[] | ListingUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutOwnerInput | ListingCreateOrConnectWithoutOwnerInput[]
@@ -8830,6 +10501,20 @@ export namespace Prisma {
     update?: SessionUpdateWithWhereUniqueWithoutUserInput | SessionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: SessionUpdateManyWithWhereWithoutUserInput | SessionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: SessionScalarWhereInput | SessionScalarWhereInput[]
+  }
+
+  export type VisitRequestUncheckedUpdateManyWithoutTenantNestedInput = {
+    create?: XOR<VisitRequestCreateWithoutTenantInput, VisitRequestUncheckedCreateWithoutTenantInput> | VisitRequestCreateWithoutTenantInput[] | VisitRequestUncheckedCreateWithoutTenantInput[]
+    connectOrCreate?: VisitRequestCreateOrConnectWithoutTenantInput | VisitRequestCreateOrConnectWithoutTenantInput[]
+    upsert?: VisitRequestUpsertWithWhereUniqueWithoutTenantInput | VisitRequestUpsertWithWhereUniqueWithoutTenantInput[]
+    createMany?: VisitRequestCreateManyTenantInputEnvelope
+    set?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    disconnect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    delete?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    connect?: VisitRequestWhereUniqueInput | VisitRequestWhereUniqueInput[]
+    update?: VisitRequestUpdateWithWhereUniqueWithoutTenantInput | VisitRequestUpdateWithWhereUniqueWithoutTenantInput[]
+    updateMany?: VisitRequestUpdateManyWithWhereWithoutTenantInput | VisitRequestUpdateManyWithWhereWithoutTenantInput[]
+    deleteMany?: VisitRequestScalarWhereInput | VisitRequestScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -9072,17 +10757,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -9095,6 +10769,51 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedEnumVisitStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VisitStatus | EnumVisitStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VisitStatus[] | ListEnumVisitStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VisitStatus[] | ListEnumVisitStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisitStatusFilter<$PrismaModel> | $Enums.VisitStatus
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumVisitStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VisitStatus | EnumVisitStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VisitStatus[] | ListEnumVisitStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VisitStatus[] | ListEnumVisitStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVisitStatusWithAggregatesFilter<$PrismaModel> | $Enums.VisitStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVisitStatusFilter<$PrismaModel>
+    _max?: NestedEnumVisitStatusFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedEnumRoleFilter<$PrismaModel = never> = {
@@ -9116,23 +10835,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -9157,6 +10859,7 @@ export namespace Prisma {
     createdAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestCreateNestedManyWithoutTenantInput
   }
 
   export type UserUncheckedCreateWithoutListingsInput = {
@@ -9171,11 +10874,42 @@ export namespace Prisma {
     createdAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type UserCreateOrConnectWithoutListingsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutListingsInput, UserUncheckedCreateWithoutListingsInput>
+  }
+
+  export type VisitRequestCreateWithoutListingInput = {
+    id?: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+    tenant: UserCreateNestedOneWithoutVisitRequestsInput
+  }
+
+  export type VisitRequestUncheckedCreateWithoutListingInput = {
+    id?: string
+    tenantId: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+  }
+
+  export type VisitRequestCreateOrConnectWithoutListingInput = {
+    where: VisitRequestWhereUniqueInput
+    create: XOR<VisitRequestCreateWithoutListingInput, VisitRequestUncheckedCreateWithoutListingInput>
+  }
+
+  export type VisitRequestCreateManyListingInputEnvelope = {
+    data: VisitRequestCreateManyListingInput | VisitRequestCreateManyListingInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutListingsInput = {
@@ -9201,6 +10935,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListingsInput = {
@@ -9213,6 +10948,209 @@ export namespace Prisma {
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type VisitRequestUpsertWithWhereUniqueWithoutListingInput = {
+    where: VisitRequestWhereUniqueInput
+    update: XOR<VisitRequestUpdateWithoutListingInput, VisitRequestUncheckedUpdateWithoutListingInput>
+    create: XOR<VisitRequestCreateWithoutListingInput, VisitRequestUncheckedCreateWithoutListingInput>
+  }
+
+  export type VisitRequestUpdateWithWhereUniqueWithoutListingInput = {
+    where: VisitRequestWhereUniqueInput
+    data: XOR<VisitRequestUpdateWithoutListingInput, VisitRequestUncheckedUpdateWithoutListingInput>
+  }
+
+  export type VisitRequestUpdateManyWithWhereWithoutListingInput = {
+    where: VisitRequestScalarWhereInput
+    data: XOR<VisitRequestUpdateManyMutationInput, VisitRequestUncheckedUpdateManyWithoutListingInput>
+  }
+
+  export type VisitRequestScalarWhereInput = {
+    AND?: VisitRequestScalarWhereInput | VisitRequestScalarWhereInput[]
+    OR?: VisitRequestScalarWhereInput[]
+    NOT?: VisitRequestScalarWhereInput | VisitRequestScalarWhereInput[]
+    id?: StringFilter<"VisitRequest"> | string
+    listingId?: StringFilter<"VisitRequest"> | string
+    tenantId?: StringFilter<"VisitRequest"> | string
+    visitDate?: DateTimeFilter<"VisitRequest"> | Date | string
+    visitTime?: StringFilter<"VisitRequest"> | string
+    message?: StringNullableFilter<"VisitRequest"> | string | null
+    status?: EnumVisitStatusFilter<"VisitRequest"> | $Enums.VisitStatus
+    createdAt?: DateTimeFilter<"VisitRequest"> | Date | string
+  }
+
+  export type ListingCreateWithoutVisitRequestsInput = {
+    id?: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    category: $Enums.Category
+    price: number
+    bedroom?: number | null
+    bathroom?: number | null
+    areaSize?: number | null
+    bachelorAllowed?: boolean
+    address: string
+    lat?: number | null
+    lng?: number | null
+    images?: ListingCreateimagesInput | string[]
+    status?: $Enums.ListingStatus
+    createdAt?: Date | string
+    owner: UserCreateNestedOneWithoutListingsInput
+  }
+
+  export type ListingUncheckedCreateWithoutVisitRequestsInput = {
+    id?: string
+    title: string
+    description: string
+    listingType: $Enums.ListingType
+    category: $Enums.Category
+    price: number
+    bedroom?: number | null
+    bathroom?: number | null
+    areaSize?: number | null
+    bachelorAllowed?: boolean
+    address: string
+    lat?: number | null
+    lng?: number | null
+    images?: ListingCreateimagesInput | string[]
+    status?: $Enums.ListingStatus
+    ownerId: string
+    createdAt?: Date | string
+  }
+
+  export type ListingCreateOrConnectWithoutVisitRequestsInput = {
+    where: ListingWhereUniqueInput
+    create: XOR<ListingCreateWithoutVisitRequestsInput, ListingUncheckedCreateWithoutVisitRequestsInput>
+  }
+
+  export type UserCreateWithoutVisitRequestsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    listings?: ListingCreateNestedManyWithoutOwnerInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutVisitRequestsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    createdAt?: Date | string
+    listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutVisitRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVisitRequestsInput, UserUncheckedCreateWithoutVisitRequestsInput>
+  }
+
+  export type ListingUpsertWithoutVisitRequestsInput = {
+    update: XOR<ListingUpdateWithoutVisitRequestsInput, ListingUncheckedUpdateWithoutVisitRequestsInput>
+    create: XOR<ListingCreateWithoutVisitRequestsInput, ListingUncheckedCreateWithoutVisitRequestsInput>
+    where?: ListingWhereInput
+  }
+
+  export type ListingUpdateToOneWithWhereWithoutVisitRequestsInput = {
+    where?: ListingWhereInput
+    data: XOR<ListingUpdateWithoutVisitRequestsInput, ListingUncheckedUpdateWithoutVisitRequestsInput>
+  }
+
+  export type ListingUpdateWithoutVisitRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+    price?: IntFieldUpdateOperationsInput | number
+    bedroom?: NullableIntFieldUpdateOperationsInput | number | null
+    bathroom?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSize?: NullableIntFieldUpdateOperationsInput | number | null
+    bachelorAllowed?: BoolFieldUpdateOperationsInput | boolean
+    address?: StringFieldUpdateOperationsInput | string
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    images?: ListingUpdateimagesInput | string[]
+    status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    owner?: UserUpdateOneRequiredWithoutListingsNestedInput
+  }
+
+  export type ListingUncheckedUpdateWithoutVisitRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    listingType?: EnumListingTypeFieldUpdateOperationsInput | $Enums.ListingType
+    category?: EnumCategoryFieldUpdateOperationsInput | $Enums.Category
+    price?: IntFieldUpdateOperationsInput | number
+    bedroom?: NullableIntFieldUpdateOperationsInput | number | null
+    bathroom?: NullableIntFieldUpdateOperationsInput | number | null
+    areaSize?: NullableIntFieldUpdateOperationsInput | number | null
+    bachelorAllowed?: BoolFieldUpdateOperationsInput | boolean
+    address?: StringFieldUpdateOperationsInput | string
+    lat?: NullableFloatFieldUpdateOperationsInput | number | null
+    lng?: NullableFloatFieldUpdateOperationsInput | number | null
+    images?: ListingUpdateimagesInput | string[]
+    status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
+    ownerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUpsertWithoutVisitRequestsInput = {
+    update: XOR<UserUpdateWithoutVisitRequestsInput, UserUncheckedUpdateWithoutVisitRequestsInput>
+    create: XOR<UserCreateWithoutVisitRequestsInput, UserUncheckedCreateWithoutVisitRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutVisitRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVisitRequestsInput, UserUncheckedUpdateWithoutVisitRequestsInput>
+  }
+
+  export type UserUpdateWithoutVisitRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: ListingUpdateManyWithoutOwnerNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutVisitRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
@@ -9234,6 +11172,7 @@ export namespace Prisma {
     images?: ListingCreateimagesInput | string[]
     status?: $Enums.ListingStatus
     createdAt?: Date | string
+    visitRequests?: VisitRequestCreateNestedManyWithoutListingInput
   }
 
   export type ListingUncheckedCreateWithoutOwnerInput = {
@@ -9253,6 +11192,7 @@ export namespace Prisma {
     images?: ListingCreateimagesInput | string[]
     status?: $Enums.ListingStatus
     createdAt?: Date | string
+    visitRequests?: VisitRequestUncheckedCreateNestedManyWithoutListingInput
   }
 
   export type ListingCreateOrConnectWithoutOwnerInput = {
@@ -9322,6 +11262,36 @@ export namespace Prisma {
 
   export type SessionCreateManyUserInputEnvelope = {
     data: SessionCreateManyUserInput | SessionCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type VisitRequestCreateWithoutTenantInput = {
+    id?: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+    listing: ListingCreateNestedOneWithoutVisitRequestsInput
+  }
+
+  export type VisitRequestUncheckedCreateWithoutTenantInput = {
+    id?: string
+    listingId: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+  }
+
+  export type VisitRequestCreateOrConnectWithoutTenantInput = {
+    where: VisitRequestWhereUniqueInput
+    create: XOR<VisitRequestCreateWithoutTenantInput, VisitRequestUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VisitRequestCreateManyTenantInputEnvelope = {
+    data: VisitRequestCreateManyTenantInput | VisitRequestCreateManyTenantInput[]
     skipDuplicates?: boolean
   }
 
@@ -9424,6 +11394,22 @@ export namespace Prisma {
     expires?: DateTimeFilter<"Session"> | Date | string
   }
 
+  export type VisitRequestUpsertWithWhereUniqueWithoutTenantInput = {
+    where: VisitRequestWhereUniqueInput
+    update: XOR<VisitRequestUpdateWithoutTenantInput, VisitRequestUncheckedUpdateWithoutTenantInput>
+    create: XOR<VisitRequestCreateWithoutTenantInput, VisitRequestUncheckedCreateWithoutTenantInput>
+  }
+
+  export type VisitRequestUpdateWithWhereUniqueWithoutTenantInput = {
+    where: VisitRequestWhereUniqueInput
+    data: XOR<VisitRequestUpdateWithoutTenantInput, VisitRequestUncheckedUpdateWithoutTenantInput>
+  }
+
+  export type VisitRequestUpdateManyWithWhereWithoutTenantInput = {
+    where: VisitRequestScalarWhereInput
+    data: XOR<VisitRequestUpdateManyMutationInput, VisitRequestUncheckedUpdateManyWithoutTenantInput>
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name: string
@@ -9436,6 +11422,7 @@ export namespace Prisma {
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestCreateNestedManyWithoutTenantInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -9450,6 +11437,7 @@ export namespace Prisma {
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -9480,6 +11468,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -9494,6 +11483,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUncheckedUpdateManyWithoutTenantNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -9508,6 +11498,7 @@ export namespace Prisma {
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestCreateNestedManyWithoutTenantInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -9522,6 +11513,7 @@ export namespace Prisma {
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestUncheckedCreateNestedManyWithoutTenantInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -9552,6 +11544,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUpdateManyWithoutTenantNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -9566,6 +11559,47 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUncheckedUpdateManyWithoutTenantNestedInput
+  }
+
+  export type VisitRequestCreateManyListingInput = {
+    id?: string
+    tenantId: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+  }
+
+  export type VisitRequestUpdateWithoutListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tenant?: UserUpdateOneRequiredWithoutVisitRequestsNestedInput
+  }
+
+  export type VisitRequestUncheckedUpdateWithoutListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitRequestUncheckedUpdateManyWithoutListingInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tenantId?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ListingCreateManyOwnerInput = {
@@ -9607,6 +11641,16 @@ export namespace Prisma {
     expires: Date | string
   }
 
+  export type VisitRequestCreateManyTenantInput = {
+    id?: string
+    listingId: string
+    visitDate: Date | string
+    visitTime: string
+    message?: string | null
+    status?: $Enums.VisitStatus
+    createdAt?: Date | string
+  }
+
   export type ListingUpdateWithoutOwnerInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
@@ -9624,6 +11668,7 @@ export namespace Prisma {
     images?: ListingUpdateimagesInput | string[]
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitRequests?: VisitRequestUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateWithoutOwnerInput = {
@@ -9643,6 +11688,7 @@ export namespace Prisma {
     images?: ListingUpdateimagesInput | string[]
     status?: EnumListingStatusFieldUpdateOperationsInput | $Enums.ListingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitRequests?: VisitRequestUncheckedUpdateManyWithoutListingNestedInput
   }
 
   export type ListingUncheckedUpdateManyWithoutOwnerInput = {
@@ -9722,6 +11768,36 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sessionToken?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitRequestUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listing?: ListingUpdateOneRequiredWithoutVisitRequestsNestedInput
+  }
+
+  export type VisitRequestUncheckedUpdateWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    listingId?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VisitRequestUncheckedUpdateManyWithoutTenantInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    listingId?: StringFieldUpdateOperationsInput | string
+    visitDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    visitTime?: StringFieldUpdateOperationsInput | string
+    message?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVisitStatusFieldUpdateOperationsInput | $Enums.VisitStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

@@ -7,6 +7,15 @@ export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
 
+    const ids = searchParams.get("ids");
+    if (ids) {
+      const idArray = ids.split(",").filter(Boolean);
+      const listings = await prisma.listing.findMany({
+        where: { id: { in: idArray } },
+        include: { owner: { select: { name: true, verified: true } } },
+      });
+      return NextResponse.json(listings);
+    }
     const type = searchParams.get("type");
     const category = searchParams.get("category");
     const area = searchParams.get("area");
