@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
-// POST - Notun visit request create kora
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
@@ -19,3 +18,22 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+     const visitRequest = await prisma.visitRequest.create({
+      data: {
+        listingId,
+        tenantId: session.user.id,
+        visitDate: new Date(visitDate),
+        visitTime,
+        message: message || null,
+      },
+    });
+
+    return NextResponse.json(visitRequest, { status: 201 });
+  } catch (error) {
+    console.error("POST /api/visits error:", error);
+    return NextResponse.json(
+      { error: "Failed to create visit request" },
+      { status: 500 }
+    );
+  }
+}
