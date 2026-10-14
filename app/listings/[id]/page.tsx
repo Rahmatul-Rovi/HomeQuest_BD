@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import Swal from "sweetalert2";
@@ -45,12 +46,15 @@ const CATEGORY_LABELS: Record<string, string> = {
   SEAT: "Seat",
   SUBLET: "Sublet",
   FLAT_SALE: "Flat for Sale",
-  LAND_SALE: "Land for Sale",
 };
 
 export default function ListingDetailsPage() {
   const params = useParams();
+  const router = useRouter();
   const id = params.id as string;
+
+  const { status } = useSession();
+  const isLoggedIn = status === "authenticated";
 
   const [listing, setListing] = useState<ListingDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -79,15 +83,12 @@ export default function ListingDetailsPage() {
       });
   }, [id]);
 
-
-  const handleProtectedAction = (actionLabel: string) => {
-    const isLoggedIn = false;
-
+  const handleBookVisit = () => {
     if (!isLoggedIn) {
       Swal.fire({
         icon: "info",
         title: "Login Required",
-        text: `Please log in to ${actionLabel}.`,
+        text: "Please log in to book a visit.",
         showCancelButton: true,
         confirmButtonText: "Log In",
         cancelButtonText: "Cancel",
@@ -95,16 +96,50 @@ export default function ListingDetailsPage() {
         cancelButtonColor: "#9CA3AF",
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = `/login?redirect=/listings/${id}`;
+          router.push(`/login?redirect=/listings/${id}`);
         }
       });
       return;
     }
 
-    // Logged in hole actual booking/chat logic eikhane hobe
+    // ✅ Login kora obosthay — booking flow eikhane hobe (pore banabo)
+    Swal.fire({
+      icon: "success",
+      title: "Coming Soon",
+      text: "Visit booking feature will be available soon.",
+      confirmButtonColor: "#16A34A",
+    });
   };
 
-  if (loading) {
+  const handleMessageOwner = () => {
+    if (!isLoggedIn) {
+      Swal.fire({
+        icon: "info",
+        title: "Login Required",
+        text: "Please log in to message the owner.",
+        showCancelButton: true,
+        confirmButtonText: "Log In",
+        cancelButtonText: "Cancel",
+        confirmButtonColor: "#16A34A",
+        cancelButtonColor: "#9CA3AF",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push(`/login?redirect=/listings/${id}`);
+        }
+      });
+      return;
+    }
+
+    // ✅ Login kora obosthay — chat flow eikhane hobe (pore banabo)
+    Swal.fire({
+      icon: "success",
+      title: "Coming Soon",
+      text: "Chat feature will be available soon.",
+      confirmButtonColor: "#16A34A",
+    });
+  };
+
+  if (loading || status === "loading") {
     return (
       <main className="min-h-screen bg-white">
         <Navbar />
@@ -149,6 +184,7 @@ export default function ListingDetailsPage() {
                 src={images[activeImage]}
                 alt={listing.title}
                 fill
+                sizes="(max-width: 768px) 100vw, 1152px"
                 className="object-cover"
                 priority
               />
@@ -203,6 +239,29 @@ export default function ListingDetailsPage() {
             {listing.listingType === "RENT" ? "For Rent" : "For Sale"}
           </span>
         </div>
+
+        {/* Thumbnail Strip */}
+        {images.length > 1 && (
+          <div className="flex gap-2 mb-6 overflow-x-auto">
+            {images.map((img, i) => (
+              <button
+                key={img}
+                onClick={() => setActiveImage(i)}
+                className={`relative w-20 h-16 rounded-lg overflow-hidden shrink-0 border-2 transition ${
+                  i === activeImage ? "border-primary" : "border-transparent opacity-70"
+                }`}
+              >
+                <Image
+                  src={img}
+                  alt={`${listing.title} ${i + 1}`}
+                  fill
+                  sizes="80px"
+                  className="object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        )}
 
         <div className="grid lg:grid-cols-[1fr_340px] gap-8">
           {/* Left: Details */}
@@ -273,13 +332,13 @@ export default function ListingDetailsPage() {
 
             <div className="space-y-2.5">
               <Button
-                onClick={() => handleProtectedAction("book a visit")}
+                onClick={handleBookVisit}
                 className="w-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center gap-2"
               >
                 <CalendarCheck size={18} /> Book a Visit
               </Button>
               <Button
-                onClick={() => handleProtectedAction("message the owner")}
+                onClick={handleMessageOwner}
                 variant="outline"
                 className="w-full border-primary text-primary hover:bg-primary-light flex items-center justify-center gap-2"
               >
