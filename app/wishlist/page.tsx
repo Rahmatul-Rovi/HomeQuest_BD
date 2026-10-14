@@ -35,7 +35,7 @@ export default function WishlistPage() {
     }
 
     setLoading(true);
-    // Shob wishlist listing ekshathe fetch kora (ID diye)
+    // All wishlist listing  fetch with ID
     fetch(`/api/listings?ids=${wishlist.join(",")}`)
       .then((res) => res.json())
       .then((data) => {
@@ -70,3 +70,22 @@ export default function WishlistPage() {
             <p className="text-gray-400 text-sm mt-1 mb-5">
               Save properties you like by tapping the heart icon.
             </p>
+            <Link href="/listings">
+              <Button className="bg-primary hover:bg-primary-dark text-white">
+                Browse Properties
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            {listings.map((listing) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
