@@ -22,3 +22,28 @@ export default function BookVisitModal({ listingId, onClose }: Props) {
   const [submitting, setSubmitting] = useState(false);
 
   const todayStr = new Date().toISOString().split("T")[0];
+
+  const handleSubmit = async () => {
+    if (!date || !time) {
+      Swal.fire({
+        icon: "warning",
+        title: "Select Date & Time",
+        text: "Please choose a date and time slot for the visit.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+
+    try {
+      const res = await fetch("/api/visits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          listingId,
+          visitDate: date,
+          visitTime: time,
+          message,
+        }),
+      });
