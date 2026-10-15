@@ -35,3 +35,18 @@ export async function PATCH(
     if (!isOwner && !isTenant) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+
+    const updated = await prisma.visitRequest.update({
+      where: { id },
+      data: { status },
+    });
+
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error("PATCH /api/visits/[id] error:", error);
+    return NextResponse.json(
+      { error: "Failed to update visit request" },
+      { status: 500 }
+    );
+  }
+}
