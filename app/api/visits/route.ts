@@ -47,3 +47,16 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const role = searchParams.get("role"); // "tenant" or "owner"
+
+      if (role === "owner") {
+      // Owner er listing gular upor asha shob request
+      const requests = await prisma.visitRequest.findMany({
+        where: { listing: { ownerId: session.user.id } },
+        include: {
+          listing: { select: { title: true, address: true, images: true } },
+          tenant: { select: { name: true, email: true } },
+        },
+        orderBy: { createdAt: "desc" },
+      });
+      return NextResponse.json(requests);
+    }
