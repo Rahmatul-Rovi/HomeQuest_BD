@@ -47,3 +47,24 @@ export default function BookVisitModal({ listingId, onClose }: Props) {
           message,
         }),
       });
+
+        if (!res.ok) throw new Error("Failed");
+
+      onClose();
+      Swal.fire({
+        icon: "success",
+        title: "Visit Requested!",
+        text: "The owner will review your request soon. You can track it from your dashboard.",
+        confirmButtonColor: "#16A34A",
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something Went Wrong",
+        text: "Could not send visit request. Please try again.",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
