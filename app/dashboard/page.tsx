@@ -133,3 +133,51 @@ export default function DashboardPage() {
   }
 
   const pendingCount = requests.filter((r) => r.status === "PENDING").length;
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+
+      <main className="flex-1 max-w-5xl mx-auto px-4 md:px-8 py-10 w-full">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
+            <p className="text-gray-500 text-sm mt-1">
+              Manage your listings and visit requests.
+            </p>
+          </div>
+          <Link href="/listings/new">
+            <Button className="bg-primary hover:bg-primary-dark text-white flex items-center gap-2">
+              <Plus size={18} /> New Listing
+            </Button>
+          </Link>
+        </div>
+
+        {/* Tabs */}
+        <div className="flex gap-2 mb-6 border-b border-gray-200">
+          <button
+            onClick={() => setActiveTab("listings")}
+            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition flex items-center gap-2 ${
+              activeTab === "listings"
+                ? "border-primary text-primary"
+                : "border-transparent text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <Home size={16} /> My Listings ({listings.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("requests")}
+            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition flex items-center gap-2 relative ${
+              activeTab === "requests"
+                ? "border-primary text-primary"
+                : "border-transparent text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            <CalendarCheck size={16} /> Visit Requests ({requests.length})
+            {pendingCount > 0 && (
+              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center">
+                {pendingCount}
+              </span>
+            )}
+          </button>
+        </div>
