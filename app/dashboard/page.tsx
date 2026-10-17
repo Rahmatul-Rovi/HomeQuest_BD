@@ -181,3 +181,64 @@ export default function DashboardPage() {
             )}
           </button>
         </div>
+        {/* My Listings Tab */}
+        {activeTab === "listings" && (
+          <div className="space-y-4">
+            {listings.length === 0 ? (
+              <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
+                <Home size={36} className="text-gray-300 mx-auto mb-3" />
+                <p className="text-gray-500 font-medium">No listings yet</p>
+                <p className="text-gray-400 text-sm mt-1 mb-5">
+                  Start by adding your first property.
+                </p>
+                <Link href="/listings/new">
+                  <Button className="bg-primary hover:bg-primary-dark text-white">
+                    List Your Property
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              listings.map((listing) => (
+                <Link
+                  key={listing.id}
+                  href={`/listings/${listing.id}`}
+                  className="flex gap-4 bg-white border border-gray-100 rounded-xl p-4 hover:shadow-sm transition"
+                >
+                  <div className="relative w-24 h-20 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                    {listing.images[0] ? (
+                      <Image
+                        src={listing.images[0]}
+                        alt={listing.title}
+                        fill
+                        sizes="96px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-300 text-xs">
+                        No Image
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-gray-900 truncate">{listing.title}</h3>
+                    <p className="text-gray-500 text-xs flex items-center gap-1 mt-0.5">
+                      <MapPin size={12} /> {listing.address}
+                    </p>
+                    <div className="flex items-center gap-3 mt-2">
+                      <span className="text-primary font-bold text-sm">
+                        ৳{listing.price.toLocaleString()}
+                      </span>
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                        {listing.status}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        {listing._count.visitRequests} visit requests
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            )}
+          </div>
+        )}
