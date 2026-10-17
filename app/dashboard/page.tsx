@@ -242,3 +242,38 @@ export default function DashboardPage() {
             )}
           </div>
         )}
+
+         {/* Visit Requests Tab */}
+        {activeTab === "requests" && (
+          <div className="space-y-4">
+            {requests.length === 0 ? (
+              <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
+                <CalendarCheck size={36} className="text-gray-300 mx-auto mb-3" />
+                <p className="text-gray-500 font-medium">No visit requests yet</p>
+                <p className="text-gray-400 text-sm mt-1">
+                  Requests from interested tenants will show up here.
+                </p>
+              </div>
+            ) : (
+              requests.map((req) => (
+                <div
+                  key={req.id}
+                  className="bg-white border border-gray-100 rounded-xl p-4"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex gap-3 min-w-0">
+                      <div className="relative w-16 h-14 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                        {req.listing.images[0] && (
+                          <Image
+                            src={req.listing.images[0]}
+                            alt={req.listing.title}
+                            fill
+                            sizes="64px"
+                            className="object-cover"
+                          />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="font-semibold text-gray-900 text-sm truncate">
+                          {req.listing.title}
+                        </h3>
