@@ -277,3 +277,32 @@ export default function DashboardPage() {
                         <h3 className="font-semibold text-gray-900 text-sm truncate">
                           {req.listing.title}
                         </h3>
+                         <p className="text-gray-500 text-xs mt-0.5">
+                          Requested by <span className="font-medium">{req.tenant.name}</span>
+                        </p>
+                        <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-500">
+                          <span className="flex items-center gap-1">
+                            <CalendarCheck size={12} />
+                            {new Date(req.visitDate).toLocaleDateString("en-GB", {
+                              day: "numeric",
+                              month: "short",
+                            })}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock size={12} /> {req.visitTime}
+                          </span>
+                        </div>
+                        {req.message && (
+                          <p className="text-xs text-gray-500 mt-1.5 italic">
+                            &quot;{req.message}&quot;
+                          </p>
+                        )}
+                      </div>
+                    </div>
+
+                    <span
+                      className={`text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${STATUS_STYLES[req.status]}`}
+                    >
+                      {req.status}
+                    </span>
+                  </div>
