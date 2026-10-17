@@ -8,8 +8,9 @@ import Link from "next/link";
 import Swal from "sweetalert2";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import BookVisitModal from "@/components/BookVisitModal";
 import { Button } from "@/components/ui/button";
-
+import { useWishlistStore } from "@/src/store/wishlistStore";
 import {
   MapPin,
   BedDouble,
@@ -22,7 +23,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import { useWishlistStore } from "@/src/store/wishlistStore";
 
 type ListingDetail = {
   id: string;
@@ -58,6 +58,7 @@ export default function ListingDetailsPage() {
 
   const [listing, setListing] = useState<ListingDetail | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showBookingModal, setShowBookingModal] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
 
   const { isWishlisted, toggleWishlist } = useWishlistStore();
@@ -102,13 +103,7 @@ export default function ListingDetailsPage() {
       return;
     }
 
-    // ✅ Login kora obosthay — booking flow eikhane hobe (pore banabo)
-    Swal.fire({
-      icon: "success",
-      title: "Coming Soon",
-      text: "Visit booking feature will be available soon.",
-      confirmButtonColor: "#16A34A",
-    });
+    setShowBookingModal(true);
   };
 
   const handleMessageOwner = () => {
@@ -350,6 +345,13 @@ export default function ListingDetailsPage() {
       </div>
 
       <Footer />
+
+      {showBookingModal && (
+        <BookVisitModal
+          listingId={listing.id}
+          onClose={() => setShowBookingModal(false)}
+        />
+      )}
     </main>
   );
 }
