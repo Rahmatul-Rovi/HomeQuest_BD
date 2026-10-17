@@ -98,3 +98,38 @@ export default function DashboardPage() {
       });
 
       if (!res.ok) throw new Error("Failed");
+
+      setRequests((prev) =>
+        prev.map((r) => (r.id === id ? { ...r, status: newStatus } : r))
+      );
+
+      Swal.fire({
+        icon: "success",
+        title: newStatus === "CONFIRMED" ? "Visit Confirmed" : "Request Rejected",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something Went Wrong",
+        confirmButtonColor: "#16A34A",
+      });
+    }
+  };
+
+  if (status === "loading" || loading) {
+    return (
+      <main className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="max-w-5xl mx-auto px-4 py-10 animate-pulse space-y-4">
+          <div className="h-8 w-48 bg-gray-200 rounded" />
+          <div className="h-40 bg-gray-100 rounded-2xl" />
+          <div className="h-40 bg-gray-100 rounded-2xl" />
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  const pendingCount = requests.filter((r) => r.status === "PENDING").length;
