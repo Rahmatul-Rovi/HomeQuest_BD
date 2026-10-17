@@ -29,3 +29,30 @@ type MyListing = {
   images: string[];
   _count: { visitRequests: number };
 };
+
+type VisitRequest = {
+  id: string;
+  visitDate: string;
+  visitTime: string;
+  message: string | null;
+  status: string;
+  listing: { title: string; address: string; images: string[] };
+  tenant: { name: string; email: string };
+};
+
+const STATUS_STYLES: Record<string, string> = {
+  PENDING: "bg-amber-100 text-amber-700",
+  CONFIRMED: "bg-emerald-100 text-emerald-700",
+  REJECTED: "bg-red-100 text-red-700",
+  COMPLETED: "bg-gray-100 text-gray-600",
+  CANCELLED: "bg-gray-100 text-gray-400",
+};
+
+export default function DashboardPage() {
+  const router = useRouter();
+  const { status } = useSession();
+
+  const [activeTab, setActiveTab] = useState<"listings" | "requests">("listings");
+  const [listings, setListings] = useState<MyListing[]>([]);
+  const [requests, setRequests] = useState<VisitRequest[]>([]);
+  const [loading, setLoading] = useState(true);
