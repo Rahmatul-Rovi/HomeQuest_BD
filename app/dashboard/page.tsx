@@ -57,7 +57,7 @@ export default function DashboardPage() {
   const [requests, setRequests] = useState<VisitRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
-   useEffect(() => {
+  useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login?redirect=/dashboard");
     }
@@ -181,6 +181,7 @@ export default function DashboardPage() {
             )}
           </button>
         </div>
+
         {/* My Listings Tab */}
         {activeTab === "listings" && (
           <div className="space-y-4">
@@ -243,7 +244,7 @@ export default function DashboardPage() {
           </div>
         )}
 
-         {/* Visit Requests Tab */}
+        {/* Visit Requests Tab */}
         {activeTab === "requests" && (
           <div className="space-y-4">
             {requests.length === 0 ? (
@@ -277,7 +278,7 @@ export default function DashboardPage() {
                         <h3 className="font-semibold text-gray-900 text-sm truncate">
                           {req.listing.title}
                         </h3>
-                         <p className="text-gray-500 text-xs mt-0.5">
+                        <p className="text-gray-500 text-xs mt-0.5">
                           Requested by <span className="font-medium">{req.tenant.name}</span>
                         </p>
                         <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-500">
@@ -306,3 +307,32 @@ export default function DashboardPage() {
                       {req.status}
                     </span>
                   </div>
+
+                  {req.status === "PENDING" && (
+                    <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+                      <Button
+                        onClick={() => handleRequestAction(req.id, "CONFIRMED")}
+                        className="flex-1 bg-primary hover:bg-primary-dark text-white flex items-center justify-center gap-1.5 text-sm"
+                      >
+                        <Check size={15} /> Accept
+                      </Button>
+                      <Button
+                        onClick={() => handleRequestAction(req.id, "REJECTED")}
+                        variant="outline"
+                        className="flex-1 border-red-200 text-red-500 hover:bg-red-50 flex items-center justify-center gap-1.5 text-sm"
+                      >
+                        <XIcon size={15} /> Reject
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
