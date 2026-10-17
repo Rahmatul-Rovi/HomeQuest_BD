@@ -56,3 +56,45 @@ export default function DashboardPage() {
   const [listings, setListings] = useState<MyListing[]>([]);
   const [requests, setRequests] = useState<VisitRequest[]>([]);
   const [loading, setLoading] = useState(true);
+
+   useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?redirect=/dashboard");
+    }
+  }, [status, router]);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [listingsRes, requestsRes] = await Promise.all([
+          fetch("/api/listings/my-listings"),
+          fetch("/api/visits?role=owner"),
+        ]);
+        setListings(await listingsRes.json());
+        setRequests(await requestsRes.json());
+      } catch {
+        Swal.fire({
+          icon: "error",
+          title: "Failed to load dashboard",
+          confirmButtonColor: "#16A34A",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [status]);
+
+  const handleRequestAction = async (id: string, newStatus: "CONFIRMED" | "REJECTED") => {
+    try {
+      const res = await fetch(`/api/visits/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!res.ok) throw new Error("Failed");
