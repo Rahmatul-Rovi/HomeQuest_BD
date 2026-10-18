@@ -55,3 +55,27 @@ export default function AdminPage() {
   const [listings, setListings] = useState<AdminListing[]>([]);
   const [loading, setLoading] = useState(true);
   const [forbidden, setForbidden] = useState(false);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?redirect=/admin");
+    }
+  }, [status, router]);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [statsRes, usersRes, listingsRes] = await Promise.all([
+          fetch("/api/admin/stats"),
+          fetch("/api/admin/users"),
+          fetch("/api/admin/listings"),
+        ]);
+
+        if (statsRes.status === 403) {
+          setForbidden(true);
+          setLoading(false);
+          return;
+        }
