@@ -79,3 +79,40 @@ export default function AdminPage() {
           setLoading(false);
           return;
         }
+
+        setStats(await statsRes.json());
+        setUsers(await usersRes.json());
+        setListings(await listingsRes.json());
+      } catch {
+        Swal.fire({
+          icon: "error",
+          title: "Failed to load admin panel",
+          confirmButtonColor: "#16A34A",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [status]);
+
+  const toggleVerify = async (userId: string, current: boolean) => {
+    const res = await fetch(`/api/admin/users/${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ verified: !current }),
+    });
+
+    if (res.ok) {
+      setUsers((prev) =>
+        prev.map((u) => (u.id === userId ? { ...u, verified: !current } : u))
+      );
+      Swal.fire({
+        icon: "success",
+        title: !current ? "Owner Verified" : "Verification Removed",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
+  };
