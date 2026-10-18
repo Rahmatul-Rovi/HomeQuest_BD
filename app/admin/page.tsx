@@ -24,3 +24,34 @@ type Stats = {
   pendingVerifications: number;
   totalVisits: number;
 };
+
+type AdminUser = {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  verified: boolean;
+  createdAt: string;
+  _count: { listings: number };
+};
+
+type AdminListing = {
+  id: string;
+  title: string;
+  address: string;
+  price: number;
+  status: string;
+  images: string[];
+  owner: { name: string; verified: boolean };
+};
+
+export default function AdminPage() {
+  const router = useRouter();
+  const { data: session, status } = useSession();
+
+  const [activeTab, setActiveTab] = useState<"users" | "listings">("users");
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [listings, setListings] = useState<AdminListing[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [forbidden, setForbidden] = useState(false);
