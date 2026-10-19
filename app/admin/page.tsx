@@ -185,3 +185,27 @@ export default function AdminPage() {
             })}
           </div>
         )}
+
+          {/* Tabs */}
+        <div className="flex gap-2 mb-6 border-b border-gray-200">
+          <button
+            onClick={() => setActiveTab("users")}
+            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition ${
+              activeTab === "users"
+                ? "border-primary text-primary"
+                : "border-transparent text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Users ({users.length})
+          </button>
+          <button
+            onClick={() => setActiveTab("listings")}
+            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition ${
+              activeTab === "listings"
+                ? "border-primary text-primary"
+                : "border-transparent text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Listings ({listings.length})
+          </button>
+        </div>
