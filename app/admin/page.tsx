@@ -145,3 +145,43 @@ export default function AdminPage() {
       </main>
     );
   }
+
+   return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+
+      <main className="flex-1 max-w-6xl mx-auto px-4 md:px-8 py-10 w-full">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+          Admin Panel
+        </h1>
+        <p className="text-gray-500 text-sm mb-8">
+          Manage users, listings, and platform activity.
+        </p>
+
+        {/* Stats Cards */}
+        {stats && (
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            {[
+              { label: "Total Users", value: stats.totalUsers, icon: Users },
+              { label: "Total Listings", value: stats.totalListings, icon: Home },
+              { label: "Pending Verification", value: stats.pendingVerifications, icon: ShieldCheck },
+              { label: "Visit Requests", value: stats.totalVisits, icon: CalendarCheck },
+            ].map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <div
+                  key={stat.label}
+                  className="bg-white border border-gray-100 rounded-xl p-4"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="bg-primary-light p-1.5 rounded-lg">
+                      <Icon size={16} className="text-primary" />
+                    </div>
+                  </div>
+                  <p className="text-xl font-bold text-gray-900">{stat.value}</p>
+                  <p className="text-xs text-gray-400">{stat.label}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
