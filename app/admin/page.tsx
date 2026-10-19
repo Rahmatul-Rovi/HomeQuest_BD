@@ -209,3 +209,59 @@ export default function AdminPage() {
             Listings ({listings.length})
           </button>
         </div>
+
+         {/* Users Tab */}
+        {activeTab === "users" && (
+          <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
+                <tr>
+                  <th className="text-left px-4 py-3">Name</th>
+                  <th className="text-left px-4 py-3">Role</th>
+                  <th className="text-left px-4 py-3">Listings</th>
+                  <th className="text-left px-4 py-3">Status</th>
+                  <th className="text-left px-4 py-3">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map((u) => (
+                  <tr key={u.id} className="border-t border-gray-50">
+                    <td className="px-4 py-3">
+                      <p className="font-medium text-gray-900">{u.name}</p>
+                      <p className="text-xs text-gray-400">{u.email}</p>
+                    </td>
+                    <td className="px-4 py-3">
+                      <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                        {u.role}
+                      </span>
+                    </td>
+                    <td className="px-4 py-3 text-gray-600">{u._count.listings}</td>
+                    <td className="px-4 py-3">
+                      {u.verified ? (
+                        <span className="flex items-center gap-1 text-xs text-primary">
+                          <BadgeCheck size={13} /> Verified
+                        </span>
+                      ) : (
+                        <span className="text-xs text-gray-400">Not Verified</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">
+                      <Button
+                        size="sm"
+                        variant={u.verified ? "outline" : "default"}
+                        onClick={() => toggleVerify(u.id, u.verified)}
+                        className={
+                          u.verified
+                            ? "text-xs border-red-200 text-red-500 hover:bg-red-50"
+                            : "text-xs bg-primary hover:bg-primary-dark text-white"
+                        }
+                      >
+                        {u.verified ? "Unverify" : "Verify"}
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
