@@ -116,3 +116,32 @@ export default function AdminPage() {
       });
     }
   };
+
+  if (status === "loading" || loading) {
+    return (
+      <main className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="max-w-6xl mx-auto px-4 py-10 animate-pulse space-y-4">
+          <div className="h-8 w-48 bg-gray-200 rounded" />
+          <div className="h-32 bg-gray-100 rounded-2xl" />
+        </div>
+        <Footer />
+      </main>
+    );
+  }
+
+  if (forbidden || (session?.user as { role?: string })?.role !== "ADMIN") {
+    return (
+      <main className="min-h-screen bg-gray-50">
+        <Navbar />
+        <div className="max-w-md mx-auto px-4 py-24 text-center">
+          <ShieldAlert size={40} className="text-red-400 mx-auto mb-3" />
+          <h1 className="text-xl font-bold text-gray-900">Access Denied</h1>
+          <p className="text-gray-500 text-sm mt-1">
+            You don&apos;t have permission to view this page.
+          </p>
+        </div>
+        <Footer />
+      </main>
+    );
+  }
