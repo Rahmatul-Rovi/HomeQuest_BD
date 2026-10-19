@@ -117,6 +117,34 @@ export default function AdminPage() {
     }
   };
 
+  const removeListing = async (listingId: string) => {
+    const confirm = await Swal.fire({
+      icon: "warning",
+      title: "Remove this listing?",
+      text: "This action cannot be undone.",
+      showCancelButton: true,
+      confirmButtonText: "Yes, remove",
+      confirmButtonColor: "#DC2626",
+      cancelButtonColor: "#9CA3AF",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    const res = await fetch(`/api/admin/listings/${listingId}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      setListings((prev) => prev.filter((l) => l.id !== listingId));
+      Swal.fire({
+        icon: "success",
+        title: "Listing Removed",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
   if (status === "loading" || loading) {
     return (
       <main className="min-h-screen bg-gray-50">
@@ -146,7 +174,7 @@ export default function AdminPage() {
     );
   }
 
-   return (
+  return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
 
@@ -186,7 +214,7 @@ export default function AdminPage() {
           </div>
         )}
 
-          {/* Tabs */}
+        {/* Tabs */}
         <div className="flex gap-2 mb-6 border-b border-gray-200">
           <button
             onClick={() => setActiveTab("users")}
@@ -210,7 +238,7 @@ export default function AdminPage() {
           </button>
         </div>
 
-         {/* Users Tab */}
+        {/* Users Tab */}
         {activeTab === "users" && (
           <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden">
             <table className="w-full text-sm">
@@ -266,7 +294,7 @@ export default function AdminPage() {
           </div>
         )}
 
-         {/* Listings Tab */}
+        {/* Listings Tab */}
         {activeTab === "listings" && (
           <div className="space-y-3">
             {listings.map((listing) => (
@@ -302,3 +330,22 @@ export default function AdminPage() {
                 <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600 shrink-0">
                   {listing.status}
                 </span>
+
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => removeListing(listing.id)}
+                  className="text-xs border-red-200 text-red-500 hover:bg-red-50 shrink-0"
+                >
+                  <Trash2 size={14} />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
