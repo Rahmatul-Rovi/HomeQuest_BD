@@ -5,6 +5,50 @@ import { ChevronLeft, ChevronRight, Star, Quote } from "lucide-react";
 
 const reviews = [
   {
+    name: "Rahmatul Rovi",
+    location: "Gulshan, Dhaka",
+    rating: 5,
+    text: "The listing photos and details matched exactly what I saw during the visit. No surprises at all.",
+    avatar: "/rovi3.jpg",
+  },
+  {
+    name: "Mostafa Monoar",
+    location: "Mohammadpur, Dhaka",
+    rating: 5,
+    text: "The map search made it so easy to find a mess close to my university. Saved me hours of walking around.",
+    avatar: "/bijoy.jpg",
+  },
+ 
+  {
+    name: "Mehedi Hassan",
+    location: "Mirpur, Dhaka",
+    rating: 5,
+    text: "No more dealing with brokers. I messaged the owner directly and everything was sorted in a day.",
+    avatar: "/alif.jpg",
+  },
+  
+  {
+    name: "Jewel Rana",
+    location: "Uttara, Dhaka",
+    rating: 5,
+    text: "Listed my flat for sale here and got genuine buyers within a week. Very smooth experience overall.",
+    avatar: "/jewel.jpg",
+  },
+  {
+    name: "Sadia Rahman",
+    location: "Banani, Dhaka",
+    rating: 4,
+    text: "As a bachelor, finding a place that actually allows bachelors was always hard. The filter here is a lifesaver.",
+    avatar: "https://images.unsplash.com/photo-1764740146693-4955d02c98f9?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
+  },
+  {
+    name: "Mubashsher Salek",
+    location: "Bashundhara, Dhaka",
+    rating: 5,
+    text: "Scheduling a visit through the app instead of calling back and forth was really convenient.",
+    avatar: "/salek.jpg",
+  },
+   {
     name: "Farhana Akter",
     location: "Dhanmondi, Dhaka",
     rating: 5,
@@ -12,68 +56,28 @@ const reviews = [
     avatar: "https://i.pravatar.cc/150?img=32",  
   },
   {
-    name: "Tanvir Hasan",
-    location: "Mirpur, Dhaka",
-    rating: 5,
-    text: "No more dealing with brokers. I messaged the owner directly and everything was sorted in a day.",
-    avatar: "https://i.pravatar.cc/150?img=12",
-  },
-  {
-    name: "Nusrat Jahan",
-    location: "Mohammadpur, Dhaka",
-    rating: 4,
-    text: "The map search made it so easy to find a mess close to my university. Saved me hours of walking around.",
-    avatar: "https://i.pravatar.cc/150?img=47",
-  },
-  {
-    name: "Rafiul Islam",
-    location: "Uttara, Dhaka",
-    rating: 5,
-    text: "Listed my flat for sale here and got genuine buyers within a week. Very smooth experience overall.",
-    avatar: "https://i.pravatar.cc/150?img=14",
-  },
-  {
-    name: "Sadia Rahman",
-    location: "Banani, Dhaka",
-    rating: 5,
-    text: "As a bachelor, finding a place that actually allows bachelors was always hard. The filter here is a lifesaver.",
-    avatar: "https://i.pravatar.cc/150?img=45",
-  },
-  {
-    name: "Imran Kabir",
-    location: "Bashundhara, Dhaka",
-    rating: 4,
-    text: "Scheduling a visit through the app instead of calling back and forth was really convenient.",
-    avatar: "https://i.pravatar.cc/150?img=51",
-  },
-  {
     name: "Mahmuda Sultana",
     location: "Dhanmondi, Dhaka",
-    rating: 5,
+    rating: 4,
     text: "I reported a suspicious listing and the admin team took it down within hours. Felt genuinely safe using this.",
-    avatar: "https://i.pravatar.cc/150?img=44",
+    avatar: "https://plus.unsplash.com/premium_photo-1681483539443-50ced66c7f56?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
   },
-  {
-    name: "Shakil Ahmed",
-    location: "Khilgaon, Dhaka",
+   {
+    name: "Pranto Kumar Pandit",
+    location: "Mohakhali, Dhaka",
     rating: 5,
-    text: "The listing photos and details matched exactly what I saw during the visit. No surprises at all.",
-    avatar: "https://i.pravatar.cc/150?img=33",
+    text: "Been checking new listings weekly. The notification alert for my preferred area works perfectly.",
+    avatar: "/pandit.jpg",
   },
+
   {
     name: "Tania Ferdous",
     location: "Baridhara, Dhaka",
-    rating: 4,
-    text: "Wishlist feature let me save a few flats and compare them later with my roommate. Very handy.",
-    avatar: "https://i.pravatar.cc/150?img=48",
-  },
-  {
-    name: "Nayeem Chowdhury",
-    location: "Gulshan, Dhaka",
     rating: 5,
-    text: "Been checking new listings weekly. The notification alert for my preferred area works perfectly.",
-    avatar: "https://i.pravatar.cc/150?img=15",
+    text: "Wishlist feature let me save a few flats and compare them later with my roommate. Very handy.",
+    avatar: "https://images.unsplash.com/photo-1729101143891-a8fed18023f2?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D",
   },
+ 
 ];
 
 export default function Testimonials() {
