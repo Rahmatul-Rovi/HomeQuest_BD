@@ -30,7 +30,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-   if (role !== "ADMIN") {
+  if (role !== "ADMIN") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
         <div className="text-center">
@@ -43,3 +43,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
     );
   }
+
+  return (
+    <div className="flex min-h-screen bg-gray-50">
+      <AdminSidebar />
+      <div className="flex-1 min-w-0">{children}</div>
+    </div>
+  );
+}
