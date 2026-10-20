@@ -9,7 +9,7 @@ const reviews = [
     location: "Gulshan, Dhaka",
     rating: 5,
     text: "The listing photos and details matched exactly what I saw during the visit. No surprises at all.",
-    avatar: "/rovi3.jpg",
+    avatar: "/rovi.jpeg",
   },
   {
     name: "Mostafa Monoar",
