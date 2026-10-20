@@ -29,3 +29,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
     );
   }
+
+   if (role !== "ADMIN") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+        <div className="text-center">
+          <ShieldAlert size={40} className="text-red-400 mx-auto mb-3" />
+          <h1 className="text-xl font-bold text-gray-900">Access Denied</h1>
+          <p className="text-gray-500 text-sm mt-1">
+            You don&apos;t have permission to view this page.
+          </p>
+        </div>
+      </div>
+    );
+  }
