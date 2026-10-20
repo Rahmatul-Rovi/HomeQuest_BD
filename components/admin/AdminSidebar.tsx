@@ -47,3 +47,15 @@ export default function AdminSidebar() {
           );
         })}
       </nav>
+
+      <div className="px-3 py-4 border-t border-gray-100">
+        <Link
+          href="/"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-gray-50 transition"
+        >
+          <ArrowLeft size={18} /> Back to Site
+        </Link>
+      </div>
+    </aside>
+  );
+}
