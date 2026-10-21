@@ -49,3 +49,19 @@ export default function AdminDashboardPage() {
       </div>
     );
   }
+
+   const statCards = [
+    { label: "Total Users", value: stats.totalUsers, icon: Users },
+    { label: "Total Listings", value: stats.totalListings, icon: Home },
+    { label: "Pending Verification", value: stats.pendingVerifications, icon: ShieldCheck },
+    { label: "Visit Requests", value: stats.totalVisits, icon: CalendarCheck },
+  ];
+
+  return (
+    <div className="p-6 md:p-10">
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+        Dashboard
+      </h1>
+      <p className="text-gray-500 text-sm mb-8">
+        Overview of platform activity and performance.
+      </p>
