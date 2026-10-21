@@ -50,7 +50,7 @@ export default function AdminDashboardPage() {
     );
   }
 
-   const statCards = [
+  const statCards = [
     { label: "Total Users", value: stats.totalUsers, icon: Users },
     { label: "Total Listings", value: stats.totalListings, icon: Home },
     { label: "Pending Verification", value: stats.pendingVerifications, icon: ShieldCheck },
@@ -87,7 +87,7 @@ export default function AdminDashboardPage() {
 
       {/* Charts */}
       <div className="grid md:grid-cols-2 gap-6">
-         {/* Rent vs Sale Pie Chart */}
+        {/* Rent vs Sale Pie Chart */}
         <div className="bg-white border border-gray-100 rounded-2xl p-6">
           <h3 className="font-semibold text-gray-900 mb-4">
             Rent vs Sale Listings
@@ -118,7 +118,8 @@ export default function AdminDashboardPage() {
             </ResponsiveContainer>
           )}
         </div>
-            {/* Category Breakdown Pie Chart */}
+
+        {/* Category Breakdown Pie Chart */}
         <div className="bg-white border border-gray-100 rounded-2xl p-6">
           <h3 className="font-semibold text-gray-900 mb-4">
             Listings by Category
@@ -138,5 +139,18 @@ export default function AdminDashboardPage() {
                   cy="50%"
                   outerRadius={90}
                   label={({ name, value }) => `${name}: ${value}`}
-                ></Pie>
+                >
+                  {stats.categoryBreakdown.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          )}
+        </div>
       </div>
+    </div>
+  );
+}
