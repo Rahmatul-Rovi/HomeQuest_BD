@@ -118,4 +118,25 @@ export default function AdminDashboardPage() {
             </ResponsiveContainer>
           )}
         </div>
+            {/* Category Breakdown Pie Chart */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">
+            Listings by Category
+          </h3>
+          {stats.categoryBreakdown.length === 0 ? (
+            <p className="text-gray-400 text-sm text-center py-16">
+              No listings yet
+            </p>
+          ) : (
+            <ResponsiveContainer width="100%" height={260}>
+              <PieChart>
+                <Pie
+                  data={stats.categoryBreakdown}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={90}
+                  label={({ name, value }) => `${name}: ${value}`}
+                ></Pie>
       </div>
