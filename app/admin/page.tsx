@@ -65,3 +65,25 @@ export default function AdminDashboardPage() {
       <p className="text-gray-500 text-sm mb-8">
         Overview of platform activity and performance.
       </p>
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {statCards.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div
+              key={stat.label}
+              className="bg-white border border-gray-100 rounded-2xl p-5"
+            >
+              <div className="bg-primary-light w-9 h-9 rounded-lg flex items-center justify-center mb-3">
+                <Icon size={18} className="text-primary" />
+              </div>
+              <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
+              <p className="text-xs text-gray-400 mt-0.5">{stat.label}</p>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Charts */}
+      <div className="grid md:grid-cols-2 gap-6"></div>
