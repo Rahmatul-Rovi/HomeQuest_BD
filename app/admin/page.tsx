@@ -86,4 +86,36 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Charts */}
-      <div className="grid md:grid-cols-2 gap-6"></div>
+      <div className="grid md:grid-cols-2 gap-6">
+         {/* Rent vs Sale Pie Chart */}
+        <div className="bg-white border border-gray-100 rounded-2xl p-6">
+          <h3 className="font-semibold text-gray-900 mb-4">
+            Rent vs Sale Listings
+          </h3>
+          {stats.totalListings === 0 ? (
+            <p className="text-gray-400 text-sm text-center py-16">
+              No listings yet
+            </p>
+          ) : (
+            <ResponsiveContainer width="100%" height={260}>
+              <PieChart>
+                <Pie
+                  data={stats.typeBreakdown}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={90}
+                  label={({ name, value }) => `${name}: ${value}`}
+                >
+                  {stats.typeBreakdown.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+      </div>
