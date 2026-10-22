@@ -39,7 +39,7 @@ export default function AdminUsersPage() {
       setUsers((prev) =>
         prev.map((u) => (u.id === userId ? { ...u, verified: !current } : u))
       );
-       Swal.fire({
+      Swal.fire({
         icon: "success",
         title: !current ? "Owner Verified" : "Verification Removed",
         timer: 1000,
@@ -108,3 +108,8 @@ export default function AdminUsersPage() {
               </tr>
             ))}
           </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
