@@ -27,3 +27,15 @@ export default function AdminUsersPage() {
       })
       .catch(() => setLoading(false));
   }, []);
+
+  const toggleVerify = async (userId: string, current: boolean) => {
+    const res = await fetch(`/api/admin/users/${userId}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ verified: !current }),
+    });
+
+    if (res.ok) {
+      setUsers((prev) =>
+        prev.map((u) => (u.id === userId ? { ...u, verified: !current } : u))
+      );
