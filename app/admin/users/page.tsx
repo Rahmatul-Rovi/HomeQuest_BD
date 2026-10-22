@@ -51,3 +51,23 @@ export default function AdminUsersPage() {
   if (loading) {
     return <div className="p-6 md:p-10 animate-pulse h-64 bg-gray-100 rounded-2xl m-6" />;
   }
+
+  return (
+    <div className="p-6 md:p-10">
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Users</h1>
+      <p className="text-gray-500 text-sm mb-8">
+        Manage all registered users and owner verification.
+      </p>
+
+      <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead className="bg-gray-50 text-gray-500 text-xs uppercase">
+            <tr>
+              <th className="text-left px-4 py-3">Name</th>
+              <th className="text-left px-4 py-3">Role</th>
+              <th className="text-left px-4 py-3">Listings</th>
+              <th className="text-left px-4 py-3">Status</th>
+              <th className="text-left px-4 py-3">Action</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
