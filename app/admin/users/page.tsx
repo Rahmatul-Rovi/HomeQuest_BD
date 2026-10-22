@@ -70,4 +70,26 @@ export default function AdminUsersPage() {
               <th className="text-left px-4 py-3">Action</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            {users.map((u) => (
+              <tr key={u.id} className="border-t border-gray-50">
+                <td className="px-4 py-3">
+                  <p className="font-medium text-gray-900">{u.name}</p>
+                  <p className="text-xs text-gray-400">{u.email}</p>
+                </td>
+                <td className="px-4 py-3">
+                  <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                    {u.role}
+                  </span>
+                </td>
+                <td className="px-4 py-3 text-gray-600">{u._count.listings}</td>
+                <td className="px-4 py-3">
+                  {u.verified ? (
+                    <span className="flex items-center gap-1 text-xs text-primary">
+                      <BadgeCheck size={13} /> Verified
+                    </span>
+                  ) : (
+                    <span className="text-xs text-gray-400">Not Verified</span>
+                  )}
+                </td>
+          </tbody>
