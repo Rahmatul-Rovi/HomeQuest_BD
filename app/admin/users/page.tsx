@@ -39,3 +39,15 @@ export default function AdminUsersPage() {
       setUsers((prev) =>
         prev.map((u) => (u.id === userId ? { ...u, verified: !current } : u))
       );
+       Swal.fire({
+        icon: "success",
+        title: !current ? "Owner Verified" : "Verification Removed",
+        timer: 1000,
+        showConfirmButton: false,
+      });
+    }
+  };
+
+  if (loading) {
+    return <div className="p-6 md:p-10 animate-pulse h-64 bg-gray-100 rounded-2xl m-6" />;
+  }
