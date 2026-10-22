@@ -92,4 +92,19 @@ export default function AdminUsersPage() {
                     <span className="text-xs text-gray-400">Not Verified</span>
                   )}
                 </td>
+                <td className="px-4 py-3">
+                  <Button
+                    size="sm"
+                    onClick={() => toggleVerify(u.id, u.verified)}
+                    className={
+                      u.verified
+                        ? "text-xs border border-red-200 text-red-500 hover:bg-red-50 bg-white"
+                        : "text-xs bg-primary hover:bg-primary-dark text-white"
+                    }
+                  >
+                    {u.verified ? "Unverify" : "Verify"}
+                  </Button>
+                </td>
+              </tr>
+            ))}
           </tbody>
