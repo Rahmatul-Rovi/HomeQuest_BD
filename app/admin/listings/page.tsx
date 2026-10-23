@@ -29,7 +29,7 @@ export default function AdminListingsPage() {
       .catch(() => setLoading(false));
   }, []);
 
-   const removeListing = async (listingId: string) => {
+  const removeListing = async (listingId: string) => {
     const confirm = await Swal.fire({
       icon: "warning",
       title: "Remove this listing?",
@@ -46,7 +46,7 @@ export default function AdminListingsPage() {
       method: "DELETE",
     });
 
-      if (res.ok) {
+    if (res.ok) {
       setListings((prev) => prev.filter((l) => l.id !== listingId));
       Swal.fire({ icon: "success", title: "Listing Removed", timer: 1000, showConfirmButton: false });
     }
@@ -63,7 +63,7 @@ export default function AdminListingsPage() {
         Monitor and moderate all property listings.
       </p>
 
- <div className="space-y-3">
+      <div className="space-y-3">
         {listings.map((listing) => (
           <div
             key={listing.id}
@@ -86,7 +86,7 @@ export default function AdminListingsPage() {
               </p>
             </div>
 
-              <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600 shrink-0">
+            <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600 shrink-0">
               {listing.status}
             </span>
 
@@ -99,3 +99,8 @@ export default function AdminListingsPage() {
               <Trash2 size={14} />
             </Button>
           </div>
+        ))}
+      </div>
+    </div>
+  );
+}
