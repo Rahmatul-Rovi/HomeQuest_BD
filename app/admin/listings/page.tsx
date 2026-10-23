@@ -14,3 +14,17 @@ type AdminListing = {
   images: string[];
   owner: { name: string; verified: boolean };
 };
+
+export default function AdminListingsPage() {
+  const [listings, setListings] = useState<AdminListing[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/admin/listings")
+      .then((res) => res.json())
+      .then((data) => {
+        setListings(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
