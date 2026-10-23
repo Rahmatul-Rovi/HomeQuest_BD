@@ -62,3 +62,26 @@ export default function AdminListingsPage() {
       <p className="text-gray-500 text-sm mb-8">
         Monitor and moderate all property listings.
       </p>
+
+ <div className="space-y-3">
+        {listings.map((listing) => (
+          <div
+            key={listing.id}
+            className="flex items-center gap-4 bg-white border border-gray-100 rounded-xl p-4"
+          >
+            <div className="relative w-16 h-14 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+              {listing.images[0] && (
+                <Image src={listing.images[0]} alt={listing.title} fill sizes="64px" className="object-cover" />
+              )}
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-gray-900 text-sm truncate">{listing.title}</p>
+              <p className="text-xs text-gray-400 truncate">{listing.address}</p>
+              <p className="text-xs text-gray-500 mt-0.5">
+                Owner: {listing.owner.name}{" "}
+                {listing.owner.verified && (
+                  <BadgeCheck size={12} className="inline text-primary ml-0.5" />
+                )}
+              </p>
+            </div>
