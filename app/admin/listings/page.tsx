@@ -45,3 +45,20 @@ export default function AdminListingsPage() {
     const res = await fetch(`/api/admin/listings/${listingId}`, {
       method: "DELETE",
     });
+
+      if (res.ok) {
+      setListings((prev) => prev.filter((l) => l.id !== listingId));
+      Swal.fire({ icon: "success", title: "Listing Removed", timer: 1000, showConfirmButton: false });
+    }
+  };
+
+  if (loading) {
+    return <div className="p-6 md:p-10 animate-pulse h-64 bg-gray-100 rounded-2xl m-6" />;
+  }
+
+  return (
+    <div className="p-6 md:p-10">
+      <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Listings</h1>
+      <p className="text-gray-500 text-sm mb-8">
+        Monitor and moderate all property listings.
+      </p>
