@@ -85,3 +85,17 @@ export default function AdminListingsPage() {
                 )}
               </p>
             </div>
+
+              <span className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-600 shrink-0">
+              {listing.status}
+            </span>
+
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => removeListing(listing.id)}
+              className="text-xs border-red-200 text-red-500 hover:bg-red-50 shrink-0"
+            >
+              <Trash2 size={14} />
+            </Button>
+          </div>
