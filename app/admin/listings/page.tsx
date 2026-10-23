@@ -28,3 +28,20 @@ export default function AdminListingsPage() {
       })
       .catch(() => setLoading(false));
   }, []);
+
+   const removeListing = async (listingId: string) => {
+    const confirm = await Swal.fire({
+      icon: "warning",
+      title: "Remove this listing?",
+      text: "This action cannot be undone.",
+      showCancelButton: true,
+      confirmButtonText: "Yes, remove",
+      confirmButtonColor: "#DC2626",
+      cancelButtonColor: "#9CA3AF",
+    });
+
+    if (!confirm.isConfirmed) return;
+
+    const res = await fetch(`/api/admin/listings/${listingId}`, {
+      method: "DELETE",
+    });
