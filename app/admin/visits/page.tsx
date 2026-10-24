@@ -43,3 +43,18 @@ export default function AdminVisitsPage() {
               <th className="text-left px-4 py-3">Status</th>
             </tr>
           </thead>
+           <tbody>
+            {visits.map((v) => (
+              <tr key={v.id} className="border-t border-gray-50">
+                <td className="px-4 py-3 text-gray-900">{v.listing.title}</td>
+                <td className="px-4 py-3 text-gray-600">
+                  {new Date(v.visitDate).toLocaleDateString("en-GB")}
+                </td>
+                <td className="px-4 py-3 text-gray-600">{v.visitTime}</td>
+                <td className="px-4 py-3">
+                  <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                    {v.status}
+                  </span>
+                </td>
+              </tr>
+            ))}
