@@ -24,7 +24,7 @@ export default function AdminVisitsPage() {
       .catch(() => setLoading(false));
   }, []);
 
-   if (loading) {
+  if (loading) {
     return <div className="p-6 md:p-10 animate-pulse h-64 bg-gray-100 rounded-2xl m-6" />;
   }
 
@@ -43,7 +43,7 @@ export default function AdminVisitsPage() {
               <th className="text-left px-4 py-3">Status</th>
             </tr>
           </thead>
-           <tbody>
+          <tbody>
             {visits.map((v) => (
               <tr key={v.id} className="border-t border-gray-50">
                 <td className="px-4 py-3 text-gray-900">{v.listing.title}</td>
@@ -58,3 +58,9 @@ export default function AdminVisitsPage() {
                 </td>
               </tr>
             ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
