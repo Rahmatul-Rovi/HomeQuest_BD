@@ -139,7 +139,7 @@ export default function Hero() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-gray-900">New Listing</p>
-                  <p className="text-xs text-gray-400">Mirpur, Dhaka</p>
+                  <p className="text-xs text-gray-400">Dhaka, Bangladesh</p>
                 </div>
               </div>
             </div>
