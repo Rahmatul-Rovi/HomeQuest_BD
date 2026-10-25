@@ -22,3 +22,18 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   }
+
+   const conversation = await prisma.conversation.upsert({
+    where: {
+      listingId_tenantId: { listingId, tenantId: session.user.id },
+    },
+    update: {},
+    create: {
+      listingId,
+      tenantId: session.user.id,
+      ownerId: listing.ownerId,
+    },
+  });
+
+  return NextResponse.json(conversation);
+}
