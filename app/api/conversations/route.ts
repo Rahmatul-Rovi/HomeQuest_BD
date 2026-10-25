@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 
-
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
@@ -23,7 +22,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-   const conversation = await prisma.conversation.upsert({
+  const conversation = await prisma.conversation.upsert({
     where: {
       listingId_tenantId: { listingId, tenantId: session.user.id },
     },
@@ -53,3 +52,12 @@ export async function GET() {
       tenant: { select: { id: true, name: true, image: true } },
       owner: { select: { id: true, name: true, image: true } },
       messages: {
+        orderBy: { createdAt: "desc" },
+        take: 1,
+      },
+    },
+    orderBy: { updatedAt: "desc" },
+  });
+
+  return NextResponse.json(conversations);
+}
