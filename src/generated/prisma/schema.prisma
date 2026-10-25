@@ -26,6 +26,7 @@ model Listing {
   ownerId         String
   owner           User           @relation(fields: [ownerId], references: [id])
   visitRequests   VisitRequest[]
+  conversations   Conversation[]
   createdAt       DateTime       @default(now())
 }
 
@@ -72,19 +73,22 @@ enum VisitStatus {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  name          String
-  email         String         @unique
-  emailVerified DateTime?
-  image         String?
-  password      String?
-  role          Role           @default(TENANT)
-  verified      Boolean        @default(false)
-  listings      Listing[]
-  accounts      Account[]
-  sessions      Session[]
-  visitRequests VisitRequest[] @relation("TenantRequests")
-  createdAt     DateTime       @default(now())
+  id                  String         @id @default(cuid())
+  name                String
+  email               String         @unique
+  emailVerified       DateTime?
+  image               String?
+  password            String?
+  role                Role           @default(TENANT)
+  verified            Boolean        @default(false)
+  listings            Listing[]
+  accounts            Account[]
+  sessions            Session[]
+  visitRequests       VisitRequest[] @relation("TenantRequests")
+  tenantConversations Conversation[] @relation("TenantConversations")
+  ownerConversations  Conversation[] @relation("OwnerConversations")
+  messages            Message[]
+  createdAt           DateTime       @default(now())
 }
 
 model Account {
@@ -120,6 +124,32 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  listingId String
+  listing   Listing   @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  tenantId  String
+  tenant    User      @relation("TenantConversations", fields: [tenantId], references: [id], onDelete: Cascade)
+  ownerId   String
+  owner     User      @relation("OwnerConversations", fields: [ownerId], references: [id], onDelete: Cascade)
+  messages  Message[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([listingId, tenantId])
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  text           String
+  read           Boolean      @default(false)
+  createdAt      DateTime     @default(now())
 }
 
 enum Role {
