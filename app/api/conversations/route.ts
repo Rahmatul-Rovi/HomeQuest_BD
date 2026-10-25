@@ -37,3 +37,19 @@ export async function POST(req: NextRequest) {
 
   return NextResponse.json(conversation);
 }
+
+export async function GET() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const conversations = await prisma.conversation.findMany({
+    where: {
+      OR: [{ tenantId: session.user.id }, { ownerId: session.user.id }],
+    },
+    include: {
+      listing: { select: { title: true, images: true } },
+      tenant: { select: { id: true, name: true, image: true } },
+      owner: { select: { id: true, name: true, image: true } },
+      messages: {
