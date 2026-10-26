@@ -43,3 +43,18 @@ export async function POST(
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+   const { id } = await params;
+  const { text } = await req.json();
+
+  if (!text?.trim()) {
+    return NextResponse.json({ error: "Message cannot be empty" }, { status: 400 });
+  }
+
+  const conversation = await prisma.conversation.findUnique({ where: { id } });
+  if (
+    !conversation ||
+    (conversation.tenantId !== session.user.id && conversation.ownerId !== session.user.id)
+  ) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
