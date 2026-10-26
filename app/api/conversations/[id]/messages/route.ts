@@ -27,7 +27,7 @@ export async function GET(
     orderBy: { createdAt: "asc" },
   });
 
-   await prisma.message.updateMany({
+  await prisma.message.updateMany({
     where: { conversationId: id, senderId: { not: session.user.id }, read: false },
     data: { read: true },
   });
@@ -44,7 +44,7 @@ export async function POST(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-   const { id } = await params;
+  const { id } = await params;
   const { text } = await req.json();
 
   if (!text?.trim()) {
@@ -67,3 +67,11 @@ export async function POST(
     },
     include: { sender: { select: { id: true, name: true, image: true } } },
   });
+
+  await prisma.conversation.update({
+    where: { id },
+    data: { updatedAt: new Date() },
+  });
+
+  return NextResponse.json(message, { status: 201 });
+}
