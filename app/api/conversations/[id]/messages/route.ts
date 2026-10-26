@@ -58,3 +58,12 @@ export async function POST(
   ) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
+
+  const message = await prisma.message.create({
+    data: {
+      conversationId: id,
+      senderId: session.user.id,
+      text: text.trim(),
+    },
+    include: { sender: { select: { id: true, name: true, image: true } } },
+  });
