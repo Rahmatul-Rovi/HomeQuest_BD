@@ -57,3 +57,19 @@ export default function MessagesPage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
+
+      <main className="flex-1 max-w-3xl mx-auto px-4 py-10 w-full">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Messages</h1>
+        <p className="text-gray-500 text-sm mb-8">
+          Your conversations with tenants and owners.
+        </p>
+
+        {conversations.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+            <MessageCircleMore size={36} className="text-gray-300 mx-auto mb-3" />
+            <p className="text-gray-500 font-medium">No conversations yet</p>
+            <p className="text-gray-400 text-sm mt-1">
+              Start a chat from any property listing page.
+            </p>
+          </div>
+        ) : (
