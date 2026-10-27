@@ -94,3 +94,20 @@ export default function MessagesPage() {
                       className="rounded-full object-cover shrink-0"
                     />
                   ) : (
+                     <div className="w-11 h-11 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold shrink-0">
+                      {otherUser.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <p className="font-semibold text-gray-900 text-sm truncate">
+                        {otherUser.name}
+                      </p>
+                    </div>
+                    <p className="text-xs text-gray-400 truncate">{conv.listing.title}</p>
+                    {lastMessage && (
+                      <p className="text-xs text-gray-500 truncate mt-0.5">
+                        {lastMessage.text}
+                      </p>
+                    )}
