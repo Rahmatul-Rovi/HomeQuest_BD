@@ -41,7 +41,7 @@ export default function MessagesPage() {
       .catch(() => setLoading(false));
   }, [status]);
 
-   if (status === "loading" || loading) {
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
@@ -73,7 +73,7 @@ export default function MessagesPage() {
             </p>
           </div>
         ) : (
-             <div className="space-y-2">
+          <div className="space-y-2">
             {conversations.map((conv) => {
               const isOwner = conv.owner.id === session?.user?.id;
               const otherUser = isOwner ? conv.tenant : conv.owner;
@@ -94,7 +94,7 @@ export default function MessagesPage() {
                       className="rounded-full object-cover shrink-0"
                     />
                   ) : (
-                     <div className="w-11 h-11 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold shrink-0">
+                    <div className="w-11 h-11 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold shrink-0">
                       {otherUser.name.charAt(0).toUpperCase()}
                     </div>
                   )}
@@ -111,3 +111,15 @@ export default function MessagesPage() {
                         {lastMessage.text}
                       </p>
                     )}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        )}
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
