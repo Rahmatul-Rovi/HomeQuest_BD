@@ -28,3 +28,15 @@ export default function MessagesPage() {
       router.push("/login?redirect=/messages");
     }
   }, [status, router]);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+
+    fetch("/api/conversations")
+      .then((res) => res.json())
+      .then((data) => {
+        setConversations(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [status]);
