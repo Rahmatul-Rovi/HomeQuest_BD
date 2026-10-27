@@ -16,3 +16,15 @@ type Conversation = {
   owner: { id: string; name: string; image: string | null };
   messages: { text: string; createdAt: string }[];
 };
+
+export default function MessagesPage() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?redirect=/messages");
+    }
+  }, [status, router]);
