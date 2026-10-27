@@ -73,3 +73,24 @@ export default function MessagesPage() {
             </p>
           </div>
         ) : (
+             <div className="space-y-2">
+            {conversations.map((conv) => {
+              const isOwner = conv.owner.id === session?.user?.id;
+              const otherUser = isOwner ? conv.tenant : conv.owner;
+              const lastMessage = conv.messages[0];
+
+              return (
+                <Link
+                  key={conv.id}
+                  href={`/messages/${conv.id}`}
+                  className="flex items-center gap-3 bg-white border border-gray-100 rounded-xl p-4 hover:shadow-sm transition"
+                >
+                  {otherUser.image ? (
+                    <Image
+                      src={otherUser.image}
+                      alt={otherUser.name}
+                      width={44}
+                      height={44}
+                      className="rounded-full object-cover shrink-0"
+                    />
+                  ) : (
