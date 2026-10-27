@@ -40,3 +40,20 @@ export default function MessagesPage() {
       })
       .catch(() => setLoading(false));
   }, [status]);
+
+   if (status === "loading" || loading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar />
+        <div className="flex-1 max-w-3xl mx-auto px-4 py-10 w-full animate-pulse space-y-3">
+          <div className="h-16 bg-gray-100 rounded-xl" />
+          <div className="h-16 bg-gray-100 rounded-xl" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
