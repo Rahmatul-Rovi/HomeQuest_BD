@@ -23,3 +23,25 @@ type ConversationInfo = {
   tenant: { id: string; name: string; image: string | null };
   owner: { id: string; name: string; image: string | null };
 };
+
+export default function ChatPage() {
+  const params = useParams();
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const conversationId = params.id as string;
+
+  const [conversation, setConversation] = useState<ConversationInfo | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const isNearBottomRef = useRef(true); // User default e niche thake dhore nicchi
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push(`/login?redirect=/messages/${conversationId}`);
+    }
+  }, [status, router, conversationId]);
