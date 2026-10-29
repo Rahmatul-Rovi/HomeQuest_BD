@@ -158,3 +158,30 @@ export default function ChatPage() {
                   className="rounded-full object-cover"
                 />
               ) : (
+
+                  <div className="w-9 h-9 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold text-sm">
+                  {otherUser.name.charAt(0).toUpperCase()}
+                </div>
+              )}
+              <div className="min-w-0">
+                <p className="font-semibold text-gray-900 text-sm truncate">
+                  {otherUser.name}
+                </p>
+                <p className="text-xs text-gray-400 truncate">
+                  {conversation?.listing.title}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* Messages Area */}
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[55vh] min-h-[400px]"
+          >
+            {messages.length === 0 ? (
+              <p className="text-center text-gray-400 text-sm py-10">
+                Say hello and start the conversation!
+              </p>
+            ) : (
