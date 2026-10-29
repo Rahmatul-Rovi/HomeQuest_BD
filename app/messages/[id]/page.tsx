@@ -15,3 +15,15 @@ type Message = {
   createdAt: string;
   sender: { id: string; name: string };
 };
+
+export default function ChatPage() {
+  const params = useParams();
+  const router = useRouter();
+  const { data: session, status } = useSession();
+  const conversationId = params.id as string;
+
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
