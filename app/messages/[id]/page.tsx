@@ -121,3 +121,26 @@ export default function ChatPage() {
                   </div>
                 );
               })
+
+                )}
+            <div ref={bottomRef} />
+          </div>
+
+          {/* Input Area */}
+          <div className="border-t border-gray-100 p-3 flex gap-2">
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              placeholder="Type a message..."
+              className="flex-1 border border-gray-200 rounded-full px-4 py-2.5 text-sm outline-none focus:border-primary"
+            />
+            <button
+              onClick={handleSend}
+              disabled={sending || !text.trim()}
+              className="bg-primary hover:bg-primary-dark disabled:opacity-50 text-white p-2.5 rounded-full transition"
+            >
+              <Send size={18} />
+            </button>
+          </div>
