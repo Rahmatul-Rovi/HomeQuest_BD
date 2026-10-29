@@ -81,3 +81,24 @@ export default function ChatPage() {
       </div>
     );
   }
+
+   return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+
+      <main className="flex-1 max-w-2xl mx-auto px-4 py-6 w-full flex flex-col">
+        <Link
+          href="/messages"
+          className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary mb-4 w-fit"
+        >
+          <ArrowLeft size={16} /> Back to Messages
+        </Link>
+
+        <div className="flex-1 bg-white border border-gray-100 rounded-2xl flex flex-col overflow-hidden">
+          {/* Messages Area */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[60vh] min-h-[400px]">
+            {messages.length === 0 ? (
+              <p className="text-center text-gray-400 text-sm py-10">
+                Say hello and start the conversation!
+              </p>
+            ) : (
