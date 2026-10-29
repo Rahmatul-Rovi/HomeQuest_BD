@@ -38,7 +38,7 @@ export default function ChatPage() {
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const isNearBottomRef = useRef(true); // User default e niche thake dhore nicchi
+  const isNearBottomRef = useRef(true);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -46,10 +46,10 @@ export default function ChatPage() {
     }
   }, [status, router, conversationId]);
 
-   const handleScroll = () => {
+  const handleScroll = () => {
     const el = scrollContainerRef.current;
     if (!el) return;
-    const threshold = 80; // niche theke eituku pixel er moddhe thakle "near bottom" dhora hobe
+    const threshold = 80; 
     isNearBottomRef.current =
       el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
   };
@@ -58,7 +58,6 @@ export default function ChatPage() {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Age shudhu message load, ekhon conversation info-o load kore
   const loadData = useCallback(async () => {
     const [convRes, msgRes] = await Promise.all([
       fetch(`/api/conversations/${conversationId}`),
@@ -71,7 +70,6 @@ export default function ChatPage() {
     setLoading(false);
   }, [conversationId]);
 
-  // Polling — shudhu message refresh kore, scroll force kore na
   const refreshMessages = useCallback(async () => {
     const res = await fetch(`/api/conversations/${conversationId}/messages`);
     if (res.ok) {
@@ -88,7 +86,6 @@ export default function ChatPage() {
     return () => clearInterval(interval);
   }, [status, loadData, refreshMessages]);
 
-  // Prothom load e, ar user already niche thakle-i shudhu auto-scroll
   useEffect(() => {
     if (messages.length === 0) return;
     if (isNearBottomRef.current) {
@@ -96,7 +93,7 @@ export default function ChatPage() {
     }
   }, [messages]);
 
-   const handleSend = async () => {
+  const handleSend = async () => {
     if (!text.trim() || sending) return;
     setSending(true);
 
@@ -110,7 +107,7 @@ export default function ChatPage() {
       const newMessage = await res.json();
       setMessages((prev) => [...prev, newMessage]);
       setText("");
-      isNearBottomRef.current = true; // Nijer message pathale shobshomoy niche jabe
+      isNearBottomRef.current = true;
       setTimeout(scrollToBottom, 50);
     }
     setSending(false);
@@ -128,7 +125,7 @@ export default function ChatPage() {
     );
   }
 
-    const otherUser =
+  const otherUser =
     conversation && conversation.owner.id === session?.user?.id
       ? conversation.tenant
       : conversation?.owner;
@@ -146,7 +143,7 @@ export default function ChatPage() {
         </Link>
 
         <div className="flex-1 bg-white border border-gray-100 rounded-2xl flex flex-col overflow-hidden">
-          {/* Chat Header — Onno user er pic + naam */}
+          {/* Chat Header — users er pic and name */}
           {otherUser && (
             <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
               {otherUser.image ? (
@@ -158,8 +155,7 @@ export default function ChatPage() {
                   className="rounded-full object-cover"
                 />
               ) : (
-
-                  <div className="w-9 h-9 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold text-sm">
+                <div className="w-9 h-9 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold text-sm">
                   {otherUser.name.charAt(0).toUpperCase()}
                 </div>
               )}
@@ -185,7 +181,7 @@ export default function ChatPage() {
                 Say hello and start the conversation!
               </p>
             ) : (
-                  messages.map((msg) => {
+              messages.map((msg) => {
                 const isMe = msg.senderId === session?.user?.id;
                 return (
                   <div
@@ -219,3 +215,17 @@ export default function ChatPage() {
               className="flex-1 border border-gray-200 rounded-full px-4 py-2.5 text-sm outline-none focus:border-primary"
             />
             <button
+              onClick={handleSend}
+              disabled={sending || !text.trim()}
+              className="bg-primary hover:bg-primary-dark disabled:opacity-50 text-white p-2.5 rounded-full transition"
+            >
+              <Send size={18} />
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
