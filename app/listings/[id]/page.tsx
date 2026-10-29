@@ -106,33 +106,53 @@ export default function ListingDetailsPage() {
     setShowBookingModal(true);
   };
 
-  const handleMessageOwner = () => {
-    if (!isLoggedIn) {
+ const handleMessageOwner = async () => {
+  if (!isLoggedIn) {
+    Swal.fire({
+      icon: "info",
+      title: "Login Required",
+      text: "Please log in to message the owner.",
+      showCancelButton: true,
+      confirmButtonText: "Log In",
+      cancelButtonText: "Cancel",
+      confirmButtonColor: "#16A34A",
+      cancelButtonColor: "#9CA3AF",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        router.push(`/login?redirect=/listings/${id}`);
+      }
+    });
+    return;
+  }
+
+  try {
+    const res = await fetch("/api/conversations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ listingId: id }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
       Swal.fire({
-        icon: "info",
-        title: "Login Required",
-        text: "Please log in to message the owner.",
-        showCancelButton: true,
-        confirmButtonText: "Log In",
-        cancelButtonText: "Cancel",
+        icon: "error",
+        title: "Cannot Start Chat",
+        text: data.error || "Something went wrong.",
         confirmButtonColor: "#16A34A",
-        cancelButtonColor: "#9CA3AF",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          router.push(`/login?redirect=/listings/${id}`);
-        }
       });
       return;
     }
 
-    // ✅ Login kora obosthay — chat flow eikhane hobe (pore banabo)
+    const conversation = await res.json();
+    router.push(`/messages/${conversation.id}`);
+  } catch {
     Swal.fire({
-      icon: "success",
-      title: "Coming Soon",
-      text: "Chat feature will be available soon.",
+      icon: "error",
+      title: "Something Went Wrong",
       confirmButtonColor: "#16A34A",
     });
-  };
+  }
+};
 
   if (loading || status === "loading") {
     return (
