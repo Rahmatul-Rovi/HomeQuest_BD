@@ -127,3 +127,34 @@ export default function ChatPage() {
       </div>
     );
   }
+
+    const otherUser =
+    conversation && conversation.owner.id === session?.user?.id
+      ? conversation.tenant
+      : conversation?.owner;
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+
+      <main className="flex-1 max-w-2xl mx-auto px-4 py-6 w-full flex flex-col">
+        <Link
+          href="/messages"
+          className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary mb-4 w-fit"
+        >
+          <ArrowLeft size={16} /> Back to Messages
+        </Link>
+
+        <div className="flex-1 bg-white border border-gray-100 rounded-2xl flex flex-col overflow-hidden">
+          {/* Chat Header — Onno user er pic + naam */}
+          {otherUser && (
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+              {otherUser.image ? (
+                <Image
+                  src={otherUser.image}
+                  alt={otherUser.name}
+                  width={38}
+                  height={38}
+                  className="rounded-full object-cover"
+                />
+              ) : (
