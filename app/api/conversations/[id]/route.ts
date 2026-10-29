@@ -21,3 +21,13 @@ export async function GET(
       owner: { select: { id: true, name: true, image: true } },
     },
   });
+
+  if (
+    !conversation ||
+    (conversation.tenantId !== session.user.id && conversation.ownerId !== session.user.id)
+  ) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  return NextResponse.json(conversation);
+}
