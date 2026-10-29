@@ -28,7 +28,7 @@ export default function ChatPage() {
   const [sending, setSending] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-   useEffect(() => {
+  useEffect(() => {
     if (status === "unauthenticated") {
       router.push(`/login?redirect=/messages/${conversationId}`);
     }
@@ -44,7 +44,8 @@ export default function ChatPage() {
     if (status !== "authenticated") return;
     loadMessages();
 
-     const interval = setInterval(loadMessages, 4000);
+    // Simple polling
+    const interval = setInterval(loadMessages, 4000);
     return () => clearInterval(interval);
   }, [status, conversationId]);
 
@@ -62,7 +63,7 @@ export default function ChatPage() {
       body: JSON.stringify({ text }),
     });
 
-     if (res.ok) {
+    if (res.ok) {
       const newMessage = await res.json();
       setMessages((prev) => [...prev, newMessage]);
       setText("");
@@ -82,7 +83,7 @@ export default function ChatPage() {
     );
   }
 
-   return (
+  return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
 
@@ -102,7 +103,7 @@ export default function ChatPage() {
                 Say hello and start the conversation!
               </p>
             ) : (
-                 messages.map((msg) => {
+              messages.map((msg) => {
                 const isMe = msg.senderId === session?.user?.id;
                 return (
                   <div
@@ -121,8 +122,7 @@ export default function ChatPage() {
                   </div>
                 );
               })
-
-                )}
+            )}
             <div ref={bottomRef} />
           </div>
 
@@ -144,3 +144,10 @@ export default function ChatPage() {
               <Send size={18} />
             </button>
           </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
