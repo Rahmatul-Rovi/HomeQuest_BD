@@ -96,3 +96,34 @@ export default function ChatPage() {
     }
   }, [messages]);
 
+   const handleSend = async () => {
+    if (!text.trim() || sending) return;
+    setSending(true);
+
+    const res = await fetch(`/api/conversations/${conversationId}/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
+
+    if (res.ok) {
+      const newMessage = await res.json();
+      setMessages((prev) => [...prev, newMessage]);
+      setText("");
+      isNearBottomRef.current = true; // Nijer message pathale shobshomoy niche jabe
+      setTimeout(scrollToBottom, 50);
+    }
+    setSending(false);
+  };
+
+  if (status === "loading" || loading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar />
+        <div className="flex-1 max-w-2xl mx-auto px-4 py-10 w-full animate-pulse">
+          <div className="h-96 bg-gray-100 rounded-2xl" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
