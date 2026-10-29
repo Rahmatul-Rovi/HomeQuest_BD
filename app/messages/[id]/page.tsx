@@ -70,3 +70,29 @@ export default function ChatPage() {
 
     setLoading(false);
   }, [conversationId]);
+
+  // Polling — shudhu message refresh kore, scroll force kore na
+  const refreshMessages = useCallback(async () => {
+    const res = await fetch(`/api/conversations/${conversationId}/messages`);
+    if (res.ok) {
+      const data = await res.json();
+      setMessages(data);
+    }
+  }, [conversationId]);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    loadData();
+
+    const interval = setInterval(refreshMessages, 4000);
+    return () => clearInterval(interval);
+  }, [status, loadData, refreshMessages]);
+
+  // Prothom load e, ar user already niche thakle-i shudhu auto-scroll
+  useEffect(() => {
+    if (messages.length === 0) return;
+    if (isNearBottomRef.current) {
+      scrollToBottom();
+    }
+  }, [messages]);
+
