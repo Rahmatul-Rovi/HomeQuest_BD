@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ArrowLeft, Send } from "lucide-react";
@@ -16,17 +17,28 @@ type Message = {
   sender: { id: string; name: string };
 };
 
+type ConversationInfo = {
+  id: string;
+  listing: { title: string };
+  tenant: { id: string; name: string; image: string | null };
+  owner: { id: string; name: string; image: string | null };
+};
+
 export default function ChatPage() {
   const params = useParams();
   const router = useRouter();
   const { data: session, status } = useSession();
   const conversationId = params.id as string;
 
+  const [conversation, setConversation] = useState<ConversationInfo | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const isNearBottomRef = useRef(true);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -34,23 +46,51 @@ export default function ChatPage() {
     }
   }, [status, router, conversationId]);
 
-  const loadMessages = async () => {
-    const res = await fetch(`/api/conversations/${conversationId}/messages`);
-    if (res.ok) setMessages(await res.json());
-    setLoading(false);
+  const handleScroll = () => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const threshold = 80; 
+    isNearBottomRef.current =
+      el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
   };
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const loadData = useCallback(async () => {
+    const [convRes, msgRes] = await Promise.all([
+      fetch(`/api/conversations/${conversationId}`),
+      fetch(`/api/conversations/${conversationId}/messages`),
+    ]);
+
+    if (convRes.ok) setConversation(await convRes.json());
+    if (msgRes.ok) setMessages(await msgRes.json());
+
+    setLoading(false);
+  }, [conversationId]);
+
+  const refreshMessages = useCallback(async () => {
+    const res = await fetch(`/api/conversations/${conversationId}/messages`);
+    if (res.ok) {
+      const data = await res.json();
+      setMessages(data);
+    }
+  }, [conversationId]);
 
   useEffect(() => {
     if (status !== "authenticated") return;
-    loadMessages();
+    loadData();
 
-    // Simple polling
-    const interval = setInterval(loadMessages, 4000);
+    const interval = setInterval(refreshMessages, 4000);
     return () => clearInterval(interval);
-  }, [status, conversationId]);
+  }, [status, loadData, refreshMessages]);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length === 0) return;
+    if (isNearBottomRef.current) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const handleSend = async () => {
@@ -67,6 +107,8 @@ export default function ChatPage() {
       const newMessage = await res.json();
       setMessages((prev) => [...prev, newMessage]);
       setText("");
+      isNearBottomRef.current = true;
+      setTimeout(scrollToBottom, 50);
     }
     setSending(false);
   };
@@ -83,6 +125,11 @@ export default function ChatPage() {
     );
   }
 
+  const otherUser =
+    conversation && conversation.owner.id === session?.user?.id
+      ? conversation.tenant
+      : conversation?.owner;
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
@@ -96,8 +143,39 @@ export default function ChatPage() {
         </Link>
 
         <div className="flex-1 bg-white border border-gray-100 rounded-2xl flex flex-col overflow-hidden">
+          {/* Chat Header — users er pic and name */}
+          {otherUser && (
+            <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-100">
+              {otherUser.image ? (
+                <Image
+                  src={otherUser.image}
+                  alt={otherUser.name}
+                  width={38}
+                  height={38}
+                  className="rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-9 h-9 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold text-sm">
+                  {otherUser.name.charAt(0).toUpperCase()}
+                </div>
+              )}
+              <div className="min-w-0">
+                <p className="font-semibold text-gray-900 text-sm truncate">
+                  {otherUser.name}
+                </p>
+                <p className="text-xs text-gray-400 truncate">
+                  {conversation?.listing.title}
+                </p>
+              </div>
+            </div>
+          )}
+
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[60vh] min-h-[400px]">
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto p-4 space-y-3 max-h-[55vh] min-h-[400px]"
+          >
             {messages.length === 0 ? (
               <p className="text-center text-gray-400 text-sm py-10">
                 Say hello and start the conversation!
