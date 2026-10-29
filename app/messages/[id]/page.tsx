@@ -185,3 +185,37 @@ export default function ChatPage() {
                 Say hello and start the conversation!
               </p>
             ) : (
+                  messages.map((msg) => {
+                const isMe = msg.senderId === session?.user?.id;
+                return (
+                  <div
+                    key={msg.id}
+                    className={`flex ${isMe ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm ${
+                        isMe
+                          ? "bg-primary text-white rounded-br-sm"
+                          : "bg-gray-100 text-gray-800 rounded-bl-sm"
+                      }`}
+                    >
+                      {msg.text}
+                    </div>
+                  </div>
+                );
+              })
+            )}
+            <div ref={bottomRef} />
+          </div>
+
+          {/* Input Area */}
+          <div className="border-t border-gray-100 p-3 flex gap-2">
+            <input
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              placeholder="Type a message..."
+              className="flex-1 border border-gray-200 rounded-full px-4 py-2.5 text-sm outline-none focus:border-primary"
+            />
+            <button
