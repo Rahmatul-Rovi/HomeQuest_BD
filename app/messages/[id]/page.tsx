@@ -45,3 +45,28 @@ export default function ChatPage() {
       router.push(`/login?redirect=/messages/${conversationId}`);
     }
   }, [status, router, conversationId]);
+
+   const handleScroll = () => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const threshold = 80; // niche theke eituku pixel er moddhe thakle "near bottom" dhora hobe
+    isNearBottomRef.current =
+      el.scrollHeight - el.scrollTop - el.clientHeight < threshold;
+  };
+
+  const scrollToBottom = () => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  // Age shudhu message load, ekhon conversation info-o load kore
+  const loadData = useCallback(async () => {
+    const [convRes, msgRes] = await Promise.all([
+      fetch(`/api/conversations/${conversationId}`),
+      fetch(`/api/conversations/${conversationId}/messages`),
+    ]);
+
+    if (convRes.ok) setConversation(await convRes.json());
+    if (msgRes.ok) setMessages(await msgRes.json());
+
+    setLoading(false);
+  }, [conversationId]);
