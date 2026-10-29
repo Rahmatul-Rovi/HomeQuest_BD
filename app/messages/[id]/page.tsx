@@ -27,3 +27,19 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(true);
   const [sending, setSending] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+
+   useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push(`/login?redirect=/messages/${conversationId}`);
+    }
+  }, [status, router, conversationId]);
+
+  const loadMessages = async () => {
+    const res = await fetch(`/api/conversations/${conversationId}/messages`);
+    if (res.ok) setMessages(await res.json());
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    loadMessages();
