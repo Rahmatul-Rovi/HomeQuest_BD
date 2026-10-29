@@ -61,3 +61,23 @@ export default function ChatPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text }),
     });
+
+     if (res.ok) {
+      const newMessage = await res.json();
+      setMessages((prev) => [...prev, newMessage]);
+      setText("");
+    }
+    setSending(false);
+  };
+
+  if (status === "loading" || loading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar />
+        <div className="flex-1 max-w-2xl mx-auto px-4 py-10 w-full animate-pulse">
+          <div className="h-96 bg-gray-100 rounded-2xl" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
