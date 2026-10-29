@@ -43,3 +43,21 @@ export default function ChatPage() {
   useEffect(() => {
     if (status !== "authenticated") return;
     loadMessages();
+
+     const interval = setInterval(loadMessages, 4000);
+    return () => clearInterval(interval);
+  }, [status, conversationId]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleSend = async () => {
+    if (!text.trim() || sending) return;
+    setSending(true);
+
+    const res = await fetch(`/api/conversations/${conversationId}/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text }),
+    });
