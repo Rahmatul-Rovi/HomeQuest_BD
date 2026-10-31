@@ -11,3 +11,12 @@ export async function GET() {
   const count = await prisma.message.count({
     where: {
       read: false,
+      senderId: { not: session.user.id },
+      conversation: {
+        OR: [{ tenantId: session.user.id }, { ownerId: session.user.id }],
+      },
+    },
+  });
+
+  return NextResponse.json({ count });
+}
