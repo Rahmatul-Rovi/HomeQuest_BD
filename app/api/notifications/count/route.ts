@@ -7,3 +7,10 @@ export async function GET() {
   if (!session?.user?.id) {
     return NextResponse.json({ count: 0 });
   }
+
+   const ownerPending = await prisma.visitRequest.count({
+    where: {
+      status: "PENDING",
+      listing: { ownerId: session.user.id },
+    },
+  });
