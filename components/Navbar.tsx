@@ -22,7 +22,6 @@ const CATEGORY_LINKS = [
   { label: "Seat", type: "RENT", category: "SEAT" },
   { label: "Sublet", type: "RENT", category: "SUBLET" },
   { label: "Flat for Sale", type: "SALE", category: "FLAT_SALE" },
-  { label: "Land for Sale", type: "SALE", category: "LAND_SALE" },
 ];
 
 export default function Navbar() {
@@ -50,21 +49,30 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
   useEffect(() => {
   if (!isLoggedIn) return;
 
-  const loadCounts = async () => {
-    try {
-      const [msgRes, notifRes] = await Promise.all([
-        fetch("/api/messages/unread-count"),
-        fetch("/api/notifications/count"),
-      ]);
+ const loadCounts = async () => {
+  try {
+    const [msgRes, notifRes] = await Promise.all([
+      fetch("/api/messages/unread-count"),
+      fetch("/api/notifications/count"),
+    ]);
 
+    if (msgRes.ok) {
       const msgData = await msgRes.json();
-      const notifData = await notifRes.json();
       setUnreadMessages(msgData.count);
-      setUnreadNotifications(notifData.count);
-    } catch {
-      
+    } else {
+      console.error("unread-count API failed:", msgRes.status);
     }
-  };
+
+    if (notifRes.ok) {
+      const notifData = await notifRes.json();
+      setUnreadNotifications(notifData.count);
+    } else {
+      console.error("notifications/count API failed:", notifRes.status);
+    }
+  } catch (error) {
+    console.error("Failed to load counts:", error);
+  }
+};
 
   loadCounts();
   const interval = setInterval(loadCounts, 15000);
