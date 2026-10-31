@@ -22,7 +22,6 @@ const CATEGORY_LINKS = [
   { label: "Seat", type: "RENT", category: "SEAT" },
   { label: "Sublet", type: "RENT", category: "SUBLET" },
   { label: "Flat for Sale", type: "SALE", category: "FLAT_SALE" },
-  { label: "Land for Sale", type: "SALE", category: "LAND_SALE" },
 ];
 
 export default function Navbar() {
@@ -30,6 +29,9 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
+
+  const [unreadMessages, setUnreadMessages] = useState(0);
+const [unreadNotifications, setUnreadNotifications] = useState(0);
 
   const isLoggedIn = status === "authenticated";
   const user = session?.user;
@@ -43,6 +45,41 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+  if (!isLoggedIn) return;
+
+ const loadCounts = async () => {
+  try {
+    const [msgRes, notifRes] = await Promise.all([
+      fetch("/api/messages/unread-count"),
+      fetch("/api/notifications/count"),
+    ]);
+
+    if (msgRes.ok) {
+      const msgData = await msgRes.json();
+      setUnreadMessages(msgData.count);
+    } else {
+      console.error("unread-count API failed:", msgRes.status);
+    }
+
+    if (notifRes.ok) {
+      const notifData = await notifRes.json();
+      setUnreadNotifications(notifData.count);
+    } else {
+      console.error("notifications/count API failed:", notifRes.status);
+    }
+  } catch (error) {
+    console.error("Failed to load counts:", error);
+  }
+};
+
+  loadCounts();
+  const interval = setInterval(loadCounts, 15000);
+  return () => clearInterval(interval);
+}, [isLoggedIn]);
+
+
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
@@ -72,16 +109,20 @@ export default function Navbar() {
           {isLoggedIn ? (
             <>
               {/* Notification Icon */}
-              <button className="relative text-gray-600 hover:text-primary transition">
-                <Bell size={20} />
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </button>
+             <button className="relative text-gray-600 hover:text-primary transition">
+  <Bell size={20} />
+  {unreadNotifications > 0 && (
+    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
+  )}
+</button>
 
               {/* Message Icon */}
-              <Link href="/messages" className="relative text-gray-600 hover:text-primary transition">
-                <MessageCircleMore size={20} />
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </Link>
+             <Link href="/messages" className="relative text-gray-600 hover:text-primary transition">
+  <MessageCircleMore size={20} />
+  {unreadMessages > 0 && (
+    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
+  )}
+</Link>
 
               {/* Profile Dropdown */}
               <div className="relative" ref={profileRef}>
