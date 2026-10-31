@@ -101,10 +101,12 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
           {isLoggedIn ? (
             <>
               {/* Notification Icon */}
-              <button className="relative text-gray-600 hover:text-primary transition">
-                <Bell size={20} />
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </button>
+             <button className="relative text-gray-600 hover:text-primary transition">
+  <Bell size={20} />
+  {unreadNotifications > 0 && (
+    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
+  )}
+</button>
 
               {/* Message Icon */}
               <Link href="/messages" className="relative text-gray-600 hover:text-primary transition">
