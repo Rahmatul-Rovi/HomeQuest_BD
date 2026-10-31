@@ -31,6 +31,9 @@ export default function Navbar() {
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
 
+  const [unreadMessages, setUnreadMessages] = useState(0);
+const [unreadNotifications, setUnreadNotifications] = useState(0);
+
   const isLoggedIn = status === "authenticated";
   const user = session?.user;
 
@@ -43,6 +46,16 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+  if (!isLoggedIn) return;
+
+  const loadCounts = async () => {
+    try {
+      const [msgRes, notifRes] = await Promise.all([
+        fetch("/api/messages/unread-count"),
+        fetch("/api/notifications/count"),
+      ]);
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
