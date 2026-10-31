@@ -57,6 +57,22 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
         fetch("/api/notifications/count"),
       ]);
 
+      const msgData = await msgRes.json();
+      const notifData = await notifRes.json();
+      setUnreadMessages(msgData.count);
+      setUnreadNotifications(notifData.count);
+    } catch {
+      
+    }
+  };
+
+  loadCounts();
+  const interval = setInterval(loadCounts, 15000);
+  return () => clearInterval(interval);
+}, [isLoggedIn]);
+
+
+
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
       {/* Top Row */}
