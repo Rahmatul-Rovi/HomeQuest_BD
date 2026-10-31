@@ -109,10 +109,12 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
 </button>
 
               {/* Message Icon */}
-              <Link href="/messages" className="relative text-gray-600 hover:text-primary transition">
-                <MessageCircleMore size={20} />
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-              </Link>
+             <Link href="/messages" className="relative text-gray-600 hover:text-primary transition">
+  <MessageCircleMore size={20} />
+  {unreadMessages > 0 && (
+    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
+  )}
+</Link>
 
               {/* Profile Dropdown */}
               <div className="relative" ref={profileRef}>
