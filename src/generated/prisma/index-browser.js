@@ -209,6 +209,17 @@ exports.Prisma.MessageScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  body: 'body',
+  link: 'link',
+  read: 'read',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -258,6 +269,16 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN'
 };
 
+exports.NotificationType = exports.$Enums.NotificationType = {
+  VISIT_REQUEST: 'VISIT_REQUEST',
+  VISIT_CONFIRMED: 'VISIT_CONFIRMED',
+  VISIT_REJECTED: 'VISIT_REJECTED',
+  VISIT_CANCELLED: 'VISIT_CANCELLED',
+  OWNER_VERIFIED: 'OWNER_VERIFIED',
+  OWNER_UNVERIFIED: 'OWNER_UNVERIFIED',
+  LISTING_REMOVED: 'LISTING_REMOVED'
+};
+
 exports.Prisma.ModelName = {
   Listing: 'Listing',
   VisitRequest: 'VisitRequest',
@@ -266,7 +287,8 @@ exports.Prisma.ModelName = {
   Session: 'Session',
   VerificationToken: 'VerificationToken',
   Conversation: 'Conversation',
-  Message: 'Message'
+  Message: 'Message',
+  Notification: 'Notification'
 };
 
 /**

@@ -89,6 +89,7 @@ model User {
   tenantConversations  Conversation[] @relation("TenantConversations")  
   ownerConversations   Conversation[] @relation("OwnerConversations")   
   messages             Message[]
+  notifications  Notification[]
   createdAt     DateTime  @default(now())
 }
 
@@ -151,6 +152,30 @@ model Message {
   text           String
   read           Boolean      @default(false)
   createdAt      DateTime     @default(now())
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  body      String
+  link      String?
+  read      Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  @@index([userId, read])
+}
+
+enum NotificationType {
+  VISIT_REQUEST
+  VISIT_CONFIRMED
+  VISIT_REJECTED
+  VISIT_CANCELLED
+  OWNER_VERIFIED
+  OWNER_UNVERIFIED
+  LISTING_REMOVED
 }
 
 enum Role {
