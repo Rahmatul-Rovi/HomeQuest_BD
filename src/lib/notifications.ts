@@ -16,3 +16,19 @@ type CreateNotificationParams = {
   body: string;
   link?: string;
 };
+
+export async function createNotification({
+  userId,
+  type,
+  title,
+  body,
+  link,
+}: CreateNotificationParams) {
+  try {
+    await prisma.notification.create({
+      data: { userId, type, title, body, link: link ?? null },
+    });
+  } catch (error) {
+    console.error("createNotification failed:", error);
+  }
+}
