@@ -35,3 +35,15 @@ export async function PATCH(req: NextRequest) {
       where: { userId: session.user.id, read: false },
       data: { read: true },
     });
+
+     } else if (id) {
+    await prisma.notification.updateMany({
+      where: { id, userId: session.user.id },
+      data: { read: true },
+    });
+  } else {
+    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+  }
+
+  return NextResponse.json({ success: true });
+}
