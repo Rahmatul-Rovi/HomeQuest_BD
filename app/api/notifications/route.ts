@@ -21,3 +21,17 @@ export async function GET() {
 
   return NextResponse.json({ notifications, unreadCount });
 }
+
+export async function PATCH(req: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { id, all } = await req.json();
+
+  if (all) {
+    await prisma.notification.updateMany({
+      where: { userId: session.user.id, read: false },
+      data: { read: true },
+    });
