@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { createNotification } from "@/lib/notifications";
 
 export async function PATCH(
   req: NextRequest,
@@ -22,7 +23,9 @@ export async function PATCH(
 
     const visitRequest = await prisma.visitRequest.findUnique({
       where: { id },
-      include: { listing: true },
+      include: {
+        listing: { select: { id: true, title: true, ownerId: true } },
+      },
     });
 
     if (!visitRequest) {
@@ -36,10 +39,55 @@ export async function PATCH(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
+    // Owner: Can Confirm/Reject/Complete. Tenant: Can Only Cancel.
+    const allowedStatuses = isOwner
+      ? ["CONFIRMED", "REJECTED", "COMPLETED"]
+      : ["CANCELLED"];
+
+    if (!allowedStatuses.includes(status)) {
+      return NextResponse.json(
+        { error: "You are not allowed to set this status" },
+        { status: 403 }
+      );
+    }
+
     const updated = await prisma.visitRequest.update({
       where: { id },
       data: { status },
     });
+
+    const dateLabel = visitRequest.visitDate.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+    });
+    const when = `${dateLabel} at ${visitRequest.visitTime}`;
+    const listingTitle = visitRequest.listing.title;
+
+    if (status === "CONFIRMED") {
+      await createNotification({
+        userId: visitRequest.tenantId,
+        type: "VISIT_CONFIRMED",
+        title: "Visit confirmed",
+        body: `Your visit to "${listingTitle}" is confirmed for ${when}.`,
+        link: `/listings/${visitRequest.listing.id}`,
+      });
+    } else if (status === "REJECTED") {
+      await createNotification({
+        userId: visitRequest.tenantId,
+        type: "VISIT_REJECTED",
+        title: "Visit request declined",
+        body: `The owner could not accept your visit to "${listingTitle}" on ${when}.`,
+        link: `/listings/${visitRequest.listing.id}`,
+      });
+    } else if (status === "CANCELLED") {
+      await createNotification({
+        userId: visitRequest.listing.ownerId,
+        type: "VISIT_CANCELLED",
+        title: "Visit cancelled",
+        body: `${session.user.name ?? "A tenant"} cancelled the visit to "${listingTitle}" planned for ${when}.`,
+        link: "/dashboard",
+      });
+    }
 
     return NextResponse.json(updated);
   } catch (error) {
