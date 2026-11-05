@@ -38,3 +38,27 @@ export async function PATCH(
     if (!isOwner && !isTenant) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+
+
+    const allowedStatuses = isOwner
+      ? ["CONFIRMED", "REJECTED", "COMPLETED"]
+      : ["CANCELLED"];
+
+    if (!allowedStatuses.includes(status)) {
+      return NextResponse.json(
+        { error: "You are not allowed to set this status" },
+        { status: 403 }
+      );
+    }
+
+    const updated = await prisma.visitRequest.update({
+      where: { id },
+      data: { status },
+    });
+
+    const dateLabel = visitRequest.visitDate.toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+    });
+    const when = `${dateLabel} at ${visitRequest.visitTime}`;
+    const listingTitle = visitRequest.listing.title;
