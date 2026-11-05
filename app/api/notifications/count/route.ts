@@ -8,19 +8,9 @@ export async function GET() {
     return NextResponse.json({ count: 0 });
   }
 
-  const ownerPending = await prisma.visitRequest.count({
-    where: {
-      status: "PENDING",
-      listing: { ownerId: session.user.id },
-    },
+  const count = await prisma.notification.count({
+    where: { userId: session.user.id, read: false },
   });
 
-  const tenantUpdates = await prisma.visitRequest.count({
-    where: {
-      tenantId: session.user.id,
-      status: { in: ["CONFIRMED", "REJECTED"] },
-    },
-  });
-
-  return NextResponse.json({ count: ownerPending + tenantUpdates });
+  return NextResponse.json({ count });
 }
