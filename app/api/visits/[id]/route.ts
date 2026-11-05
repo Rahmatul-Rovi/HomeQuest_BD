@@ -15,3 +15,26 @@ export async function PATCH(
 
     const { id } = await params;
     const { status } = await req.json();
+
+    const validStatuses = ["CONFIRMED", "REJECTED", "COMPLETED", "CANCELLED"];
+    if (!validStatuses.includes(status)) {
+      return NextResponse.json({ error: "Invalid status" }, { status: 400 });
+    }
+
+    const visitRequest = await prisma.visitRequest.findUnique({
+      where: { id },
+      include: {
+        listing: { select: { id: true, title: true, ownerId: true } },
+      },
+    });
+
+    if (!visitRequest) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
+    const isOwner = visitRequest.listing.ownerId === session.user.id;
+    const isTenant = visitRequest.tenantId === session.user.id;
+
+    if (!isOwner && !isTenant) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
