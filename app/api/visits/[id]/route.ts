@@ -39,7 +39,7 @@ export async function PATCH(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-
+    // Owner: Can Confirm/Reject/Complete. Tenant: Can Only Cancel.
     const allowedStatuses = isOwner
       ? ["CONFIRMED", "REJECTED", "COMPLETED"]
       : ["CANCELLED"];
@@ -62,3 +62,39 @@ export async function PATCH(
     });
     const when = `${dateLabel} at ${visitRequest.visitTime}`;
     const listingTitle = visitRequest.listing.title;
+
+    if (status === "CONFIRMED") {
+      await createNotification({
+        userId: visitRequest.tenantId,
+        type: "VISIT_CONFIRMED",
+        title: "Visit confirmed",
+        body: `Your visit to "${listingTitle}" is confirmed for ${when}.`,
+        link: `/listings/${visitRequest.listing.id}`,
+      });
+    } else if (status === "REJECTED") {
+      await createNotification({
+        userId: visitRequest.tenantId,
+        type: "VISIT_REJECTED",
+        title: "Visit request declined",
+        body: `The owner could not accept your visit to "${listingTitle}" on ${when}.`,
+        link: `/listings/${visitRequest.listing.id}`,
+      });
+    } else if (status === "CANCELLED") {
+      await createNotification({
+        userId: visitRequest.listing.ownerId,
+        type: "VISIT_CANCELLED",
+        title: "Visit cancelled",
+        body: `${session.user.name ?? "A tenant"} cancelled the visit to "${listingTitle}" planned for ${when}.`,
+        link: "/dashboard",
+      });
+    }
+
+    return NextResponse.json(updated);
+  } catch (error) {
+    console.error("PATCH /api/visits/[id] error:", error);
+    return NextResponse.json(
+      { error: "Failed to update visit request" },
+      { status: 500 }
+    );
+  }
+}
