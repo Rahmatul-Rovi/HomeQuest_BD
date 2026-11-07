@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { createNotification } from "@/lib/notifications";
+import { createNotification } from "@/src/lib/notifications";
+
 
 export async function PATCH(
   req: NextRequest,
