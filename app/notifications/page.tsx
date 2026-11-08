@@ -137,3 +137,18 @@ export default function NotificationsPage() {
   const unreadCount = items.filter((n) => !n.read).length;
   const visibleItems =
     filter === "unread" ? items.filter((n) => !n.read) : items;
+
+    if (status === "loading" || loading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar />
+        <div className="flex-1 max-w-3xl mx-auto px-4 py-10 w-full animate-pulse space-y-3">
+          <div className="h-8 w-48 bg-gray-200 rounded" />
+          <div className="h-20 bg-gray-100 rounded-xl" />
+          <div className="h-20 bg-gray-100 rounded-xl" />
+          <div className="h-20 bg-gray-100 rounded-xl" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
