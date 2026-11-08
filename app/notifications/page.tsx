@@ -42,3 +42,23 @@ const TYPE_STYLES: Record<
   OWNER_UNVERIFIED: { icon: ShieldAlert, bg: "bg-amber-100", text: "text-amber-600" },
   LISTING_REMOVED: { icon: Trash2, bg: "bg-red-100", text: "text-red-500" },
 };
+
+function timeAgo(dateString: string) {
+  const seconds = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
+  if (seconds < 60) return "Just now";
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 7) return `${days}d ago`;
+  return new Date(dateString).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export default function NotificationsPage() {
+  const router = useRouter();
+  const { status } = useSession();
