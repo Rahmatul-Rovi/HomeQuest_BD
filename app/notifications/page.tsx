@@ -125,3 +125,15 @@ export default function NotificationsPage() {
       confirmButtonColor: "#DC2626",
       cancelButtonColor: "#9CA3AF",
     });
+    if (!confirm.isConfirmed) return;
+
+    const res = await fetch("/api/notifications", { method: "DELETE" });
+    if (res.ok) {
+      setItems([]);
+      refreshNavbarCounts();
+    }
+  };
+
+  const unreadCount = items.filter((n) => !n.read).length;
+  const visibleItems =
+    filter === "unread" ? items.filter((n) => !n.read) : items;
