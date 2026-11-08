@@ -104,3 +104,24 @@ export default function NotificationsPage() {
     }
     if (item.link) router.push(item.link);
   };
+
+   const markAllRead = async () => {
+    setItems((prev) => prev.map((n) => ({ ...n, read: true })));
+    await fetch("/api/notifications", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ all: true }),
+    });
+    refreshNavbarCounts();
+  };
+
+  const clearAll = async () => {
+    const confirm = await Swal.fire({
+      icon: "warning",
+      title: "Clear all notifications?",
+      text: "This action cannot be undone.",
+      showCancelButton: true,
+      confirmButtonText: "Yes, clear all",
+      confirmButtonColor: "#DC2626",
+      cancelButtonColor: "#9CA3AF",
+    });
