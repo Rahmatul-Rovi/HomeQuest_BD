@@ -167,3 +167,23 @@ export default function NotificationsPage() {
               Stay updated on visit requests, verification and more.
             </p>
           </div>
+           {items.length > 0 && (
+            <div className="flex gap-2 shrink-0">
+              <Button
+                variant="outline"
+                onClick={markAllRead}
+                disabled={unreadCount === 0}
+                className="text-xs flex items-center gap-1.5"
+              >
+                <CheckCheck size={15} /> Mark all read
+              </Button>
+              <Button
+                variant="outline"
+                onClick={clearAll}
+                className="text-xs border-red-200 text-red-500 hover:bg-red-50 flex items-center gap-1.5"
+              >
+                <Trash2 size={15} /> Clear all
+              </Button>
+            </div>
+          )}
+        </div>
