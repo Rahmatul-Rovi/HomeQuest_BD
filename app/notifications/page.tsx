@@ -62,3 +62,25 @@ function timeAgo(dateString: string) {
 export default function NotificationsPage() {
   const router = useRouter();
   const { status } = useSession();
+  const [items, setItems] = useState<NotificationItem[]>([]);
+  const [filter, setFilter] = useState<"all" | "unread">("all");
+  const [loading, setLoading] = useState(true);
+
+  // Navbar er badge count sathe sathe update korar jonno
+  const refreshNavbarCounts = () =>
+    window.dispatchEvent(new Event("hq:counts-refresh"));
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?redirect=/notifications");
+    }
+  }, [status, router]);
+
+  const load = useCallback(async () => {
+    const res = await fetch("/api/notifications");
+    if (res.ok) {
+      const data = await res.json();
+      setItems(data.notifications);
+    }
+    setLoading(false);
+  }, []);
