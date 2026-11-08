@@ -152,3 +152,18 @@ export default function NotificationsPage() {
       </div>
     );
   }
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+
+      <main className="flex-1 max-w-3xl mx-auto px-4 py-10 w-full">
+        <div className="flex items-start justify-between gap-4 mb-6">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+              Notifications
+            </h1>
+            <p className="text-gray-500 text-sm mt-1">
+              Stay updated on visit requests, verification and more.
+            </p>
+          </div>
