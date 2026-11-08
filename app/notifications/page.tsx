@@ -84,3 +84,23 @@ export default function NotificationsPage() {
     }
     setLoading(false);
   }, []);
+
+   useEffect(() => {
+    if (status !== "authenticated") return;
+    load();
+  }, [status, load]);
+
+  const handleOpen = async (item: NotificationItem) => {
+    if (!item.read) {
+      setItems((prev) =>
+        prev.map((n) => (n.id === item.id ? { ...n, read: true } : n))
+      );
+      await fetch("/api/notifications", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: item.id }),
+      });
+      refreshNavbarCounts();
+    }
+    if (item.link) router.push(item.link);
+  };
