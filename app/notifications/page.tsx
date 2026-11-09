@@ -200,3 +200,15 @@ export default function NotificationsPage() {
           >
             All ({items.length})
           </button>
+
+          <button
+            onClick={() => setFilter("unread")}
+            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition ${
+              filter === "unread"
+                ? "border-primary text-primary"
+                : "border-transparent text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Unread ({unreadCount})
+          </button>
+        </div>
