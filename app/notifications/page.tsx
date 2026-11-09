@@ -187,3 +187,16 @@ export default function NotificationsPage() {
             </div>
           )}
         </div>
+
+        {/* Filter Tabs */}
+        <div className="flex gap-2 mb-5 border-b border-gray-200">
+          <button
+            onClick={() => setFilter("all")}
+            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition ${
+              filter === "all"
+                ? "border-primary text-primary"
+                : "border-transparent text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            All ({items.length})
+          </button>
