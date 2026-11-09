@@ -263,3 +263,18 @@ export default function NotificationsPage() {
                             : "font-semibold text-gray-900"
                         }`}
                       ></p>
+
+                       {item.title}
+                      </p>
+                      <span className="text-xs text-gray-400 shrink-0">
+                        {timeAgo(item.createdAt)}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-0.5 leading-relaxed">
+                      {item.body}
+                    </p>
+                  </div>
+
+                  {!item.read && (
+                    <span className="w-2.5 h-2.5 bg-primary rounded-full shrink-0 mt-1.5" />
+                  )}
