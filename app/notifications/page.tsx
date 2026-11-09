@@ -247,3 +247,19 @@ export default function NotificationsPage() {
                       : "bg-primary-light/40 border-primary/20"
                   }`}
                 ></button>
+
+                <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${style.bg}`}
+                  >
+                    <Icon size={18} className={style.text} />
+                  </div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <p
+                        className={`text-sm truncate ${
+                          item.read
+                            ? "font-medium text-gray-700"
+                            : "font-semibold text-gray-900"
+                        }`}
+                      ></p>
