@@ -224,3 +224,15 @@ export default function NotificationsPage() {
             <p className="text-gray-500 font-medium">
               {filter === "unread" ? "You're all caught up" : "No notifications yet"}
             </p>
+
+             <p className="text-gray-400 text-sm mt-1">
+              {filter === "unread"
+                ? "No unread notifications right now."
+                : "Updates about your visits and listings will appear here."}
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {visibleItems.map((item) => {
+              const style = TYPE_STYLES[item.type] ?? TYPE_STYLES.VISIT_REQUEST;
+              const Icon = style.icon;
