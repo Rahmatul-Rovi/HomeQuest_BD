@@ -62,11 +62,12 @@ function timeAgo(dateString: string) {
 export default function NotificationsPage() {
   const router = useRouter();
   const { status } = useSession();
+
   const [items, setItems] = useState<NotificationItem[]>([]);
   const [filter, setFilter] = useState<"all" | "unread">("all");
   const [loading, setLoading] = useState(true);
 
-  // Navbar er badge count sathe sathe update korar jonno
+  // Update with the navbar badge
   const refreshNavbarCounts = () =>
     window.dispatchEvent(new Event("hq:counts-refresh"));
 
@@ -85,7 +86,7 @@ export default function NotificationsPage() {
     setLoading(false);
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     if (status !== "authenticated") return;
     load();
   }, [status, load]);
@@ -105,7 +106,7 @@ export default function NotificationsPage() {
     if (item.link) router.push(item.link);
   };
 
-   const markAllRead = async () => {
+  const markAllRead = async () => {
     setItems((prev) => prev.map((n) => ({ ...n, read: true })));
     await fetch("/api/notifications", {
       method: "PATCH",
@@ -138,7 +139,7 @@ export default function NotificationsPage() {
   const visibleItems =
     filter === "unread" ? items.filter((n) => !n.read) : items;
 
-    if (status === "loading" || loading) {
+  if (status === "loading" || loading) {
     return (
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
@@ -167,7 +168,8 @@ export default function NotificationsPage() {
               Stay updated on visit requests, verification and more.
             </p>
           </div>
-           {items.length > 0 && (
+
+          {items.length > 0 && (
             <div className="flex gap-2 shrink-0">
               <Button
                 variant="outline"
@@ -200,7 +202,6 @@ export default function NotificationsPage() {
           >
             All ({items.length})
           </button>
-
           <button
             onClick={() => setFilter("unread")}
             className={`px-4 py-2.5 text-sm font-medium border-b-2 transition ${
@@ -224,8 +225,7 @@ export default function NotificationsPage() {
             <p className="text-gray-500 font-medium">
               {filter === "unread" ? "You're all caught up" : "No notifications yet"}
             </p>
-
-             <p className="text-gray-400 text-sm mt-1">
+            <p className="text-gray-400 text-sm mt-1">
               {filter === "unread"
                 ? "No unread notifications right now."
                 : "Updates about your visits and listings will appear here."}
@@ -237,7 +237,7 @@ export default function NotificationsPage() {
               const style = TYPE_STYLES[item.type] ?? TYPE_STYLES.VISIT_REQUEST;
               const Icon = style.icon;
 
-                return (
+              return (
                 <button
                   key={item.id}
                   onClick={() => handleOpen(item)}
@@ -246,9 +246,8 @@ export default function NotificationsPage() {
                       ? "bg-white border-gray-100"
                       : "bg-primary-light/40 border-primary/20"
                   }`}
-                ></button>
-
-                <div
+                >
+                  <div
                     className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${style.bg}`}
                   >
                     <Icon size={18} className={style.text} />
@@ -262,9 +261,8 @@ export default function NotificationsPage() {
                             ? "font-medium text-gray-700"
                             : "font-semibold text-gray-900"
                         }`}
-                      ></p>
-
-                       {item.title}
+                      >
+                        {item.title}
                       </p>
                       <span className="text-xs text-gray-400 shrink-0">
                         {timeAgo(item.createdAt)}
@@ -278,7 +276,7 @@ export default function NotificationsPage() {
                   {!item.read && (
                     <span className="w-2.5 h-2.5 bg-primary rounded-full shrink-0 mt-1.5" />
                   )}
-                   </button>
+                </button>
               );
             })}
           </div>
@@ -287,3 +285,5 @@ export default function NotificationsPage() {
 
       <Footer />
     </div>
+  );
+}
