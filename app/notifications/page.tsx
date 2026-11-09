@@ -212,3 +212,15 @@ export default function NotificationsPage() {
             Unread ({unreadCount})
           </button>
         </div>
+
+        {/* List */}
+        {visibleItems.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+            {filter === "unread" ? (
+              <BellOff size={36} className="text-gray-300 mx-auto mb-3" />
+            ) : (
+              <Bell size={36} className="text-gray-300 mx-auto mb-3" />
+            )}
+            <p className="text-gray-500 font-medium">
+              {filter === "unread" ? "You're all caught up" : "No notifications yet"}
+            </p>
