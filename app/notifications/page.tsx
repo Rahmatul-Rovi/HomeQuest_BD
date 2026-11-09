@@ -278,3 +278,12 @@ export default function NotificationsPage() {
                   {!item.read && (
                     <span className="w-2.5 h-2.5 bg-primary rounded-full shrink-0 mt-1.5" />
                   )}
+                   </button>
+              );
+            })}
+          </div>
+        )}
+      </main>
+
+      <Footer />
+    </div>
