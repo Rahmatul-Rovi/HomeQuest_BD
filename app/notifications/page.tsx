@@ -236,3 +236,14 @@ export default function NotificationsPage() {
             {visibleItems.map((item) => {
               const style = TYPE_STYLES[item.type] ?? TYPE_STYLES.VISIT_REQUEST;
               const Icon = style.icon;
+
+                return (
+                <button
+                  key={item.id}
+                  onClick={() => handleOpen(item)}
+                  className={`w-full text-left flex items-start gap-3 rounded-xl border p-4 transition hover:shadow-sm ${
+                    item.read
+                      ? "bg-white border-gray-100"
+                      : "bg-primary-light/40 border-primary/20"
+                  }`}
+                ></button>
