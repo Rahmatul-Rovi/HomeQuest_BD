@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Logo from "@/components/Logo";
@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
   LogOut,
   ChevronDown,
+  ShieldCheck,
 } from "lucide-react";
 
 const CATEGORY_LINKS = [
@@ -24,6 +25,15 @@ const CATEGORY_LINKS = [
   { label: "Flat for Sale", type: "SALE", category: "FLAT_SALE" },
 ];
 
+function CountBadge({ count }: { count: number }) {
+  if (count <= 0) return null;
+  return (
+    <span className="absolute -top-1.5 -right-2 min-w-4 h-4 px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+      {count > 9 ? "9+" : count}
+    </span>
+  );
+}
+
 export default function Navbar() {
   const { data: session, status } = useSession();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,11 +41,12 @@ export default function Navbar() {
   const profileRef = useRef<HTMLDivElement>(null);
 
   const [unreadMessages, setUnreadMessages] = useState(0);
-const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
 
   const isLoggedIn = status === "authenticated";
   const user = session?.user;
 
+  // Dropdown er baire click korle bondho hobe
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (profileRef.current && !profileRef.current.contains(e.target as Node)) {
@@ -46,40 +57,42 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const loadCounts = useCallback(async () => {
+    try {
+      const [msgRes, notifRes] = await Promise.all([
+        fetch("/api/messages/unread-count"),
+        fetch("/api/notifications/count"),
+      ]);
+
+      if (msgRes.ok) {
+        const msgData = await msgRes.json();
+        setUnreadMessages(msgData.count);
+      }
+      if (notifRes.ok) {
+        const notifData = await notifRes.json();
+        setUnreadNotifications(notifData.count);
+      }
+    } catch (error) {
+      console.error("Failed to load counts:", error);
+    }
+  }, []);
+
   useEffect(() => {
-  if (!isLoggedIn) return;
+    if (!isLoggedIn) return;
 
- const loadCounts = async () => {
-  try {
-    const [msgRes, notifRes] = await Promise.all([
-      fetch("/api/messages/unread-count"),
-      fetch("/api/notifications/count"),
-    ]);
+    loadCounts();
+    const interval = setInterval(loadCounts, 8000);
 
-    if (msgRes.ok) {
-      const msgData = await msgRes.json();
-      setUnreadMessages(msgData.count);
-    } else {
-      console.error("unread-count API failed:", msgRes.status);
-    }
+    // Tab e ferot ashle ba onno page theke event ashle sathe sathe refresh
+    window.addEventListener("focus", loadCounts);
+    window.addEventListener("hq:counts-refresh", loadCounts);
 
-    if (notifRes.ok) {
-      const notifData = await notifRes.json();
-      setUnreadNotifications(notifData.count);
-    } else {
-      console.error("notifications/count API failed:", notifRes.status);
-    }
-  } catch (error) {
-    console.error("Failed to load counts:", error);
-  }
-};
-
-  loadCounts();
-  const interval = setInterval(loadCounts, 15000);
-  return () => clearInterval(interval);
-}, [isLoggedIn]);
-
-
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("focus", loadCounts);
+      window.removeEventListener("hq:counts-refresh", loadCounts);
+    };
+  }, [isLoggedIn, loadCounts]);
 
   return (
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
@@ -101,7 +114,7 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
           </Link>
         </nav>
 
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden md:flex items-center gap-5">
           <Link href="/wishlist" className="text-gray-600 hover:text-primary transition">
             <Heart size={20} />
           </Link>
@@ -109,20 +122,24 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
           {isLoggedIn ? (
             <>
               {/* Notification Icon */}
-             <button className="relative text-gray-600 hover:text-primary transition">
-  <Bell size={20} />
-  {unreadNotifications > 0 && (
-    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-  )}
-</button>
+              <Link
+                href="/notifications"
+                aria-label="Notifications"
+                className="relative text-gray-600 hover:text-primary transition"
+              >
+                <Bell size={20} />
+                <CountBadge count={unreadNotifications} />
+              </Link>
 
               {/* Message Icon */}
-             <Link href="/messages" className="relative text-gray-600 hover:text-primary transition">
-  <MessageCircleMore size={20} />
-  {unreadMessages > 0 && (
-    <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
-  )}
-</Link>
+              <Link
+                href="/messages"
+                aria-label="Messages"
+                className="relative text-gray-600 hover:text-primary transition"
+              >
+                <MessageCircleMore size={20} />
+                <CountBadge count={unreadMessages} />
+              </Link>
 
               {/* Profile Dropdown */}
               <div className="relative" ref={profileRef}>
@@ -161,6 +178,17 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
                     >
                       <LayoutDashboard size={16} /> Dashboard
                     </Link>
+
+                    {user?.role === "ADMIN" && (
+                      <Link
+                        href="/admin"
+                        onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-primary transition"
+                      >
+                        <ShieldCheck size={16} /> Admin Panel
+                      </Link>
+                    )}
+
                     <Link
                       href="/profile"
                       onClick={() => setProfileOpen(false)}
@@ -201,7 +229,7 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
       </div>
 
       {/* Category Bar (Desktop) */}
-      <div className="hidden md:block border-t border-gray-50 bg-gray-10/50">
+      <div className="hidden md:block border-t border-gray-50 bg-gray-50/50">
         <div className="max-w-7xl mx-auto px-4 md:px-8 h-11 flex items-center gap-7 overflow-x-auto">
           {CATEGORY_LINKS.map((cat) => (
             <Link
@@ -246,8 +274,26 @@ const [unreadNotifications, setUnreadNotifications] = useState(0);
                 <Link href="/dashboard" className="py-2 text-gray-700 flex items-center gap-2">
                   <LayoutDashboard size={18} /> Dashboard
                 </Link>
+                {user?.role === "ADMIN" && (
+                  <Link href="/admin" className="py-2 text-gray-700 flex items-center gap-2">
+                    <ShieldCheck size={18} /> Admin Panel
+                  </Link>
+                )}
+                <Link href="/notifications" className="py-2 text-gray-700 flex items-center gap-2">
+                  <Bell size={18} /> Notifications
+                  {unreadNotifications > 0 && (
+                    <span className="bg-red-500 text-white text-[10px] font-bold rounded-full px-1.5 py-0.5">
+                      {unreadNotifications > 9 ? "9+" : unreadNotifications}
+                    </span>
+                  )}
+                </Link>
                 <Link href="/messages" className="py-2 text-gray-700 flex items-center gap-2">
                   <MessageCircleMore size={18} /> Messages
+                  {unreadMessages > 0 && (
+                    <span className="bg-red-500 text-white text-[10px] font-bold rounded-full px-1.5 py-0.5">
+                      {unreadMessages > 9 ? "9+" : unreadMessages}
+                    </span>
+                  )}
                 </Link>
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
