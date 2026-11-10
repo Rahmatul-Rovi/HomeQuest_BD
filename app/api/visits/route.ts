@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { createNotification } from "@/src/lib/notifications";
 
-// POST - New visit request create
+
+// POST - Notun visit request create kora
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
@@ -10,12 +12,27 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
-    const { listingId, visitDate, visitTime, message } = body;
+    const { listingId, visitDate, visitTime, message } = await req.json();
 
     if (!listingId || !visitDate || !visitTime) {
       return NextResponse.json(
         { error: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const listing = await prisma.listing.findUnique({
+      where: { id: listingId },
+      select: { id: true, ownerId: true, title: true },
+    });
+
+    if (!listing) {
+      return NextResponse.json({ error: "Listing not found" }, { status: 404 });
+    }
+
+    if (listing.ownerId === session.user.id) {
+      return NextResponse.json(
+        { error: "You cannot book a visit for your own listing" },
         { status: 400 }
       );
     }
@@ -30,6 +47,23 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const dateLabel = new Date(visitDate).toLocaleDateString("en-GB", {
+      day: "numeric",
+      month: "short",
+    });
+
+    console.log(
+      `[visit] request ${visitRequest.id} by ${session.user.id} -> listing owner ${listing.ownerId}`
+    );
+
+    await createNotification({
+      userId: listing.ownerId,
+      type: "VISIT_REQUEST",
+      title: "New visit request",
+      body: `${session.user.name ?? "Someone"} wants to visit "${listing.title}" on ${dateLabel} at ${visitTime}.`,
+      link: "/dashboard",
+    });
+
     return NextResponse.json(visitRequest, { status: 201 });
   } catch (error) {
     console.error("POST /api/visits error:", error);
@@ -40,6 +74,7 @@ export async function POST(req: NextRequest) {
   }
 }
 
+// GET - Visit request list (tenant or owner)
 export async function GET(req: NextRequest) {
   try {
     const session = await auth();
@@ -48,7 +83,7 @@ export async function GET(req: NextRequest) {
     }
 
     const { searchParams } = new URL(req.url);
-    const role = searchParams.get("role"); // "tenant" or "owner"
+    const role = searchParams.get("role");
 
     if (role === "owner") {
       const requests = await prisma.visitRequest.findMany({

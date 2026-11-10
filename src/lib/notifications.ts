@@ -25,10 +25,13 @@ export async function createNotification({
   link,
 }: CreateNotificationParams) {
   try {
-    await prisma.notification.create({
+    const created = await prisma.notification.create({
       data: { userId, type, title, body, link: link ?? null },
     });
+    console.log(`[notification] created ${type} for user ${userId}`);
+    return created;
   } catch (error) {
-    console.error("createNotification failed:", error);
+    console.error("[notification] FAILED:", error);
+    return null;
   }
 }
