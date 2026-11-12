@@ -67,3 +67,15 @@ export default function ListingGrid() {
           confirmButtonColor: "#16A34A",
         });
       });
+
+       return () => {
+      cancelled = true;
+    };
+  }, [queryString]);
+
+  const sortedListings = useMemo(() => {
+    const copy = [...listings];
+    if (sort === "price-asc") copy.sort((a, b) => a.price - b.price);
+    if (sort === "price-desc") copy.sort((a, b) => b.price - a.price);
+    return copy;
+  }, [listings, sort]);
