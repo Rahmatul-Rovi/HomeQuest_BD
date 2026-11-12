@@ -68,7 +68,7 @@ export default function ListingGrid() {
         });
       });
 
-       return () => {
+    return () => {
       cancelled = true;
     };
   }, [queryString]);
@@ -80,7 +80,8 @@ export default function ListingGrid() {
     return copy;
   }, [listings, sort]);
 
-   const chips: { label: string; keys: string[] }[] = [];
+  // Active filter chips
+  const chips: { label: string; keys: string[] }[] = [];
   const typeParam = searchParams.get("type");
   const categoryParam = searchParams.get("category");
   const areaParam = searchParams.get("area");
@@ -99,7 +100,6 @@ export default function ListingGrid() {
       keys: ["category"],
     });
   }
-
   if (areaParam) {
     chips.push({ label: `Area: ${areaParam}`, keys: ["area"] });
   }
@@ -199,7 +199,7 @@ export default function ListingGrid() {
         </div>
       )}
 
-        {/* Results */}
+      {/* Results */}
       {sortedListings.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
           <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -219,3 +219,13 @@ export default function ListingGrid() {
             </Button>
           )}
         </div>
+      ) : (
+        <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {sortedListings.map((listing) => (
+            <ListingCard key={listing.id} listing={listing} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
