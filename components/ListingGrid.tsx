@@ -144,3 +144,28 @@ export default function ListingGrid() {
       </div>
     );
   }
+
+  return (
+    <div>
+      {/* Results Bar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <p className="text-sm text-gray-600">
+          <span className="font-bold text-gray-900">{sortedListings.length}</span>{" "}
+          propert{sortedListings.length === 1 ? "y" : "ies"} found
+        </p>
+
+        <div className="flex items-center gap-2">
+          <ArrowUpDown size={15} className="text-gray-400" />
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+            className="border border-gray-200 bg-white rounded-lg px-3 py-2 text-sm text-gray-700 outline-none focus:border-primary cursor-pointer"
+          >
+            {SORT_OPTIONS.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
