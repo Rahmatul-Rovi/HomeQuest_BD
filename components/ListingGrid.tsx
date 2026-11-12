@@ -33,3 +33,16 @@ const CATEGORY_LABELS: Record<string, string> = {
   SUBLET: "Sublet",
   FLAT_SALE: "Flat for Sale",
 };
+
+export default function ListingGrid() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const queryString = searchParams.toString();
+
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [sort, setSort] = useState("newest");
+
+  useEffect(() => {
+    let cancelled = false;
+    setLoading(true);
