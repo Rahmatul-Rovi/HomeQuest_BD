@@ -198,3 +198,24 @@ export default function ListingGrid() {
           </button>
         </div>
       )}
+
+        {/* Results */}
+      {sortedListings.length === 0 ? (
+        <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
+          <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+            <SearchX size={28} className="text-gray-300" />
+          </div>
+          <p className="text-gray-700 font-semibold text-lg">No properties found</p>
+          <p className="text-gray-400 text-sm mt-1 mb-6 max-w-xs mx-auto">
+            We couldn&apos;t find anything matching your filters. Try changing or
+            removing some of them.
+          </p>
+          {chips.length > 0 && (
+            <Button
+              onClick={clearAll}
+              className="bg-primary hover:bg-primary-dark text-white"
+            >
+              Clear All Filters
+            </Button>
+          )}
+        </div>
