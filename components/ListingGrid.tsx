@@ -19,3 +19,17 @@ type Listing = {
   images: string[];
   owner: { name: string; verified: boolean };
 };
+
+const SORT_OPTIONS = [
+  { value: "newest", label: "Newest first" },
+  { value: "price-asc", label: "Price: Low to High" },
+  { value: "price-desc", label: "Price: High to Low" },
+];
+
+const CATEGORY_LABELS: Record<string, string> = {
+  FULL_FLAT: "Full Flat",
+  MESS: "Mess",
+  SEAT: "Seat",
+  SUBLET: "Sublet",
+  FLAT_SALE: "Flat for Sale",
+};
