@@ -46,3 +46,24 @@ export default function ListingGrid() {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
+
+    fetch(`/api/listings?${queryString}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Request failed");
+        return res.json();
+      })
+      .then((data: unknown) => {
+        if (cancelled) return;
+        setListings(Array.isArray(data) ? (data as Listing[]) : []);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setLoading(false);
+        Swal.fire({
+          icon: "error",
+          title: "Oops!",
+          text: "Could not load listings. Please try again.",
+          confirmButtonColor: "#16A34A",
+        });
+      });
