@@ -169,3 +169,32 @@ export default function ListingGrid() {
           </select>
         </div>
       </div>
+
+      {/* Active Filter Chips */}
+      {chips.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 mb-5">
+          {chips.map((chip) => (
+            <span
+              key={chip.label}
+              className="inline-flex items-center gap-1.5 bg-primary-light text-primary text-xs font-medium pl-3 pr-1.5 py-1.5 rounded-full"
+            >
+              {chip.label}
+              <button
+                type="button"
+                onClick={() => removeFilter(chip.keys)}
+                aria-label={`Remove ${chip.label} filter`}
+                className="w-4 h-4 rounded-full hover:bg-primary hover:text-white flex items-center justify-center transition"
+              >
+                <X size={11} />
+              </button>
+            </span>
+          ))}
+          <button
+            type="button"
+            onClick={clearAll}
+            className="text-xs text-gray-500 hover:text-primary underline underline-offset-2 ml-1"
+          >
+            Clear all
+          </button>
+        </div>
+      )}
