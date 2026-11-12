@@ -79,3 +79,23 @@ export default function ListingGrid() {
     if (sort === "price-desc") copy.sort((a, b) => b.price - a.price);
     return copy;
   }, [listings, sort]);
+
+   const chips: { label: string; keys: string[] }[] = [];
+  const typeParam = searchParams.get("type");
+  const categoryParam = searchParams.get("category");
+  const areaParam = searchParams.get("area");
+  const minParam = searchParams.get("minPrice");
+  const maxParam = searchParams.get("maxPrice");
+
+  if (typeParam) {
+    chips.push({
+      label: typeParam === "RENT" ? "For Rent" : "For Sale",
+      keys: ["type"],
+    });
+  }
+  if (categoryParam) {
+    chips.push({
+      label: CATEGORY_LABELS[categoryParam] || categoryParam,
+      keys: ["category"],
+    });
+  }
