@@ -99,3 +99,22 @@ export default function ListingGrid() {
       keys: ["category"],
     });
   }
+
+  if (areaParam) {
+    chips.push({ label: `Area: ${areaParam}`, keys: ["area"] });
+  }
+  if (minParam || maxParam) {
+    const min = minParam ? `৳${Number(minParam).toLocaleString()}` : "Any";
+    const max = maxParam ? `৳${Number(maxParam).toLocaleString()}` : "Any";
+    chips.push({ label: `${min} – ${max}`, keys: ["minPrice", "maxPrice"] });
+  }
+  if (searchParams.get("bachelorAllowed") === "true") {
+    chips.push({ label: "Bachelor Allowed", keys: ["bachelorAllowed"] });
+  }
+
+  const removeFilter = (keys: string[]) => {
+    const params = new URLSearchParams(queryString);
+    keys.forEach((key) => params.delete(key));
+    const query = params.toString();
+    router.push(query ? `/listings?${query}` : "/listings");
+  };
