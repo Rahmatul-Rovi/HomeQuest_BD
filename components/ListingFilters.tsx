@@ -128,3 +128,45 @@ export default function ListingFilters() {
                       ? "bg-white text-primary shadow-sm"
                       : "text-gray-500 hover:text-gray-700"
                   }`}
+
+                   >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Area */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 block">
+              Area
+            </label>
+            <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
+              <MapPin size={16} className="text-gray-400 mr-2 shrink-0" />
+              <input
+                type="text"
+                placeholder="e.g. Mirpur, Dhanmondi"
+                value={area}
+                onChange={(e) => setArea(e.target.value)}
+                className="w-full py-2.5 text-sm outline-none bg-transparent"
+              />
+            </div>
+          </div>
+
+          {/* Category Chips */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 block">
+              Category
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {CATEGORIES.map((c) => (
+                <button
+                  key={c.value}
+                  type="button"
+                  onClick={() => setCategory(category === c.value ? "" : c.value)}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-full border transition ${
+                    category === c.value
+                      ? "bg-primary text-white border-primary"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-primary hover:text-primary"
+                  }`}
+                ></button>
