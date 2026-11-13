@@ -76,5 +76,26 @@ export default function ListingFilters() {
         onClick={() => setOpen(!open)}
         className="lg:hidden w-full flex items-center justify-between bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 mb-3"
       >
-        
+        <span className="flex items-center gap-2">
+          <SlidersHorizontal size={16} /> Filters
+          {activeCount > 0 && (
+            <span className="bg-primary text-white text-[10px] font-bold rounded-full px-1.5 py-0.5">
+              {activeCount}
+            </span>
+          )}
+        </span>
+        <ChevronDown
+          size={16}
+          className={`transition-transform ${open ? "rotate-180" : ""}`}
+        />
       </button>
+
+      <aside
+        className={`${
+          open ? "block" : "hidden"
+        } lg:block bg-white border border-gray-100 rounded-2xl shadow-sm p-5 lg:sticky lg:top-32`}
+      >
+        <div className="hidden lg:flex items-center justify-between mb-5">
+          <h3 className="font-bold text-gray-900 flex items-center gap-2">
+            <SlidersHorizontal size={16} className="text-primary" /> Filters
+          </h3>
