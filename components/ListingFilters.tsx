@@ -22,3 +22,13 @@ const CATEGORIES = [
 export default function ListingFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
+
+   const [open, setOpen] = useState(false); // mobile e panel khola/bondho
+  const [type, setType] = useState(searchParams.get("type") || "");
+  const [category, setCategory] = useState(searchParams.get("category") || "");
+  const [area, setArea] = useState(searchParams.get("area") || "");
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
+  const [bachelorOnly, setBachelorOnly] = useState(
+    searchParams.get("bachelorAllowed") === "true"
+  );
