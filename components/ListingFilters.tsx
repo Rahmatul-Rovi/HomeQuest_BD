@@ -43,3 +43,16 @@ export default function ListingFilters() {
 
   const applyFilters = (e?: React.FormEvent) => {
     e?.preventDefault();
+
+     const params = new URLSearchParams();
+    if (type) params.set("type", type);
+    if (category) params.set("category", category);
+    if (area.trim()) params.set("area", area.trim());
+    if (minPrice) params.set("minPrice", minPrice);
+    if (maxPrice) params.set("maxPrice", maxPrice);
+    if (bachelorOnly) params.set("bachelorAllowed", "true");
+
+    const query = params.toString();
+    router.push(query ? `/listings?${query}` : "/listings");
+    setOpen(false);
+  };
