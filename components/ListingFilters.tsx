@@ -99,3 +99,32 @@ export default function ListingFilters() {
           <h3 className="font-bold text-gray-900 flex items-center gap-2">
             <SlidersHorizontal size={16} className="text-primary" /> Filters
           </h3>
+
+           {activeCount > 0 && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="text-xs text-primary font-medium hover:underline"
+            >
+              Reset
+            </button>
+          )}
+        </div>
+
+        <form onSubmit={applyFilters} className="space-y-6">
+          {/* Listing Type */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 block">
+              Listing Type
+            </label>
+            <div className="grid grid-cols-3 gap-1.5 bg-gray-100 p-1 rounded-xl">
+              {TYPES.map((t) => (
+                <button
+                  key={t.label}
+                  type="button"
+                  onClick={() => setType(t.value)}
+                  className={`py-2 text-sm font-semibold rounded-lg transition ${
+                    type === t.value
+                      ? "bg-white text-primary shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
