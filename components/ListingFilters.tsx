@@ -10,3 +10,15 @@ const TYPES = [
   { label: "Rent", value: "RENT" },
   { label: "Sale", value: "SALE" },
 ];
+
+const CATEGORIES = [
+  { label: "Full Flat", value: "FULL_FLAT" },
+  { label: "Mess", value: "MESS" },
+  { label: "Seat", value: "SEAT" },
+  { label: "Sublet", value: "SUBLET" },
+  { label: "Flat for Sale", value: "FLAT_SALE" },
+];
+
+export default function ListingFilters() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
