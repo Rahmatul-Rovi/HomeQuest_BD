@@ -32,3 +32,14 @@ export default function ListingFilters() {
   const [bachelorOnly, setBachelorOnly] = useState(
     searchParams.get("bachelorAllowed") === "true"
   );
+
+   const activeCount = [
+    searchParams.get("type"),
+    searchParams.get("category"),
+    searchParams.get("area"),
+    searchParams.get("minPrice") || searchParams.get("maxPrice"),
+    searchParams.get("bachelorAllowed"),
+  ].filter(Boolean).length;
+
+  const applyFilters = (e?: React.FormEvent) => {
+    e?.preventDefault();
