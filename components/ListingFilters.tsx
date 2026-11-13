@@ -170,3 +170,35 @@ export default function ListingFilters() {
                       : "bg-white text-gray-600 border-gray-200 hover:border-primary hover:text-primary"
                   }`}
                 ></button>
+
+                {c.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Price Range */}
+          <div>
+            <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 block">
+              Price Range (৳)
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                min={0}
+                placeholder="Min"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition"
+              />
+              <span className="text-gray-300">–</span>
+              <input
+                type="number"
+                min={0}
+                placeholder="Max"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition"
+              />
+            </div>
+          </div>
