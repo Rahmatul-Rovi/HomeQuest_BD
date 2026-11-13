@@ -23,7 +23,7 @@ export default function ListingFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-   const [open, setOpen] = useState(false); // mobile e panel khola/bondho
+  const [open, setOpen] = useState(false); //Mobile panel on off
   const [type, setType] = useState(searchParams.get("type") || "");
   const [category, setCategory] = useState(searchParams.get("category") || "");
   const [area, setArea] = useState(searchParams.get("area") || "");
@@ -33,7 +33,7 @@ export default function ListingFilters() {
     searchParams.get("bachelorAllowed") === "true"
   );
 
-   const activeCount = [
+  const activeCount = [
     searchParams.get("type"),
     searchParams.get("category"),
     searchParams.get("area"),
@@ -44,7 +44,7 @@ export default function ListingFilters() {
   const applyFilters = (e?: React.FormEvent) => {
     e?.preventDefault();
 
-     const params = new URLSearchParams();
+    const params = new URLSearchParams();
     if (type) params.set("type", type);
     if (category) params.set("category", category);
     if (area.trim()) params.set("area", area.trim());
@@ -57,7 +57,7 @@ export default function ListingFilters() {
     setOpen(false);
   };
 
-   const clearFilters = () => {
+  const clearFilters = () => {
     setType("");
     setCategory("");
     setArea("");
@@ -99,8 +99,7 @@ export default function ListingFilters() {
           <h3 className="font-bold text-gray-900 flex items-center gap-2">
             <SlidersHorizontal size={16} className="text-primary" /> Filters
           </h3>
-
-           {activeCount > 0 && (
+          {activeCount > 0 && (
             <button
               type="button"
               onClick={clearFilters}
@@ -128,8 +127,7 @@ export default function ListingFilters() {
                       ? "bg-white text-primary shadow-sm"
                       : "text-gray-500 hover:text-gray-700"
                   }`}
-
-                   >
+                >
                   {t.label}
                 </button>
               ))}
@@ -169,9 +167,8 @@ export default function ListingFilters() {
                       ? "bg-primary text-white border-primary"
                       : "bg-white text-gray-600 border-gray-200 hover:border-primary hover:text-primary"
                   }`}
-                ></button>
-
-                {c.label}
+                >
+                  {c.label}
                 </button>
               ))}
             </div>
@@ -203,7 +200,7 @@ export default function ListingFilters() {
             </div>
           </div>
 
-  {/* Bachelor Switch */}
+          {/* Bachelor Switch */}
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700">
               Bachelor Allowed
@@ -237,4 +234,12 @@ export default function ListingFilters() {
               variant="ghost"
               onClick={clearFilters}
               className="w-full text-gray-500 lg:hidden"
-            ></Button>
+            >
+              Clear All
+            </Button>
+          </div>
+        </form>
+      </aside>
+    </div>
+  );
+}
