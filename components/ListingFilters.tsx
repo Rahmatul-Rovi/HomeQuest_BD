@@ -56,3 +56,25 @@ export default function ListingFilters() {
     router.push(query ? `/listings?${query}` : "/listings");
     setOpen(false);
   };
+
+   const clearFilters = () => {
+    setType("");
+    setCategory("");
+    setArea("");
+    setMinPrice("");
+    setMaxPrice("");
+    setBachelorOnly(false);
+    router.push("/listings");
+    setOpen(false);
+  };
+
+  return (
+    <div>
+      {/* Mobile Toggle Button */}
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="lg:hidden w-full flex items-center justify-between bg-white border border-gray-200 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 mb-3"
+      >
+        
+      </button>
