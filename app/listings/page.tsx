@@ -90,3 +90,14 @@ export default async function ListingsPage({
           </p>
         </div>
       </section>
+
+       {/* Main Content */}
+      <main className="flex-1 max-w-7xl mx-auto px-4 md:px-8 py-8 w-full">
+        <div className="grid lg:grid-cols-[300px_1fr] gap-8 items-start">
+          <Suspense
+            fallback={
+              <div className="h-96 bg-white border border-gray-100 rounded-2xl animate-pulse" />
+            }
+          >
+            <ListingFilters key={filterKey} />
+          </Suspense>
