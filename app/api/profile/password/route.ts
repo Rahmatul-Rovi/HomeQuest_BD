@@ -33,7 +33,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
- 
+  // If a password already exists, the current password must be verified first.
+  // For Google-only accounts (without a password), a new password can be set directly.
   if (user.password) {
     const isValid =
       typeof currentPassword === "string" &&
@@ -46,7 +47,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-      const isSame = await bcrypt.compare(newPassword, user.password);
+    const isSame = await bcrypt.compare(newPassword, user.password);
     if (isSame) {
       return NextResponse.json(
         { error: "New password must be different from the current one" },
@@ -60,3 +61,6 @@ export async function POST(req: NextRequest) {
     where: { id: session.user.id },
     data: { password: hashed },
   });
+
+  return NextResponse.json({ success: true });
+}
