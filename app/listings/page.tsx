@@ -73,3 +73,20 @@ export default async function ListingsPage({
             <Link href="/listings" className="hover:text-primary transition">
               Listings
             </Link>
+
+{title !== "Browse Properties" && (
+              <>
+                <ChevronRight size={12} />
+                <span className="text-gray-600 font-medium">{title}</span>
+              </>
+            )}
+          </nav>
+
+          <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
+            {title}
+          </h1>
+          <p className="text-gray-500 text-sm md:text-base mt-2 max-w-xl">
+            {subtitle}
+          </p>
+        </div>
+      </section>
