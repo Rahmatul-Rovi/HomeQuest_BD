@@ -30,3 +30,20 @@ export async function GET() {
         password: true,
       },
     }),
+
+    prisma.listing.count({ where: { ownerId: userId } }),
+    prisma.visitRequest.count({ where: { tenantId: userId } }),
+  ]);
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  const { password, ...safeUser } = user;
+
+  return NextResponse.json({
+    ...safeUser,
+    hasPassword: Boolean(password),
+    stats: { listings, visitRequests },
+  });
+}
