@@ -33,7 +33,7 @@ function buildHeading(sp: SearchParams) {
     title = "Properties for Sale";
   }
 
-   let subtitle = "Find verified flats, mess, seats and more across Bangladesh.";
+  let subtitle = "Find verified flats, mess, seats and more across Bangladesh.";
   if (area) {
     subtitle = `Showing results in "${area}".`;
   } else if (type === "RENT") {
@@ -53,7 +53,6 @@ export default async function ListingsPage({
   const sp = await searchParams;
   const { title, subtitle } = buildHeading(sp);
 
-  
   const filterKey = JSON.stringify(sp);
 
   return (
@@ -73,8 +72,7 @@ export default async function ListingsPage({
             <Link href="/listings" className="hover:text-primary transition">
               Listings
             </Link>
-
-{title !== "Browse Properties" && (
+            {title !== "Browse Properties" && (
               <>
                 <ChevronRight size={12} />
                 <span className="text-gray-600 font-medium">{title}</span>
@@ -91,7 +89,7 @@ export default async function ListingsPage({
         </div>
       </section>
 
-       {/* Main Content */}
+      {/* Main Content */}
       <main className="flex-1 max-w-7xl mx-auto px-4 md:px-8 py-8 w-full">
         <div className="grid lg:grid-cols-[300px_1fr] gap-8 items-start">
           <Suspense
@@ -102,7 +100,7 @@ export default async function ListingsPage({
             <ListingFilters key={filterKey} />
           </Suspense>
 
- <Suspense
+          <Suspense
             fallback={
               <div className="h-96 bg-white border border-gray-100 rounded-2xl animate-pulse" />
             }
@@ -111,3 +109,8 @@ export default async function ListingsPage({
           </Suspense>
         </div>
       </main>
+
+      <Footer />
+    </div>
+  );
+}
