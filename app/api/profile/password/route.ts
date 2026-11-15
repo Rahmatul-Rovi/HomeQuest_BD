@@ -45,3 +45,18 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+
+      const isSame = await bcrypt.compare(newPassword, user.password);
+    if (isSame) {
+      return NextResponse.json(
+        { error: "New password must be different from the current one" },
+        { status: 400 }
+      );
+    }
+  }
+
+  const hashed = await bcrypt.hash(newPassword, 10);
+  await prisma.user.update({
+    where: { id: session.user.id },
+    data: { password: hashed },
+  });
