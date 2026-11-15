@@ -1,0 +1,123 @@
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
+
+const PHONE_REGEX = /^(?:\+?88)?01[3-9]\d{8}$/;
+
+// GET - Personal profile + stats
+export async function GET() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const userId = session.user.id;
+
+  const [user, listings, visitRequests] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        image: true,
+        phone: true,
+        bio: true,
+        role: true,
+        verified: true,
+        createdAt: true,
+        password: true,
+      },
+    }),
+    prisma.listing.count({ where: { ownerId: userId } }),
+    prisma.visitRequest.count({ where: { tenantId: userId } }),
+  ]);
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  const { password, ...safeUser } = user;
+
+  return NextResponse.json({
+    ...safeUser,
+    hasPassword: Boolean(password),
+    stats: { listings, visitRequests },
+  });
+}
+
+// PATCH - Profile update 
+export async function PATCH(req: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await req.json();
+
+  const data: {
+    name?: string;
+    phone?: string | null;
+    bio?: string | null;
+    image?: string | null;
+  } = {};
+
+  if (body.name !== undefined) {
+    const name = String(body.name).trim();
+    if (name.length < 2 || name.length > 60) {
+      return NextResponse.json(
+        { error: "Name must be between 2 and 60 characters" },
+        { status: 400 }
+      );
+    }
+    data.name = name;
+  }
+
+  if (body.phone !== undefined) {
+    const raw = String(body.phone ?? "").replace(/[\s-]/g, "");
+    if (raw === "") {
+      data.phone = null;
+    } else if (!PHONE_REGEX.test(raw)) {
+      return NextResponse.json(
+        { error: "Enter a valid Bangladeshi mobile number (e.g. 01712345678)" },
+        { status: 400 }
+      );
+    } else {
+      data.phone = raw;
+    }
+  }
+
+  if (body.bio !== undefined) {
+    const bio = String(body.bio ?? "").trim();
+    if (bio.length > 300) {
+      return NextResponse.json(
+        { error: "Bio can be at most 300 characters" },
+        { status: 400 }
+      );
+    }
+    data.bio = bio || null;
+  }
+
+  if (body.image !== undefined) {
+    if (body.image === null || body.image === "") {
+      data.image = null;
+    } else if (
+      typeof body.image === "string" &&
+      body.image.startsWith("https://res.cloudinary.com/")
+    ) {
+      data.image = body.image;
+    } else {
+      return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
+    }
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: session.user.id },
+    data,
+    select: { name: true, phone: true, bio: true, image: true },
+  });
+
+  return NextResponse.json(updated);
+}

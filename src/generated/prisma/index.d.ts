@@ -4334,6 +4334,8 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     verified: boolean | null
+    phone: string | null
+    bio: string | null
     createdAt: Date | null
   }
 
@@ -4346,6 +4348,8 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role | null
     verified: boolean | null
+    phone: string | null
+    bio: string | null
     createdAt: Date | null
   }
 
@@ -4358,6 +4362,8 @@ export namespace Prisma {
     password: number
     role: number
     verified: number
+    phone: number
+    bio: number
     createdAt: number
     _all: number
   }
@@ -4372,6 +4378,8 @@ export namespace Prisma {
     password?: true
     role?: true
     verified?: true
+    phone?: true
+    bio?: true
     createdAt?: true
   }
 
@@ -4384,6 +4392,8 @@ export namespace Prisma {
     password?: true
     role?: true
     verified?: true
+    phone?: true
+    bio?: true
     createdAt?: true
   }
 
@@ -4396,6 +4406,8 @@ export namespace Prisma {
     password?: true
     role?: true
     verified?: true
+    phone?: true
+    bio?: true
     createdAt?: true
     _all?: true
   }
@@ -4481,6 +4493,8 @@ export namespace Prisma {
     password: string | null
     role: $Enums.Role
     verified: boolean
+    phone: string | null
+    bio: string | null
     createdAt: Date
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
@@ -4510,6 +4524,8 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     verified?: boolean
+    phone?: boolean
+    bio?: boolean
     createdAt?: boolean
     listings?: boolean | User$listingsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -4531,6 +4547,8 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     verified?: boolean
+    phone?: boolean
+    bio?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -4543,6 +4561,8 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     verified?: boolean
+    phone?: boolean
+    bio?: boolean
     createdAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -4555,10 +4575,12 @@ export namespace Prisma {
     password?: boolean
     role?: boolean
     verified?: boolean
+    phone?: boolean
+    bio?: boolean
     createdAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "role" | "verified" | "createdAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "password" | "role" | "verified" | "phone" | "bio" | "createdAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listings?: boolean | User$listingsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -4594,6 +4616,8 @@ export namespace Prisma {
       password: string | null
       role: $Enums.Role
       verified: boolean
+      phone: string | null
+      bio: string | null
       createdAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -5034,6 +5058,8 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
     readonly verified: FieldRef<"User", 'Boolean'>
+    readonly phone: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -12218,6 +12244,8 @@ export namespace Prisma {
     password: 'password',
     role: 'role',
     verified: 'verified',
+    phone: 'phone',
+    bio: 'bio',
     createdAt: 'createdAt'
   };
 
@@ -12686,6 +12714,8 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
+    phone?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     listings?: ListingListRelationFilter
     accounts?: AccountListRelationFilter
@@ -12706,6 +12736,8 @@ export namespace Prisma {
     password?: SortOrderInput | SortOrder
     role?: SortOrder
     verified?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     listings?: ListingOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
@@ -12729,6 +12761,8 @@ export namespace Prisma {
     password?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
     verified?: BoolFilter<"User"> | boolean
+    phone?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     listings?: ListingListRelationFilter
     accounts?: AccountListRelationFilter
@@ -12749,6 +12783,8 @@ export namespace Prisma {
     password?: SortOrderInput | SortOrder
     role?: SortOrder
     verified?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -12767,6 +12803,8 @@ export namespace Prisma {
     password?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
     verified?: BoolWithAggregatesFilter<"User"> | boolean
+    phone?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -13390,6 +13428,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -13410,6 +13450,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -13430,6 +13472,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -13450,6 +13494,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -13470,6 +13516,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
   }
 
@@ -13482,6 +13530,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -13494,6 +13544,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14374,6 +14426,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     verified?: SortOrder
+    phone?: SortOrder
+    bio?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -14386,6 +14440,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     verified?: SortOrder
+    phone?: SortOrder
+    bio?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -14398,6 +14454,8 @@ export namespace Prisma {
     password?: SortOrder
     role?: SortOrder
     verified?: SortOrder
+    phone?: SortOrder
+    bio?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -15662,6 +15720,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -15681,6 +15741,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -15774,6 +15836,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -15793,6 +15857,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -15917,6 +15983,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -15936,6 +16004,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -16024,6 +16094,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -16043,6 +16115,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -16521,6 +16595,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -16540,6 +16616,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -16575,6 +16653,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -16594,6 +16674,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -16613,6 +16695,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -16632,6 +16716,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -16667,6 +16753,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -16686,6 +16774,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -16752,6 +16842,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -16771,6 +16863,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -16795,6 +16889,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -16814,6 +16910,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -16928,6 +17026,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -16947,6 +17047,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -16977,6 +17079,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -16996,6 +17100,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -17054,6 +17160,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -17073,6 +17181,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -17137,6 +17247,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -17156,6 +17268,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -17175,6 +17289,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingCreateNestedManyWithoutOwnerInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -17194,6 +17310,8 @@ export namespace Prisma {
     password?: string | null
     role?: $Enums.Role
     verified?: boolean
+    phone?: string | null
+    bio?: string | null
     createdAt?: Date | string
     listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -17229,6 +17347,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -17248,6 +17368,8 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
     verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput

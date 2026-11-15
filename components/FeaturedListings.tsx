@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -9,21 +10,45 @@ export default function FeaturedListings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/listings")
-      .then((res) => res.json())
-      .then((data) => {
-        setListings(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
+    const fetchListings = async () => {
+      try {
+        const res = await fetch("/api/listings");
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch listings");
+        }
+
+        const data = await res.json();
+
+        console.log("Listings API Response:", data);
+
+        // Handle different API response structures
+        const listingsData = Array.isArray(data)
+          ? data
+          : Array.isArray(data.data)
+            ? data.data
+            : Array.isArray(data.listings)
+              ? data.listings
+              : [];
+
+        setListings(listingsData);
+      } catch (error) {
+        console.error("Listings Fetch Error:", error);
+
+        setListings([]);
+
         Swal.fire({
           icon: "error",
           title: "Oops!",
           text: "Could not load listings. Please try again.",
           confirmButtonColor: "#16A34A",
         });
-      });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchListings();
   }, []);
 
   return (
@@ -32,7 +57,11 @@ export default function FeaturedListings() {
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
           Featured Properties
         </h2>
-        <a href="/listings" className="text-primary text-sm font-medium hover:underline">
+
+        <a
+          href="/listings"
+          className="text-primary text-sm font-medium hover:underline"
+        >
           View All →
         </a>
       </div>
@@ -40,7 +69,10 @@ export default function FeaturedListings() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4].map((i) => (
-            <div key={i} className="h-72 bg-gray-100 rounded-xl animate-pulse" />
+            <div
+              key={i}
+              className="h-72 bg-gray-100 rounded-xl animate-pulse"
+            />
           ))}
         </div>
       ) : listings.length === 0 ? (
@@ -50,7 +82,10 @@ export default function FeaturedListings() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {listings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
+            <ListingCard
+              key={listing.id || listing._id}
+              listing={listing}
+            />
           ))}
         </div>
       )}
