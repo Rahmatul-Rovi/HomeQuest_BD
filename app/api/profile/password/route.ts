@@ -8,3 +8,23 @@ export async function POST(req: NextRequest) {
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const { currentPassword, newPassword } = await req.json();
+
+  if (typeof newPassword !== "string" || newPassword.length < 6) {
+    return NextResponse.json(
+      { error: "New password must be at least 6 characters" },
+      { status: 400 }
+    );
+  }
+  if (newPassword.length > 72) {
+    return NextResponse.json(
+      { error: "New password is too long" },
+      { status: 400 }
+    );
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    select: { password: true },
+  });
