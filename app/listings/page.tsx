@@ -101,3 +101,13 @@ export default async function ListingsPage({
           >
             <ListingFilters key={filterKey} />
           </Suspense>
+
+ <Suspense
+            fallback={
+              <div className="h-96 bg-white border border-gray-100 rounded-2xl animate-pulse" />
+            }
+          >
+            <ListingGrid />
+          </Suspense>
+        </div>
+      </main>
