@@ -32,3 +32,15 @@ function buildHeading(sp: SearchParams) {
   } else if (type === "SALE") {
     title = "Properties for Sale";
   }
+
+   let subtitle = "Find verified flats, mess, seats and more across Bangladesh.";
+  if (area) {
+    subtitle = `Showing results in "${area}".`;
+  } else if (type === "RENT") {
+    subtitle = "Verified rental properties, directly from owners. No brokers.";
+  } else if (type === "SALE") {
+    subtitle = "Properties for sale from verified owners.";
+  }
+
+  return { title, subtitle };
+}
