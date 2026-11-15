@@ -28,3 +28,20 @@ export async function POST(req: NextRequest) {
     where: { id: session.user.id },
     select: { password: true },
   });
+
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+ 
+  if (user.password) {
+    const isValid =
+      typeof currentPassword === "string" &&
+      (await bcrypt.compare(currentPassword, user.password));
+
+    if (!isValid) {
+      return NextResponse.json(
+        { error: "Current password is incorrect" },
+        { status: 400 }
+      );
+    }
