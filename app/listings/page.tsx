@@ -59,3 +59,17 @@ export default async function ListingsPage({
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
+
+      {/* Header Banner */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-primary-light/60 to-gray-50 border-b border-gray-100">
+        <div className="absolute -top-20 -right-20 w-72 h-72 bg-primary-light rounded-full blur-3xl opacity-60 pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 md:px-8 py-10">
+          <nav className="flex items-center gap-1.5 text-xs text-gray-400 mb-3">
+            <Link href="/" className="hover:text-primary transition">
+              Home
+            </Link>
+            <ChevronRight size={12} />
+            <Link href="/listings" className="hover:text-primary transition">
+              Listings
+            </Link>
