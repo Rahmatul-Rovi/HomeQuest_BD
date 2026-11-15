@@ -73,3 +73,26 @@ export async function PATCH(req: NextRequest) {
     }
     data.name = name;
   }
+
+   if (body.phone !== undefined) {
+    const raw = String(body.phone ?? "").replace(/[\s-]/g, "");
+    if (raw === "") {
+      data.phone = null;
+    } else if (!PHONE_REGEX.test(raw)) {
+      return NextResponse.json(
+        { error: "Enter a valid Bangladeshi mobile number (e.g. 01712345678)" },
+        { status: 400 }
+      );
+    } else {
+      data.phone = raw;
+    }
+  }
+
+  if (body.bio !== undefined) {
+    const bio = String(body.bio ?? "").trim();
+    if (bio.length > 300) {
+      return NextResponse.json(
+        { error: "Bio can be at most 300 characters" },
+        { status: 400 }
+      );
+    }
