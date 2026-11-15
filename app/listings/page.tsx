@@ -44,3 +44,18 @@ function buildHeading(sp: SearchParams) {
 
   return { title, subtitle };
 }
+
+export default async function ListingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const sp = await searchParams;
+  const { title, subtitle } = buildHeading(sp);
+
+  
+  const filterKey = JSON.stringify(sp);
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
