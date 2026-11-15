@@ -6,6 +6,7 @@ export const dynamic = "force-dynamic";
 
 const PHONE_REGEX = /^(?:\+?88)?01[3-9]\d{8}$/;
 
+// GET - Personal profile + stats
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id) {
@@ -30,7 +31,6 @@ export async function GET() {
         password: true,
       },
     }),
-
     prisma.listing.count({ where: { ownerId: userId } }),
     prisma.visitRequest.count({ where: { tenantId: userId } }),
   ]);
@@ -48,6 +48,7 @@ export async function GET() {
   });
 }
 
+// PATCH - Profile update 
 export async function PATCH(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
@@ -74,7 +75,7 @@ export async function PATCH(req: NextRequest) {
     data.name = name;
   }
 
-   if (body.phone !== undefined) {
+  if (body.phone !== undefined) {
     const raw = String(body.phone ?? "").replace(/[\s-]/g, "");
     if (raw === "") {
       data.phone = null;
@@ -96,3 +97,27 @@ export async function PATCH(req: NextRequest) {
         { status: 400 }
       );
     }
+    data.bio = bio || null;
+  }
+
+  if (body.image !== undefined) {
+    if (body.image === null || body.image === "") {
+      data.image = null;
+    } else if (
+      typeof body.image === "string" &&
+      body.image.startsWith("https://res.cloudinary.com/")
+    ) {
+      data.image = body.image;
+    } else {
+      return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
+    }
+  }
+
+  const updated = await prisma.user.update({
+    where: { id: session.user.id },
+    data,
+    select: { name: true, phone: true, bio: true, image: true },
+  });
+
+  return NextResponse.json(updated);
+}
