@@ -90,6 +90,8 @@ model User {
   ownerConversations   Conversation[] @relation("OwnerConversations")   
   messages             Message[]
   notifications  Notification[]
+  phone         String?
+  bio           String?
   createdAt     DateTime  @default(now())
 }
 
