@@ -47,3 +47,29 @@ export async function GET() {
     stats: { listings, visitRequests },
   });
 }
+
+export async function PATCH(req: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await req.json();
+
+  const data: {
+    name?: string;
+    phone?: string | null;
+    bio?: string | null;
+    image?: string | null;
+  } = {};
+
+  if (body.name !== undefined) {
+    const name = String(body.name).trim();
+    if (name.length < 2 || name.length > 60) {
+      return NextResponse.json(
+        { error: "Name must be between 2 and 60 characters" },
+        { status: 400 }
+      );
+    }
+    data.name = name;
+  }
