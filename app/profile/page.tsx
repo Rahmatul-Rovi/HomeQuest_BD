@@ -90,3 +90,26 @@ function PasswordField({
         >
           {show ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
+
+         </div>
+    </div>
+  );
+}
+
+export default function ProfilePage() {
+  const router = useRouter();
+  const { status, update } = useSession();
+  const wishlistCount = useWishlistStore((s) => s.wishlist.length);
+
+  const [profile, setProfile] = useState<Profile | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [tab, setTab] = useState<"profile" | "security">("profile");
+
+  // Profile form
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [bio, setBio] = useState("");
+  const [image, setImage] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
