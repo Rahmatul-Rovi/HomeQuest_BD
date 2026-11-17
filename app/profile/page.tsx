@@ -113,3 +113,27 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+
+  // Password form
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [changingPassword, setChangingPassword] = useState(false);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?redirect=/profile");
+    }
+  }, [status, router]);
+
+  const loadProfile = useCallback(async () => {
+    try {
+      const res = await fetch("/api/profile");
+      if (!res.ok) throw new Error("Failed");
+      const data: Profile = await res.json();
+      setProfile(data);
+      setName(data.name);
+      setPhone(data.phone ?? "");
+      setBio(data.bio ?? "");
+      setImage(data.image);
+    }
