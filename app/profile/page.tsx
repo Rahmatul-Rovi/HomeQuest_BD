@@ -244,3 +244,25 @@ export default function ProfilePage() {
         });
         return;
       }
+
+      setProfile({
+        ...profile,
+        name: data.name,
+        phone: data.phone,
+        bio: data.bio,
+        image: data.image,
+      });
+      setName(data.name);
+      setPhone(data.phone ?? "");
+      setBio(data.bio ?? "");
+      setImage(data.image);
+
+      await update({ name: data.name, image: data.image });
+
+      Swal.fire({
+        icon: "success",
+        title: "Profile updated",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+    }
