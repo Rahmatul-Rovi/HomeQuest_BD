@@ -29,3 +29,25 @@ import {
   ShieldCheck,
   Trash2,
 } from "lucide-react";
+
+type Role = "TENANT" | "OWNER" | "ADMIN";
+
+type Profile = {
+  id: string;
+  name: string;
+  email: string;
+  image: string | null;
+  phone: string | null;
+  bio: string | null;
+  role: Role;
+  verified: boolean;
+  createdAt: string;
+  hasPassword: boolean;
+  stats: { listings: number; visitRequests: number };
+};
+
+const ROLE_STYLES: Record<Role, { label: string; className: string }> = {
+  TENANT: { label: "Tenant", className: "bg-sky-100 text-sky-700" },
+  OWNER: { label: "Owner", className: "bg-emerald-100 text-emerald-700" },
+  ADMIN: { label: "Admin", className: "bg-amber-100 text-amber-700" },
+};
