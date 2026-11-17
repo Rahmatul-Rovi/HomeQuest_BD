@@ -196,3 +196,25 @@ export default function ProfilePage() {
       );
       const data = await res.json();
       if (!data.secure_url) throw new Error("Upload failed");
+
+      setImage(data.secure_url);
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Upload failed",
+        text: "Could not upload your photo. Please try again.",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setUploading(false);
+      if (fileRef.current) fileRef.current.value = "";
+    }
+  };
+
+  const handleDiscard = () => {
+    if (!profile) return;
+    setName(profile.name);
+    setPhone(profile.phone ?? "");
+    setBio(profile.bio ?? "");
+    setImage(profile.image);
+  };
