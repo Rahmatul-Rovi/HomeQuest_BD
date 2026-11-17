@@ -159,3 +159,25 @@ export default function ProfilePage() {
       phone !== (profile.phone ?? "") ||
       bio !== (profile.bio ?? "") ||
       image !== profile.image);
+
+       const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      Swal.fire({
+        icon: "warning",
+        title: "Please choose an image file",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      Swal.fire({
+        icon: "warning",
+        title: "Image is too large",
+        text: "Please choose a photo under 5 MB.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
