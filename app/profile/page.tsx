@@ -266,3 +266,18 @@ export default function ProfilePage() {
         showConfirmButton: false,
       });
     }
+
+    catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!profile) return;
