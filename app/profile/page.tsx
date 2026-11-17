@@ -137,3 +137,25 @@ export default function ProfilePage() {
       setBio(data.bio ?? "");
       setImage(data.image);
     }
+
+    catch {
+      Swal.fire({
+        icon: "error",
+        title: "Could not load profile",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (status === "authenticated") loadProfile();
+  }, [status, loadProfile]);
+
+  const isDirty =
+    profile !== null &&
+    (name !== profile.name ||
+      phone !== (profile.phone ?? "") ||
+      bio !== (profile.bio ?? "") ||
+      image !== profile.image);
