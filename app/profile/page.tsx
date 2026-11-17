@@ -218,3 +218,29 @@ export default function ProfilePage() {
     setBio(profile.bio ?? "");
     setImage(profile.image);
   };
+
+   const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!profile || !isDirty || saving) return;
+
+    setSaving(true);
+    try {
+      const body: Record<string, unknown> = { name, phone, bio };
+      if (image !== profile.image) body.image = image;
+
+      const res = await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Could not save",
+          text: data.error || "Something went wrong.",
+          confirmButtonColor: "#16A34A",
+        });
+        return;
+      }
