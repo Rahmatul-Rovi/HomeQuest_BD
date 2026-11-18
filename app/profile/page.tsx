@@ -664,3 +664,36 @@ export default function ProfilePage() {
                     )}
                   </div>
                 </form>
+                )}
+
+              {/* Security Tab */}
+              {tab === "security" && (
+                <form onSubmit={handlePasswordChange} className="p-6 space-y-5">
+                  <div>
+                    <h2 className="font-bold text-gray-900">
+                      {profile.hasPassword ? "Change Password" : "Set a Password"}
+                    </h2>
+                    <p className="text-sm text-gray-400 mt-0.5">
+                      {profile.hasPassword
+                        ? "Use a strong password that you don't use elsewhere."
+                        : "You signed up with Google. Set a password to also log in with your email."}
+                    </p>
+                  </div>
+
+                  {profile.hasPassword && (
+                    <PasswordField
+                      label="Current Password"
+                      value={currentPassword}
+                      onChange={setCurrentPassword}
+                      placeholder="Enter current password"
+                      autoComplete="current-password"
+                    />
+                  )}
+
+                  <PasswordField
+                    label="New Password"
+                    value={newPassword}
+                    onChange={setNewPassword}
+                    placeholder="At least 6 characters"
+                    autoComplete="new-password"
+                  />
