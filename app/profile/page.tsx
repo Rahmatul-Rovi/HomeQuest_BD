@@ -591,3 +591,26 @@ export default function ProfilePage() {
                       />
                     </div>
                   </div>
+
+                   <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+                      Email
+                    </label>
+                    <div className="flex items-center border border-gray-200 bg-gray-50 rounded-lg px-3">
+                      <Mail size={16} className="text-gray-400 mr-2 shrink-0" />
+                      <input
+                        type="email"
+                        value={profile.email}
+                        disabled
+                        className="w-full py-2.5 text-sm outline-none bg-transparent text-gray-500 cursor-not-allowed"
+                      />
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">
+                      Email cannot be changed.
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+                      Phone Number
+                    </label>
