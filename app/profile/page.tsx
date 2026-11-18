@@ -526,3 +526,30 @@ export default function ProfilePage() {
                 })}
               </div>
             </div>
+
+             {/* Right Column */}
+            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm">
+              <div className="flex gap-2 px-5 pt-2 border-b border-gray-100">
+                <button
+                  type="button"
+                  onClick={() => setTab("profile")}
+                  className={`px-4 py-3 text-sm font-medium border-b-2 transition ${
+                    tab === "profile"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  Profile
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTab("security")}
+                  className={`px-4 py-3 text-sm font-medium border-b-2 transition ${
+                    tab === "security"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  Security
+                </button>
+              </div>
