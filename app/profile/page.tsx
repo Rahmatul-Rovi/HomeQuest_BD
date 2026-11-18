@@ -431,3 +431,26 @@ export default function ProfilePage() {
                 />
               </label>
             </div>
+
+             <div className="sm:pb-2 min-w-0">
+              <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 truncate">
+                {profile.name}
+              </h1>
+              <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                <span
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-full ${roleStyle.className}`}
+                >
+                  {roleStyle.label}
+                </span>
+                {profile.verified ? (
+                  <span className="flex items-center gap-1 text-xs font-semibold text-primary bg-primary-light px-2.5 py-1 rounded-full">
+                    <BadgeCheck size={13} /> Verified
+                  </span>
+                ) : (
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
+                    Not verified
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
