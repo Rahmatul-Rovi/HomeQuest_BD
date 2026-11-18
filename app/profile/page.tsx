@@ -377,3 +377,23 @@ export default function ProfilePage() {
       height={112}
       className="w-28 h-28 rounded-full object-cover ring-4 ring-white shadow-md bg-white"
     />
+
+    ) : (
+    <div className="w-28 h-28 rounded-full ring-4 ring-white shadow-md bg-primary-light flex items-center justify-center text-primary text-4xl font-bold">
+      {(name || profile.email).charAt(0).toUpperCase()}
+    </div>
+  );
+
+  const quickLinks = [
+    { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { label: "Messages", href: "/messages", icon: MessageCircleMore },
+    { label: "Notifications", href: "/notifications", icon: Bell },
+    { label: "Wishlist", href: "/wishlist", icon: Heart },
+    ...(profile.role === "ADMIN"
+      ? [{ label: "Admin Panel", href: "/admin", icon: ShieldCheck }]
+      : []),
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
