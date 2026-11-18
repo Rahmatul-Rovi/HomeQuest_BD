@@ -697,3 +697,30 @@ export default function ProfilePage() {
                     placeholder="At least 6 characters"
                     autoComplete="new-password"
                   />
+
+                  <PasswordField
+                    label="Confirm New Password"
+                    value={confirmPassword}
+                    onChange={setConfirmPassword}
+                    placeholder="Re-enter new password"
+                    autoComplete="new-password"
+                  />
+
+                  <Button
+                    type="submit"
+                    disabled={
+                      changingPassword ||
+                      !newPassword ||
+                      !confirmPassword ||
+                      (profile.hasPassword && !currentPassword)
+                    }
+                    className="bg-primary hover:bg-primary-dark text-white disabled:opacity-50"
+                  >
+                    {changingPassword
+                      ? "Updating..."
+                      : profile.hasPassword
+                      ? "Update Password"
+                      : "Set Password"}
+                  </Button>
+                </form>
+              )}
