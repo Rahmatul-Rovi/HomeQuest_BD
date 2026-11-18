@@ -397,3 +397,37 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
+
+<main className="flex-1">
+        {/* Banner */}
+        <div className="relative h-32 md:h-40 bg-gradient-to-r from-primary to-emerald-400 overflow-hidden">
+          <div className="absolute -top-16 -right-10 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
+          <div className="absolute -bottom-20 left-1/4 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
+        </div>
+
+        <div className="max-w-5xl mx-auto px-4 md:px-8 pb-12">
+          {/* Avatar + Name */}
+          <div className="-mt-14 flex flex-col sm:flex-row sm:items-end gap-4">
+            <div className="relative w-fit">
+              {avatar}
+              <label
+                className={`absolute bottom-1 right-1 w-9 h-9 rounded-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center shadow cursor-pointer transition ${
+                  uploading ? "pointer-events-none opacity-80" : ""
+                }`}
+                title="Change photo"
+              >
+                {uploading ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <Camera size={16} />
+                )}
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                  disabled={uploading}
+                  className="hidden"
+                />
+              </label>
+            </div>
