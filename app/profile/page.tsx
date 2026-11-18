@@ -347,3 +347,33 @@ export default function ProfilePage() {
     return (
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
+
+         <div className="flex-1">
+          <div className="h-32 bg-gray-200 animate-pulse" />
+          <div className="max-w-5xl mx-auto px-4 md:px-8 animate-pulse">
+            <div className="-mt-14 w-28 h-28 rounded-full bg-gray-300 ring-4 ring-gray-50" />
+            <div className="mt-6 grid lg:grid-cols-[320px_1fr] gap-6">
+              <div className="h-80 bg-gray-100 rounded-2xl" />
+              <div className="h-96 bg-gray-100 rounded-2xl" />
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const roleStyle = ROLE_STYLES[profile.role];
+  const memberSince = new Date(profile.createdAt).toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+  });
+
+  const avatar = image ? (
+    <Image
+      src={image}
+      alt={name || "Profile photo"}
+      width={112}
+      height={112}
+      className="w-28 h-28 rounded-full object-cover ring-4 ring-white shadow-md bg-white"
+    />
