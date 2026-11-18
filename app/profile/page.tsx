@@ -281,3 +281,22 @@ export default function ProfilePage() {
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!profile) return;
+
+    if (newPassword.length < 6) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password too short",
+        text: "Use at least 6 characters.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      Swal.fire({
+        icon: "warning",
+        title: "Passwords don't match",
+        text: "Please re-enter the same new password.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
