@@ -281,3 +281,313 @@ export default function ProfilePage() {
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!profile) return;
+
+    if (newPassword.length < 6) {
+      Swal.fire({
+        icon: "warning",
+        title: "Password too short",
+        text: "Use at least 6 characters.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      Swal.fire({
+        icon: "warning",
+        title: "Passwords don't match",
+        text: "Please re-enter the same new password.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+
+    setChangingPassword(true);
+    try {
+      const res = await fetch("/api/profile/password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Could not change password",
+          text: data.error || "Something went wrong.",
+          confirmButtonColor: "#16A34A",
+        });
+        return;
+      }
+
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setProfile({ ...profile, hasPassword: true });
+
+       Swal.fire({
+        icon: "success",
+        title: profile.hasPassword ? "Password changed" : "Password set",
+        text: "You can now log in with your email and password.",
+        confirmButtonColor: "#16A34A",
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setChangingPassword(false);
+    }
+  };
+
+  // Loading skeleton
+  if (status === "loading" || loading || !profile) {
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar />
+
+         <div className="flex-1">
+          <div className="h-32 bg-gray-200 animate-pulse" />
+          <div className="max-w-5xl mx-auto px-4 md:px-8 animate-pulse">
+            <div className="-mt-14 w-28 h-28 rounded-full bg-gray-300 ring-4 ring-gray-50" />
+            <div className="mt-6 grid lg:grid-cols-[320px_1fr] gap-6">
+              <div className="h-80 bg-gray-100 rounded-2xl" />
+              <div className="h-96 bg-gray-100 rounded-2xl" />
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const roleStyle = ROLE_STYLES[profile.role];
+  const memberSince = new Date(profile.createdAt).toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+  });
+
+  const avatar = image ? (
+    <Image
+      src={image}
+      alt={name || "Profile photo"}
+      width={112}
+      height={112}
+      className="w-28 h-28 rounded-full object-cover ring-4 ring-white shadow-md bg-white"
+    />
+
+    ) : (
+    <div className="w-28 h-28 rounded-full ring-4 ring-white shadow-md bg-primary-light flex items-center justify-center text-primary text-4xl font-bold">
+      {(name || profile.email).charAt(0).toUpperCase()}
+    </div>
+  );
+
+  const quickLinks = [
+    { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+    { label: "Messages", href: "/messages", icon: MessageCircleMore },
+    { label: "Notifications", href: "/notifications", icon: Bell },
+    { label: "Wishlist", href: "/wishlist", icon: Heart },
+    ...(profile.role === "ADMIN"
+      ? [{ label: "Admin Panel", href: "/admin", icon: ShieldCheck }]
+      : []),
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+
+<main className="flex-1">
+        {/* Banner */}
+        <div className="relative h-32 md:h-40 bg-gradient-to-r from-primary to-emerald-400 overflow-hidden">
+          <div className="absolute -top-16 -right-10 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
+          <div className="absolute -bottom-20 left-1/4 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
+        </div>
+
+        <div className="max-w-5xl mx-auto px-4 md:px-8 pb-12">
+          {/* Avatar + Name */}
+          <div className="-mt-14 flex flex-col sm:flex-row sm:items-end gap-4">
+            <div className="relative w-fit">
+              {avatar}
+              <label
+                className={`absolute bottom-1 right-1 w-9 h-9 rounded-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center shadow cursor-pointer transition ${
+                  uploading ? "pointer-events-none opacity-80" : ""
+                }`}
+                title="Change photo"
+              >
+                {uploading ? (
+                  <Loader2 size={16} className="animate-spin" />
+                ) : (
+                  <Camera size={16} />
+                )}
+                <input
+                  ref={fileRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                  disabled={uploading}
+                  className="hidden"
+                />
+              </label>
+            </div>
+
+             <div className="sm:pb-2 min-w-0">
+              <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 truncate">
+                {profile.name}
+              </h1>
+              <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                <span
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-full ${roleStyle.className}`}
+                >
+                  {roleStyle.label}
+                </span>
+                {profile.verified ? (
+                  <span className="flex items-center gap-1 text-xs font-semibold text-primary bg-primary-light px-2.5 py-1 rounded-full">
+                    <BadgeCheck size={13} /> Verified
+                  </span>
+                ) : (
+                  <span className="text-xs text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
+                    Not verified
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+
+           <div className="mt-8 grid lg:grid-cols-[320px_1fr] gap-6 items-start">
+            {/* Left Column */}
+            <div className="space-y-6">
+              {/* Stats */}
+              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5">
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div>
+                    <div className="mx-auto w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center mb-1.5">
+                      <Home size={16} className="text-primary" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">
+                      {profile.stats.listings}
+                    </p>
+                    <p className="text-[11px] text-gray-400">Listings</p>
+                  </div>
+                  <div>
+                    <div className="mx-auto w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center mb-1.5">
+                      <CalendarCheck size={16} className="text-primary" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">
+                      {profile.stats.visitRequests}
+                    </p>
+                    <p className="text-[11px] text-gray-400">Visits</p>
+                  </div>
+                  <div>
+                    <div className="mx-auto w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center mb-1.5">
+                      <Heart size={16} className="text-primary" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">
+                      {wishlistCount}
+                    </p>
+                    <p className="text-[11px] text-gray-400">Saved</p>
+                  </div>
+                </div>
+
+                <div className="mt-5 pt-5 border-t border-gray-100 space-y-3 text-sm">
+                  <div className="flex items-center gap-2.5 text-gray-600 min-w-0">
+                    <Mail size={15} className="text-gray-400 shrink-0" />
+                    <span className="truncate">{profile.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2.5 text-gray-600">
+                    <Phone size={15} className="text-gray-400 shrink-0" />
+                    <span>{profile.phone || "No phone added"}</span>
+                  </div>
+                  <p className="text-xs text-gray-400">Member since {memberSince}</p>
+                </div>
+
+                {profile.bio && (
+                  <p className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                    {profile.bio}
+                  </p>
+                )}
+              </div>
+
+               {/* Quick Links */}
+              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-2">
+                {quickLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-primary-light hover:text-primary transition"
+                    >
+                      <Icon size={17} />
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+             {/* Right Column */}
+            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm">
+              <div className="flex gap-2 px-5 pt-2 border-b border-gray-100">
+                <button
+                  type="button"
+                  onClick={() => setTab("profile")}
+                  className={`px-4 py-3 text-sm font-medium border-b-2 transition ${
+                    tab === "profile"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  Profile
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTab("security")}
+                  className={`px-4 py-3 text-sm font-medium border-b-2 transition ${
+                    tab === "security"
+                      ? "border-primary text-primary"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  Security
+                </button>
+              </div>
+              {/* Profile Tab */}
+              {tab === "profile" && (
+                <form onSubmit={handleSave} className="p-6 space-y-5">
+                  <div>
+                    <h2 className="font-bold text-gray-900">Personal Information</h2>
+                    <p className="text-sm text-gray-400 mt-0.5">
+                      This information is visible to owners and tenants you chat with.
+                    </p>
+                  </div>
+
+                  {image && (
+                    <button
+                      type="button"
+                      onClick={() => setImage(null)}
+                      className="flex items-center gap-1.5 text-xs text-red-500 hover:underline"
+                    >
+                      <Trash2 size={13} /> Remove profile photo
+                    </button>
+                  )}
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+                      Full Name
+                    </label>
+                    <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
+                      <UserIcon size={16} className="text-gray-400 mr-2 shrink-0" />
+                      <input
+                        type="text"
+                        required
+                        minLength={2}
+                        maxLength={60}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Your full name"
+                        className="w-full py-2.5 text-sm outline-none bg-transparent"
+                      />
+                    </div>
+                  </div>
