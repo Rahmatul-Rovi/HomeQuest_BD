@@ -324,3 +324,26 @@ export default function ProfilePage() {
       setNewPassword("");
       setConfirmPassword("");
       setProfile({ ...profile, hasPassword: true });
+
+       Swal.fire({
+        icon: "success",
+        title: profile.hasPassword ? "Password changed" : "Password set",
+        text: "You can now log in with your email and password.",
+        confirmButtonColor: "#16A34A",
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setChangingPassword(false);
+    }
+  };
+
+  // Loading skeleton
+  if (status === "loading" || loading || !profile) {
+    return (
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar />
