@@ -614,3 +614,28 @@ export default function ProfilePage() {
                     <label className="text-sm font-medium text-gray-700 mb-1.5 block">
                       Phone Number
                     </label>
+
+                    <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
+                      <Phone size={16} className="text-gray-400 mr-2 shrink-0" />
+                      <input
+                        type="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="01XXXXXXXXX"
+                        className="w-full py-2.5 text-sm outline-none bg-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+                      Bio
+                    </label>
+                    <textarea
+                      rows={4}
+                      maxLength={300}
+                      value={bio}
+                      onChange={(e) => setBio(e.target.value)}
+                      placeholder="Tell others a little about yourself..."
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition resize-none"
+                    />
