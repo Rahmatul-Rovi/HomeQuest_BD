@@ -489,3 +489,22 @@ export default function ProfilePage() {
                     <p className="text-[11px] text-gray-400">Saved</p>
                   </div>
                 </div>
+
+                <div className="mt-5 pt-5 border-t border-gray-100 space-y-3 text-sm">
+                  <div className="flex items-center gap-2.5 text-gray-600 min-w-0">
+                    <Mail size={15} className="text-gray-400 shrink-0" />
+                    <span className="truncate">{profile.email}</span>
+                  </div>
+                  <div className="flex items-center gap-2.5 text-gray-600">
+                    <Phone size={15} className="text-gray-400 shrink-0" />
+                    <span>{profile.phone || "No phone added"}</span>
+                  </div>
+                  <p className="text-xs text-gray-400">Member since {memberSince}</p>
+                </div>
+
+                {profile.bio && (
+                  <p className="mt-4 pt-4 border-t border-gray-100 text-sm text-gray-600 leading-relaxed whitespace-pre-line">
+                    {profile.bio}
+                  </p>
+                )}
+              </div>
