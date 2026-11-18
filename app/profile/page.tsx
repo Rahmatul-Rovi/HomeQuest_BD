@@ -454,3 +454,38 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
+
+           <div className="mt-8 grid lg:grid-cols-[320px_1fr] gap-6 items-start">
+            {/* Left Column */}
+            <div className="space-y-6">
+              {/* Stats */}
+              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5">
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div>
+                    <div className="mx-auto w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center mb-1.5">
+                      <Home size={16} className="text-primary" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">
+                      {profile.stats.listings}
+                    </p>
+                    <p className="text-[11px] text-gray-400">Listings</p>
+                  </div>
+                  <div>
+                    <div className="mx-auto w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center mb-1.5">
+                      <CalendarCheck size={16} className="text-primary" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">
+                      {profile.stats.visitRequests}
+                    </p>
+                    <p className="text-[11px] text-gray-400">Visits</p>
+                  </div>
+                  <div>
+                    <div className="mx-auto w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center mb-1.5">
+                      <Heart size={16} className="text-primary" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">
+                      {wishlistCount}
+                    </p>
+                    <p className="text-[11px] text-gray-400">Saved</p>
+                  </div>
+                </div>
