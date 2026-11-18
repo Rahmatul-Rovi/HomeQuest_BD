@@ -9,7 +9,6 @@ import Swal from "sweetalert2";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { useWishlistStore } from "@/store/wishlistStore";
 import {
   Camera,
   BadgeCheck,
@@ -29,6 +28,7 @@ import {
   ShieldCheck,
   Trash2,
 } from "lucide-react";
+import { useWishlistStore } from "@/src/store/wishlistStore";
 
 type Role = "TENANT" | "OWNER" | "ADMIN";
 
@@ -90,8 +90,7 @@ function PasswordField({
         >
           {show ? <EyeOff size={16} /> : <Eye size={16} />}
         </button>
-
-         </div>
+      </div>
     </div>
   );
 }
@@ -136,9 +135,7 @@ export default function ProfilePage() {
       setPhone(data.phone ?? "");
       setBio(data.bio ?? "");
       setImage(data.image);
-    }
-
-    catch {
+    } catch {
       Swal.fire({
         icon: "error",
         title: "Could not load profile",
@@ -160,7 +157,7 @@ export default function ProfilePage() {
       bio !== (profile.bio ?? "") ||
       image !== profile.image);
 
-       const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -181,6 +178,7 @@ export default function ProfilePage() {
       });
       return;
     }
+
     setUploading(true);
     try {
       const formData = new FormData();
@@ -219,7 +217,7 @@ export default function ProfilePage() {
     setImage(profile.image);
   };
 
-   const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!profile || !isDirty || saving) return;
 
@@ -257,6 +255,7 @@ export default function ProfilePage() {
       setBio(data.bio ?? "");
       setImage(data.image);
 
+      // Navbar er name/pic  update 
       await update({ name: data.name, image: data.image });
 
       Swal.fire({
@@ -265,9 +264,7 @@ export default function ProfilePage() {
         timer: 1200,
         showConfirmButton: false,
       });
-    }
-
-    catch {
+    } catch {
       Swal.fire({
         icon: "error",
         title: "Something went wrong",
@@ -325,7 +322,7 @@ export default function ProfilePage() {
       setConfirmPassword("");
       setProfile({ ...profile, hasPassword: true });
 
-       Swal.fire({
+      Swal.fire({
         icon: "success",
         title: profile.hasPassword ? "Password changed" : "Password set",
         text: "You can now log in with your email and password.",
@@ -347,8 +344,7 @@ export default function ProfilePage() {
     return (
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
-
-         <div className="flex-1">
+        <div className="flex-1">
           <div className="h-32 bg-gray-200 animate-pulse" />
           <div className="max-w-5xl mx-auto px-4 md:px-8 animate-pulse">
             <div className="-mt-14 w-28 h-28 rounded-full bg-gray-300 ring-4 ring-gray-50" />
@@ -377,8 +373,7 @@ export default function ProfilePage() {
       height={112}
       className="w-28 h-28 rounded-full object-cover ring-4 ring-white shadow-md bg-white"
     />
-
-    ) : (
+  ) : (
     <div className="w-28 h-28 rounded-full ring-4 ring-white shadow-md bg-primary-light flex items-center justify-center text-primary text-4xl font-bold">
       {(name || profile.email).charAt(0).toUpperCase()}
     </div>
@@ -398,7 +393,7 @@ export default function ProfilePage() {
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
 
-<main className="flex-1">
+      <main className="flex-1">
         {/* Banner */}
         <div className="relative h-32 md:h-40 bg-gradient-to-r from-primary to-emerald-400 overflow-hidden">
           <div className="absolute -top-16 -right-10 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
@@ -432,7 +427,7 @@ export default function ProfilePage() {
               </label>
             </div>
 
-             <div className="sm:pb-2 min-w-0">
+            <div className="sm:pb-2 min-w-0">
               <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 truncate">
                 {profile.name}
               </h1>
@@ -455,7 +450,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-           <div className="mt-8 grid lg:grid-cols-[320px_1fr] gap-6 items-start">
+          <div className="mt-8 grid lg:grid-cols-[320px_1fr] gap-6 items-start">
             {/* Left Column */}
             <div className="space-y-6">
               {/* Stats */}
@@ -509,7 +504,7 @@ export default function ProfilePage() {
                 )}
               </div>
 
-               {/* Quick Links */}
+              {/* Quick Links */}
               <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-2">
                 {quickLinks.map((link) => {
                   const Icon = link.icon;
@@ -527,7 +522,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-             {/* Right Column */}
+            {/* Right Column */}
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm">
               <div className="flex gap-2 px-5 pt-2 border-b border-gray-100">
                 <button
@@ -553,6 +548,7 @@ export default function ProfilePage() {
                   Security
                 </button>
               </div>
+
               {/* Profile Tab */}
               {tab === "profile" && (
                 <form onSubmit={handleSave} className="p-6 space-y-5">
@@ -592,7 +588,7 @@ export default function ProfilePage() {
                     </div>
                   </div>
 
-                   <div>
+                  <div>
                     <label className="text-sm font-medium text-gray-700 mb-1.5 block">
                       Email
                     </label>
@@ -614,7 +610,6 @@ export default function ProfilePage() {
                     <label className="text-sm font-medium text-gray-700 mb-1.5 block">
                       Phone Number
                     </label>
-
                     <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
                       <Phone size={16} className="text-gray-400 mr-2 shrink-0" />
                       <input
@@ -639,7 +634,7 @@ export default function ProfilePage() {
                       placeholder="Tell others a little about yourself..."
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition resize-none"
                     />
-                     <p className="text-xs text-gray-400 mt-1 text-right">
+                    <p className="text-xs text-gray-400 mt-1 text-right">
                       {bio.length}/300
                     </p>
                   </div>
@@ -664,7 +659,7 @@ export default function ProfilePage() {
                     )}
                   </div>
                 </form>
-                )}
+              )}
 
               {/* Security Tab */}
               {tab === "security" && (
@@ -724,3 +719,12 @@ export default function ProfilePage() {
                   </Button>
                 </form>
               )}
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
