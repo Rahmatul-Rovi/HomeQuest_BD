@@ -553,3 +553,41 @@ export default function ProfilePage() {
                   Security
                 </button>
               </div>
+              {/* Profile Tab */}
+              {tab === "profile" && (
+                <form onSubmit={handleSave} className="p-6 space-y-5">
+                  <div>
+                    <h2 className="font-bold text-gray-900">Personal Information</h2>
+                    <p className="text-sm text-gray-400 mt-0.5">
+                      This information is visible to owners and tenants you chat with.
+                    </p>
+                  </div>
+
+                  {image && (
+                    <button
+                      type="button"
+                      onClick={() => setImage(null)}
+                      className="flex items-center gap-1.5 text-xs text-red-500 hover:underline"
+                    >
+                      <Trash2 size={13} /> Remove profile photo
+                    </button>
+                  )}
+
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 mb-1.5 block">
+                      Full Name
+                    </label>
+                    <div className="flex items-center border border-gray-200 rounded-lg px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
+                      <UserIcon size={16} className="text-gray-400 mr-2 shrink-0" />
+                      <input
+                        type="text"
+                        required
+                        minLength={2}
+                        maxLength={60}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Your full name"
+                        className="w-full py-2.5 text-sm outline-none bg-transparent"
+                      />
+                    </div>
+                  </div>
