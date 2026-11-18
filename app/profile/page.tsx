@@ -639,3 +639,28 @@ export default function ProfilePage() {
                       placeholder="Tell others a little about yourself..."
                       className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition resize-none"
                     />
+                     <p className="text-xs text-gray-400 mt-1 text-right">
+                      {bio.length}/300
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 pt-2">
+                    <Button
+                      type="submit"
+                      disabled={!isDirty || saving || uploading}
+                      className="bg-primary hover:bg-primary-dark text-white disabled:opacity-50"
+                    >
+                      {saving ? "Saving..." : "Save Changes"}
+                    </Button>
+                    {isDirty && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        onClick={handleDiscard}
+                        className="text-gray-500"
+                      >
+                        Discard
+                      </Button>
+                    )}
+                  </div>
+                </form>
