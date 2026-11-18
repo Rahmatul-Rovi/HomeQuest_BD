@@ -300,3 +300,27 @@ export default function ProfilePage() {
       });
       return;
     }
+
+    setChangingPassword(true);
+    try {
+      const res = await fetch("/api/profile/password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Could not change password",
+          text: data.error || "Something went wrong.",
+          confirmButtonColor: "#16A34A",
+        });
+        return;
+      }
+
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      setProfile({ ...profile, hasPassword: true });
