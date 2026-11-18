@@ -508,3 +508,21 @@ export default function ProfilePage() {
                   </p>
                 )}
               </div>
+
+               {/* Quick Links */}
+              <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-2">
+                {quickLinks.map((link) => {
+                  const Icon = link.icon;
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-600 hover:bg-primary-light hover:text-primary transition"
+                    >
+                      <Icon size={17} />
+                      {link.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
