@@ -70,3 +70,33 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
         }
       },
     }),
+
+     [onChange]
+  );
+
+  const moveTo = (p: LatLng) => {
+    onChange(p);
+    setFlyTarget({ ...p, id: Date.now() });
+  };
+
+  // Search shudhu button/Enter e hoy (type korar shomoy na), OSM policy onujayi
+  const handleSearch = async () => {
+    const q = query.trim();
+    if (q.length < 3) {
+      setMessage("Type at least 3 characters to search.");
+      return;
+    }
+    setSearching(true);
+    setMessage(null);
+    setResults([]);
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&countrycodes=bd&accept-language=en&q=${encodeURIComponent(q)}`
+      );
+      if (!res.ok) throw new Error("Search failed");
+      const data: SearchResult[] = await res.json();
+      if (data.length === 0) {
+        setMessage("No places found. Try a nearby landmark, or click on the map.");
+      }
+      setResults(data);
+    }
