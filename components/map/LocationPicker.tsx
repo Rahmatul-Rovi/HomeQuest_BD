@@ -180,3 +180,31 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
           )}
         </Button>
       </div>
+        {message && <p className="text-xs text-amber-600">{message}</p>}
+
+      {results.length > 0 && (
+        <ul className="border border-gray-200 rounded-lg divide-y divide-gray-100 bg-white overflow-hidden">
+          {results.map((r) => (
+            <li key={r.place_id}>
+              <button
+                type="button"
+                onClick={() => pickResult(r)}
+                className="w-full text-left px-3 py-2.5 text-sm text-gray-600 hover:bg-primary-light hover:text-primary flex items-start gap-2 transition"
+              >
+                <MapPin size={15} className="mt-0.5 shrink-0" />
+                <span className="line-clamp-2">{r.display_name}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* isolate: Leaflet er z-index navbar/modal er upore uthe jawa ta atkay */}
+      <div className="relative isolate h-72 sm:h-80 rounded-xl overflow-hidden border border-gray-200">
+        <MapContainer
+          center={initialCenter}
+          zoom={value ? 16 : 12}
+          scrollWheelZoom
+          className="h-full w-full"
+        >
+          <TileLayer
