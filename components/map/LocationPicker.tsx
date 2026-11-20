@@ -40,3 +40,33 @@ function ClickToPlace({ onPick }: { onPick: (p: LatLng) => void }) {
   });
   return null;
 }
+
+function FlyTo({ target }: { target: FlyTarget | null }) {
+  const map = useMap();
+  useEffect(() => {
+    if (target) map.flyTo([target.lat, target.lng], 16, { duration: 0.8 });
+  }, [target, map]);
+  return null;
+}
+
+export default function LocationPicker({ value, onChange, onAddressFound }: Props) {
+  const markerRef = useRef<LeafletMarker>(null);
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [locating, setLocating] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [flyTarget, setFlyTarget] = useState<FlyTarget | null>(null);
+
+  const initialCenter: [number, number] = value ? [value.lat, value.lng] : DHAKA;
+
+  const markerEvents = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current;
+        if (marker) {
+          const { lat, lng } = marker.getLatLng();
+          onChange({ lat, lng });
+        }
+      },
+    }),
