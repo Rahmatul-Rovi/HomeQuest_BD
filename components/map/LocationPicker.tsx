@@ -156,3 +156,27 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
             className="w-full py-2.5 text-sm outline-none bg-transparent"
           />
         </div>
+
+         <Button
+          type="button"
+          onClick={handleSearch}
+          disabled={searching}
+          className="bg-primary hover:bg-primary-dark text-white shrink-0"
+        >
+          {searching ? <Loader2 size={16} className="animate-spin" /> : "Search"}
+        </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={locateMe}
+          disabled={locating}
+          title="Use my current location"
+          className="shrink-0"
+        >
+          {locating ? (
+            <Loader2 size={16} className="animate-spin" />
+          ) : (
+            <LocateFixed size={16} />
+          )}
+        </Button>
+      </div>
