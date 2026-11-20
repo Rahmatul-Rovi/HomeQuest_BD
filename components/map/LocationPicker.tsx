@@ -127,3 +127,32 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
         moveTo({ lat: pos.coords.latitude, lng: pos.coords.longitude });
         setLocating(false);
       },
+
+       () => {
+        setMessage("Could not get your location. Allow location access or click on the map.");
+        setLocating(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  };
+
+  return (
+    <div className="space-y-3">
+      {/* Form-er bhitore thake, tai <form> na, Enter e outer form submit hoye jabe */}
+      <div className="flex gap-2">
+        <div className="flex items-center flex-1 border border-gray-200 rounded-lg px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
+          <Search size={16} className="text-gray-400 mr-2 shrink-0" />
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSearch();
+              }
+            }}
+            placeholder="Search area or landmark (e.g. Mirpur 10)"
+            className="w-full py-2.5 text-sm outline-none bg-transparent"
+          />
+        </div>
