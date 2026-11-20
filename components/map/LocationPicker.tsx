@@ -208,3 +208,27 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
           className="h-full w-full"
         >
           <TileLayer
+
+           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <ClickToPlace onPick={(p) => onChange(p)} />
+          <FlyTo target={flyTarget} />
+          {value && (
+            <Marker
+              position={[value.lat, value.lng]}
+              icon={pinIcon}
+              draggable
+              ref={markerRef}
+              eventHandlers={markerEvents}
+            />
+          )}
+        </MapContainer>
+      </div>
+
+      <div className="flex items-center justify-between gap-3 text-xs">
+        {value ? (
+          <span className="text-primary font-medium flex items-center gap-1">
+            <MapPin size={13} /> Pinned: {value.lat.toFixed(5)}, {value.lng.toFixed(5)}
+          </span>
+        ) :
