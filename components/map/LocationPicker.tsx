@@ -21,3 +21,22 @@ type Props = {
   onChange: (value: LatLng | null) => void;
   onAddressFound?: (address: string) => void;
 };
+
+type SearchResult = {
+  place_id: number;
+  display_name: string;
+  lat: string;
+  lon: string;
+};
+type FlyTarget = { lat: number; lng: number; id: number };
+
+const DHAKA: [number, number] = [23.8103, 90.4125];
+
+function ClickToPlace({ onPick }: { onPick: (p: LatLng) => void }) {
+  useMapEvents({
+    click(e) {
+      onPick({ lat: e.latlng.lat, lng: e.latlng.lng });
+    },
+  });
+  return null;
+}
