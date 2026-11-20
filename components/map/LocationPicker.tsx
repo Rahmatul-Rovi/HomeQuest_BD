@@ -70,8 +70,7 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
         }
       },
     }),
-
-     [onChange]
+    [onChange]
   );
 
   const moveTo = (p: LatLng) => {
@@ -79,7 +78,7 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
     setFlyTarget({ ...p, id: Date.now() });
   };
 
-  // Search shudhu button/Enter e hoy (type korar shomoy na), OSM policy onujayi
+  // Search only on button/Enter  (not for the type), OSM policy
   const handleSearch = async () => {
     const q = query.trim();
     if (q.length < 3) {
@@ -99,9 +98,7 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
         setMessage("No places found. Try a nearby landmark, or click on the map.");
       }
       setResults(data);
-    }
-
-    catch {
+    } catch {
       setMessage("Search is unavailable right now. You can still click on the map.");
     } finally {
       setSearching(false);
@@ -127,8 +124,7 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
         moveTo({ lat: pos.coords.latitude, lng: pos.coords.longitude });
         setLocating(false);
       },
-
-       () => {
+      () => {
         setMessage("Could not get your location. Allow location access or click on the map.");
         setLocating(false);
       },
@@ -138,7 +134,6 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
 
   return (
     <div className="space-y-3">
-      {/* Form-er bhitore thake, tai <form> na, Enter e outer form submit hoye jabe */}
       <div className="flex gap-2">
         <div className="flex items-center flex-1 border border-gray-200 rounded-lg px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
           <Search size={16} className="text-gray-400 mr-2 shrink-0" />
@@ -156,8 +151,7 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
             className="w-full py-2.5 text-sm outline-none bg-transparent"
           />
         </div>
-
-         <Button
+        <Button
           type="button"
           onClick={handleSearch}
           disabled={searching}
@@ -180,7 +174,8 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
           )}
         </Button>
       </div>
-        {message && <p className="text-xs text-amber-600">{message}</p>}
+
+      {message && <p className="text-xs text-amber-600">{message}</p>}
 
       {results.length > 0 && (
         <ul className="border border-gray-200 rounded-lg divide-y divide-gray-100 bg-white overflow-hidden">
@@ -199,7 +194,7 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
         </ul>
       )}
 
-      {/* isolate: Leaflet er z-index navbar/modal er upore uthe jawa ta atkay */}
+      {/* isolate: Leaflet er z-index navbar/modal stop to go to the upper section */}
       <div className="relative isolate h-72 sm:h-80 rounded-xl overflow-hidden border border-gray-200">
         <MapContainer
           center={initialCenter}
@@ -208,8 +203,7 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
           className="h-full w-full"
         >
           <TileLayer
-
-           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           <ClickToPlace onPick={(p) => onChange(p)} />
@@ -231,4 +225,21 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
           <span className="text-primary font-medium flex items-center gap-1">
             <MapPin size={13} /> Pinned: {value.lat.toFixed(5)}, {value.lng.toFixed(5)}
           </span>
-        ) :
+        ) : (
+          <span className="text-gray-400">
+            Click on the map to drop a pin, or search above. You can drag the pin to adjust.
+          </span>
+        )}
+        {value && (
+          <button
+            type="button"
+            onClick={() => onChange(null)}
+            className="text-red-500 hover:underline flex items-center gap-1 shrink-0"
+          >
+            <X size={12} /> Remove pin
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
