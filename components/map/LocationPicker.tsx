@@ -100,3 +100,30 @@ export default function LocationPicker({ value, onChange, onAddressFound }: Prop
       }
       setResults(data);
     }
+
+    catch {
+      setMessage("Search is unavailable right now. You can still click on the map.");
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const pickResult = (r: SearchResult) => {
+    moveTo({ lat: parseFloat(r.lat), lng: parseFloat(r.lon) });
+    onAddressFound?.(r.display_name);
+    setResults([]);
+    setMessage(null);
+  };
+
+  const locateMe = () => {
+    if (!navigator.geolocation) {
+      setMessage("Your browser does not support location.");
+      return;
+    }
+    setLocating(true);
+    setMessage(null);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        moveTo({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setLocating(false);
+      },
