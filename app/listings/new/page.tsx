@@ -1,13 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Swal from "sweetalert2";
+import { BadgeCheck, Clock } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ImageUploader from "@/components/ImageUploader";
 import { Button } from "@/components/ui/button";
+import type { LatLng } from "@/components/map/LocationPicker";
+
+// Leaflet browser-only, tai ssr: false
+const LocationPicker = dynamic(() => import("@/components/map/LocationPicker"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-72 sm:h-80 rounded-xl bg-gray-100 animate-pulse" />
+  ),
+});
 
 const CATEGORIES = [
   { label: "Full Flat", value: "FULL_FLAT", type: "RENT" },
@@ -17,9 +29,11 @@ const CATEGORIES = [
   { label: "Flat for Sale", value: "FLAT_SALE", type: "SALE" },
 ];
 
+type VerifyState = "unknown" | "verified" | "pending" | "none";
+
 export default function NewListingPage() {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -30,26 +44,34 @@ export default function NewListingPage() {
   const [areaSize, setAreaSize] = useState("");
   const [bachelorAllowed, setBachelorAllowed] = useState(true);
   const [address, setAddress] = useState("");
+  const [coords, setCoords] = useState<LatLng | null>(null);
   const [images, setImages] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [verifyState, setVerifyState] = useState<VerifyState>("unknown");
 
-  if (status === "loading") {
-    return (
-      <main className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-400 text-sm">Loading...</p>
-      </main>
-    );
-  }
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      Swal.fire({
+        icon: "info",
+        title: "Login Required",
+        text: "Please log in to list your property.",
+        confirmButtonColor: "#16A34A",
+      }).then(() => router.push("/login?redirect=/listings/new"));
+    }
+  }, [status, router]);
 
-  if (status === "unauthenticated") {
-    Swal.fire({
-      icon: "info",
-      title: "Login Required",
-      text: "Please log in to list your property.",
-      confirmButtonColor: "#16A34A",
-    }).then(() => router.push("/login?redirect=/listings/new"));
-    return null;
-  }
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    fetch("/api/verification")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!data) return;
+        if (data.verified) setVerifyState("verified");
+        else if (data.request?.status === "PENDING") setVerifyState("pending");
+        else setVerifyState("none");
+      })
+      .catch(() => {});
+  }, [status]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,8 +85,17 @@ export default function NewListingPage() {
       return;
     }
 
-    setSubmitting(true);
+    if (!coords) {
+      Swal.fire({
+        icon: "warning",
+        title: "Pin the location",
+        text: "Please drop a pin on the map so tenants can find your property.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
 
+    setSubmitting(true);
     const listingType = CATEGORIES.find((c) => c.value === category)?.type;
 
     try {
@@ -82,13 +113,13 @@ export default function NewListingPage() {
           areaSize: areaSize ? Number(areaSize) : null,
           bachelorAllowed,
           address,
+          lat: coords.lat,
+          lng: coords.lng,
           images,
-          ownerId: session?.user?.id,
         }),
       });
 
       if (!res.ok) throw new Error("Failed");
-
       const data = await res.json();
 
       Swal.fire({
@@ -109,6 +140,14 @@ export default function NewListingPage() {
     }
   };
 
+  if (status === "loading" || status === "unauthenticated") {
+    return (
+      <main className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-400 text-sm">Loading...</p>
+      </main>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
@@ -117,24 +156,46 @@ export default function NewListingPage() {
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
           List Your Property
         </h1>
-        <p className="text-gray-500 text-sm mb-8">
+        <p className="text-gray-500 text-sm mb-6">
           Fill in the details below to publish your property on HomeQuest BD.
         </p>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-6">
-          {/* Photos */}
+        {verifyState === "none" && (
+          <div className="mb-6 flex items-start gap-3 bg-amber-50 border border-amber-200 rounded-xl p-4">
+            <BadgeCheck size={20} className="text-amber-600 shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-semibold text-amber-900">Get the Verified Owner badge</p>
+              <p className="text-amber-800/80 mt-0.5">
+                Verified owners earn more trust from tenants.{" "}
+                <Link href="/verification" className="font-semibold underline">
+                  Verify your ID
+                </Link>{" "}
+                (takes about 2 minutes).
+              </p>
+            </div>
+          </div>
+        )}
+
+        {verifyState === "pending" && (
+          <div className="mb-6 flex items-start gap-3 bg-sky-50 border border-sky-200 rounded-xl p-4">
+            <Clock size={20} className="text-sky-600 shrink-0 mt-0.5" />
+            <p className="text-sm text-sky-900">
+              Your ID verification is under review. You can publish your listing in the meantime.
+            </p>
+          </div>
+        )}
+
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 space-y-6"
+        >
           <div>
-            <label className="text-sm font-semibold text-gray-700 mb-2 block">
-              Photos
-            </label>
+            <label className="text-sm font-semibold text-gray-700 mb-2 block">Photos</label>
             <ImageUploader images={images} onChange={setImages} />
           </div>
 
-          {/* Title */}
           <div>
-            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-              Title
-            </label>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Title</label>
             <input
               type="text"
               required
@@ -145,11 +206,8 @@ export default function NewListingPage() {
             />
           </div>
 
-          {/* Category */}
           <div>
-            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-              Category
-            </label>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Category</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -163,11 +221,8 @@ export default function NewListingPage() {
             </select>
           </div>
 
-          {/* Price */}
           <div>
-            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-              Price (৳)
-            </label>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Price (৳)</label>
             <input
               type="number"
               required
@@ -179,12 +234,9 @@ export default function NewListingPage() {
             />
           </div>
 
-          {/* Bedroom / Bathroom / Area */}
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-                Bedrooms
-              </label>
+              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Bedrooms</label>
               <input
                 type="number"
                 min={0}
@@ -194,9 +246,7 @@ export default function NewListingPage() {
               />
             </div>
             <div>
-              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-                Bathrooms
-              </label>
+              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Bathrooms</label>
               <input
                 type="number"
                 min={0}
@@ -206,9 +256,7 @@ export default function NewListingPage() {
               />
             </div>
             <div>
-              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-                Area (sqft)
-              </label>
+              <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Area (sqft)</label>
               <input
                 type="number"
                 min={0}
@@ -219,11 +267,8 @@ export default function NewListingPage() {
             </div>
           </div>
 
-          {/* Address */}
           <div>
-            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-              Address
-            </label>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Address</label>
             <input
               type="text"
               required
@@ -234,11 +279,19 @@ export default function NewListingPage() {
             />
           </div>
 
-          {/* Description */}
           <div>
             <label className="text-sm font-semibold text-gray-700 mb-1.5 block">
-              Description
+              Location on Map
             </label>
+            <LocationPicker
+              value={coords}
+              onChange={setCoords}
+              onAddressFound={(found) => setAddress((prev) => prev || found)}
+            />
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-gray-700 mb-1.5 block">Description</label>
             <textarea
               required
               rows={4}
@@ -249,7 +302,6 @@ export default function NewListingPage() {
             />
           </div>
 
-          {/* Bachelor Allowed */}
           <label className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
             <input
               type="checkbox"
