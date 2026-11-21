@@ -56,7 +56,7 @@ export default function ListingMap({ listings }: { listings: MapListing[] }) {
     [located]
   );
 
-   return (
+  return (
     <div className="relative isolate h-[70vh] min-h-[420px] rounded-2xl overflow-hidden border border-gray-200 shadow-sm">
       <MapContainer center={DHAKA} zoom={12} scrollWheelZoom className="h-full w-full">
         <TileLayer
@@ -68,13 +68,13 @@ export default function ListingMap({ listings }: { listings: MapListing[] }) {
         {markers.map(({ listing: l, icon }) => (
           <Marker key={l.id} position={[l.lat, l.lng]} icon={icon}>
             <Popup minWidth={230} maxWidth={250}>
-             
               <Link
                 href={`/listings/${l.id}`}
                 style={{ display: "block", color: "inherit", textDecoration: "none" }}
               >
                 {l.images[0] && (
-                      <img
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
                     src={l.images[0]}
                     alt={l.title}
                     style={{
@@ -96,3 +96,28 @@ export default function ListingMap({ listings }: { listings: MapListing[] }) {
                     {l.bedroom && l.bathroom ? " · " : ""}
                     {l.bathroom ? `${l.bathroom} bath` : ""}
                   </div>
+                )}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    marginTop: 8,
+                  }}
+                >
+                  <span style={{ fontWeight: 700, color: "#16A34A", fontSize: 14 }}>
+                    ৳{l.price.toLocaleString()}
+                    {l.listingType === "RENT" && (
+                      <span style={{ color: "#9CA3AF", fontWeight: 400, fontSize: 11 }}> /mo</span>
+                    )}
+                  </span>
+                  <span style={{ fontSize: 11, color: "#16A34A", fontWeight: 600 }}>View →</span>
+                </div>
+              </Link>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
+    </div>
+  );
+}
