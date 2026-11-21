@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/src/generated/prisma";
+import { auth } from "@/lib/auth";
 
 
 export async function GET(req: NextRequest) {
@@ -67,7 +68,22 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await req.json();
+
+    const lat =
+      typeof body.lat === "number" && Number.isFinite(body.lat) && Math.abs(body.lat) <= 90
+        ? body.lat
+        : null;
+    const lng =
+      typeof body.lng === "number" && Number.isFinite(body.lng) && Math.abs(body.lng) <= 180
+        ? body.lng
+        : null;
+
     const listing = await prisma.listing.create({
       data: {
         title: body.title,
@@ -80,12 +96,19 @@ export async function POST(req: NextRequest) {
         areaSize: body.areaSize,
         bachelorAllowed: body.bachelorAllowed,
         address: body.address,
-        lat: body.lat,
-        lng: body.lng,
+        lat,
+        lng,
         images: body.images || [],
-        ownerId: body.ownerId,
+        ownerId: session.user.id,
       },
     });
+
+    // Prothom listing banale TENANT theke OWNER role e promote
+    await prisma.user.updateMany({
+      where: { id: session.user.id, role: "TENANT" },
+      data: { role: "OWNER" },
+    });
+
     return NextResponse.json(listing, { status: 201 });
   } catch (error) {
     console.error("POST /api/listings error:", error);
