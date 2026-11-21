@@ -36,3 +36,22 @@ function FitToMarkers({ points }: { points: [number, number][] }) {
   }, [points, map]);
   return null;
 }
+
+export default function ListingMap({ listings }: { listings: MapListing[] }) {
+  const located = useMemo(
+    () =>
+      listings.filter(
+        (l): l is Located => typeof l.lat === "number" && typeof l.lng === "number"
+      ),
+    [listings]
+  );
+
+  const points = useMemo(
+    () => located.map((l) => [l.lat, l.lng] as [number, number]),
+    [located]
+  );
+
+  const markers = useMemo(
+    () => located.map((l) => ({ listing: l, icon: createPriceIcon(l.price, l.listingType) })),
+    [located]
+  );
