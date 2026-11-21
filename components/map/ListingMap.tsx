@@ -74,3 +74,25 @@ export default function ListingMap({ listings }: { listings: MapListing[] }) {
                 style={{ display: "block", color: "inherit", textDecoration: "none" }}
               >
                 {l.images[0] && (
+                      <img
+                    src={l.images[0]}
+                    alt={l.title}
+                    style={{
+                      width: "100%",
+                      height: 110,
+                      objectFit: "cover",
+                      borderRadius: 10,
+                      marginBottom: 8,
+                    }}
+                  />
+                )}
+                <div style={{ fontWeight: 600, fontSize: 13, color: "#111827", lineHeight: 1.3 }}>
+                  {l.title}
+                </div>
+                <div style={{ fontSize: 12, color: "#6B7280", marginTop: 3 }}>{l.address}</div>
+                {(l.bedroom || l.bathroom) && (
+                  <div style={{ fontSize: 12, color: "#6B7280", marginTop: 3 }}>
+                    {l.bedroom ? `${l.bedroom} bed` : ""}
+                    {l.bedroom && l.bathroom ? " · " : ""}
+                    {l.bathroom ? `${l.bathroom} bath` : ""}
+                  </div>
