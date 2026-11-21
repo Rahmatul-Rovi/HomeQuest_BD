@@ -255,7 +255,7 @@ export default function ProfilePage() {
       setBio(data.bio ?? "");
       setImage(data.image);
 
-      // Navbar er name/pic  update 
+      // Navbar er name/pic update
       await update({ name: data.name, image: data.image });
 
       Swal.fire({
@@ -345,10 +345,19 @@ export default function ProfilePage() {
       <div className="min-h-screen flex flex-col bg-gray-50">
         <Navbar />
         <div className="flex-1">
-          <div className="h-32 bg-gray-200 animate-pulse" />
+          <div className="bg-gradient-to-b from-primary-light/70 to-gray-50">
+            <div className="max-w-5xl mx-auto px-4 md:px-8 pt-10 pb-8 animate-pulse">
+              <div className="bg-white border border-gray-100 rounded-3xl p-7 flex items-center gap-6">
+                <div className="w-24 h-24 rounded-full bg-gray-200 shrink-0" />
+                <div className="space-y-3 flex-1">
+                  <div className="h-6 w-56 bg-gray-200 rounded" />
+                  <div className="h-4 w-32 bg-gray-100 rounded" />
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="max-w-5xl mx-auto px-4 md:px-8 animate-pulse">
-            <div className="-mt-14 w-28 h-28 rounded-full bg-gray-300 ring-4 ring-gray-50" />
-            <div className="mt-6 grid lg:grid-cols-[320px_1fr] gap-6">
+            <div className="grid lg:grid-cols-[320px_1fr] gap-6">
               <div className="h-80 bg-gray-100 rounded-2xl" />
               <div className="h-96 bg-gray-100 rounded-2xl" />
             </div>
@@ -369,12 +378,12 @@ export default function ProfilePage() {
     <Image
       src={image}
       alt={name || "Profile photo"}
-      width={112}
-      height={112}
-      className="w-28 h-28 rounded-full object-cover ring-4 ring-white shadow-md bg-white"
+      width={96}
+      height={96}
+      className="w-24 h-24 rounded-full object-cover ring-4 ring-primary-light bg-white"
     />
   ) : (
-    <div className="w-28 h-28 rounded-full ring-4 ring-white shadow-md bg-primary-light flex items-center justify-center text-primary text-4xl font-bold">
+    <div className="w-24 h-24 rounded-full ring-4 ring-primary-light bg-primary-light flex items-center justify-center text-primary text-3xl font-bold">
       {(name || profile.email).charAt(0).toUpperCase()}
     </div>
   );
@@ -394,63 +403,69 @@ export default function ProfilePage() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Banner */}
-        <div className="relative h-32 md:h-40 bg-gradient-to-r from-primary to-emerald-400 overflow-hidden">
-          <div className="absolute -top-16 -right-10 w-64 h-64 bg-white/10 rounded-full blur-2xl" />
-          <div className="absolute -bottom-20 left-1/4 w-72 h-72 bg-white/10 rounded-full blur-3xl" />
-        </div>
+        {/* Header: soft green background + white profile card (kono overlap nai) */}
+        <section className="relative overflow-hidden bg-gradient-to-b from-primary-light/70 via-primary-light/30 to-gray-50">
+          <div className="absolute -top-24 -right-16 w-80 h-80 bg-primary-light rounded-full blur-3xl opacity-70 pointer-events-none" />
+          <div className="absolute -bottom-24 -left-16 w-72 h-72 bg-primary-light rounded-full blur-3xl opacity-50 pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-4 md:px-8 pb-12">
-          {/* Avatar + Name */}
-          <div className="-mt-14 flex flex-col sm:flex-row sm:items-end gap-4">
-            <div className="relative w-fit">
-              {avatar}
-              <label
-                className={`absolute bottom-1 right-1 w-9 h-9 rounded-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center shadow cursor-pointer transition ${
-                  uploading ? "pointer-events-none opacity-80" : ""
-                }`}
-                title="Change photo"
-              >
-                {uploading ? (
-                  <Loader2 size={16} className="animate-spin" />
-                ) : (
-                  <Camera size={16} />
-                )}
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handlePhotoChange}
-                  disabled={uploading}
-                  className="hidden"
-                />
-              </label>
-            </div>
-
-            <div className="sm:pb-2 min-w-0">
-              <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 truncate">
-                {profile.name}
-              </h1>
-              <div className="flex flex-wrap items-center gap-2 mt-1.5">
-                <span
-                  className={`text-xs font-semibold px-2.5 py-1 rounded-full ${roleStyle.className}`}
+          <div className="relative max-w-5xl mx-auto px-4 md:px-8 pt-10 pb-8">
+            <div className="bg-white border border-gray-100 rounded-3xl shadow-sm p-5 sm:p-7 flex flex-col sm:flex-row items-center gap-5 sm:gap-7">
+              {/* Avatar */}
+              <div className="relative shrink-0">
+                {avatar}
+                <label
+                  className={`absolute bottom-0 right-0 w-8 h-8 rounded-full bg-primary hover:bg-primary-dark text-white flex items-center justify-center shadow ring-2 ring-white cursor-pointer transition ${
+                    uploading ? "pointer-events-none opacity-80" : ""
+                  }`}
+                  title="Change photo"
                 >
-                  {roleStyle.label}
-                </span>
-                {profile.verified ? (
-                  <span className="flex items-center gap-1 text-xs font-semibold text-primary bg-primary-light px-2.5 py-1 rounded-full">
-                    <BadgeCheck size={13} /> Verified
+                  {uploading ? (
+                    <Loader2 size={15} className="animate-spin" />
+                  ) : (
+                    <Camera size={15} />
+                  )}
+                  <input
+                    ref={fileRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handlePhotoChange}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              {/* Name + badges */}
+              <div className="min-w-0 text-center sm:text-left">
+                <h1 className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-tight truncate">
+                  {profile.name}
+                </h1>
+                <p className="text-sm text-gray-400 mt-0.5">
+                  Member since {memberSince}
+                </p>
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mt-3">
+                  <span
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${roleStyle.className}`}
+                  >
+                    {roleStyle.label}
                   </span>
-                ) : (
-                  <span className="text-xs text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
-                    Not verified
-                  </span>
-                )}
+                  {profile.verified ? (
+                    <span className="flex items-center gap-1 text-xs font-semibold text-primary bg-primary-light px-2.5 py-1 rounded-full">
+                      <BadgeCheck size={13} /> Verified
+                    </span>
+                  ) : (
+                    <span className="text-xs text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full">
+                      Not verified
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           </div>
+        </section>
 
-          <div className="mt-8 grid lg:grid-cols-[320px_1fr] gap-6 items-start">
+        <div className="max-w-5xl mx-auto px-4 md:px-8 pb-12">
+          <div className="grid lg:grid-cols-[320px_1fr] gap-6 items-start">
             {/* Left Column */}
             <div className="space-y-6">
               {/* Stats */}
@@ -494,7 +509,6 @@ export default function ProfilePage() {
                     <Phone size={15} className="text-gray-400 shrink-0" />
                     <span>{profile.phone || "No phone added"}</span>
                   </div>
-                  <p className="text-xs text-gray-400">Member since {memberSince}</p>
                 </div>
 
                 {profile.bio && (
