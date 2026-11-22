@@ -29,3 +29,24 @@ function normalizeIdNumber(type: IdType, raw: string): string | null {
   }
   return /^[A-Za-z0-9]{8,20}$/.test(value) ? value.toUpperCase() : null;
 }
+
+export async function GET() {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const [user, latest] = await Promise.all([
+    prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { verified: true },
+    }),
+    prisma.verificationRequest.findFirst({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
+
+  return NextResponse.json({
+    verified: Boolean(user?.verified),
+    request: latest
