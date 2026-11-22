@@ -90,6 +90,7 @@ model User {
   ownerConversations   Conversation[] @relation("OwnerConversations")   
   messages             Message[]
   notifications  Notification[]
+  verificationRequests  VerificationRequest[]
   phone         String?
   bio           String?
   createdAt     DateTime  @default(now())
@@ -178,6 +179,36 @@ enum NotificationType {
   OWNER_VERIFIED
   OWNER_UNVERIFIED
   LISTING_REMOVED
+    VERIFICATION_SUBMITTED
+}
+
+model VerificationRequest {
+  id         String             @id @default(cuid())
+  userId     String
+  user       User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  idType     IdDocumentType
+  idNumber   String
+  frontImage String
+  backImage  String?
+  status     VerificationStatus @default(PENDING)
+  adminNote  String?
+  reviewedAt DateTime?
+  createdAt  DateTime           @default(now())
+
+  @@index([userId, status])
+  @@index([status, createdAt])
+}
+
+enum IdDocumentType {
+  NID
+  PASSPORT
+  DRIVING_LICENSE
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 enum Role {

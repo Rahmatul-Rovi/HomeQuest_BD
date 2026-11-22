@@ -58,6 +58,11 @@ export type Message = $Result.DefaultSelection<Prisma.$MessagePayload>
  * 
  */
 export type Notification = $Result.DefaultSelection<Prisma.$NotificationPayload>
+/**
+ * Model VerificationRequest
+ * 
+ */
+export type VerificationRequest = $Result.DefaultSelection<Prisma.$VerificationRequestPayload>
 
 /**
  * Enums
@@ -111,10 +116,29 @@ export const NotificationType: {
   VISIT_CANCELLED: 'VISIT_CANCELLED',
   OWNER_VERIFIED: 'OWNER_VERIFIED',
   OWNER_UNVERIFIED: 'OWNER_UNVERIFIED',
-  LISTING_REMOVED: 'LISTING_REMOVED'
+  LISTING_REMOVED: 'LISTING_REMOVED',
+  VERIFICATION_SUBMITTED: 'VERIFICATION_SUBMITTED'
 };
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
+
+
+export const IdDocumentType: {
+  NID: 'NID',
+  PASSPORT: 'PASSPORT',
+  DRIVING_LICENSE: 'DRIVING_LICENSE'
+};
+
+export type IdDocumentType = (typeof IdDocumentType)[keyof typeof IdDocumentType]
+
+
+export const VerificationStatus: {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type VerificationStatus = (typeof VerificationStatus)[keyof typeof VerificationStatus]
 
 
 export const Role: {
@@ -146,6 +170,14 @@ export const VisitStatus: typeof $Enums.VisitStatus
 export type NotificationType = $Enums.NotificationType
 
 export const NotificationType: typeof $Enums.NotificationType
+
+export type IdDocumentType = $Enums.IdDocumentType
+
+export const IdDocumentType: typeof $Enums.IdDocumentType
+
+export type VerificationStatus = $Enums.VerificationStatus
+
+export const VerificationStatus: typeof $Enums.VerificationStatus
 
 export type Role = $Enums.Role
 
@@ -361,6 +393,16 @@ export class PrismaClient<
     * ```
     */
   get notification(): Prisma.NotificationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.verificationRequest`: Exposes CRUD operations for the **VerificationRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VerificationRequests
+    * const verificationRequests = await prisma.verificationRequest.findMany()
+    * ```
+    */
+  get verificationRequest(): Prisma.VerificationRequestDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -816,7 +858,8 @@ export namespace Prisma {
     VerificationToken: 'VerificationToken',
     Conversation: 'Conversation',
     Message: 'Message',
-    Notification: 'Notification'
+    Notification: 'Notification',
+    VerificationRequest: 'VerificationRequest'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -832,7 +875,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "listing" | "visitRequest" | "user" | "account" | "session" | "verificationToken" | "conversation" | "message" | "notification"
+      modelProps: "listing" | "visitRequest" | "user" | "account" | "session" | "verificationToken" | "conversation" | "message" | "notification" | "verificationRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1502,6 +1545,80 @@ export namespace Prisma {
           }
         }
       }
+      VerificationRequest: {
+        payload: Prisma.$VerificationRequestPayload<ExtArgs>
+        fields: Prisma.VerificationRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VerificationRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VerificationRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.VerificationRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VerificationRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>
+          }
+          findMany: {
+            args: Prisma.VerificationRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>[]
+          }
+          create: {
+            args: Prisma.VerificationRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>
+          }
+          createMany: {
+            args: Prisma.VerificationRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VerificationRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.VerificationRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>
+          }
+          update: {
+            args: Prisma.VerificationRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.VerificationRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VerificationRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VerificationRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.VerificationRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VerificationRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.VerificationRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVerificationRequest>
+          }
+          groupBy: {
+            args: Prisma.VerificationRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VerificationRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VerificationRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<VerificationRequestCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1634,6 +1751,7 @@ export namespace Prisma {
     conversation?: ConversationOmit
     message?: MessageOmit
     notification?: NotificationOmit
+    verificationRequest?: VerificationRequestOmit
   }
 
   /* Types for Logging */
@@ -1762,6 +1880,7 @@ export namespace Prisma {
     ownerConversations: number
     messages: number
     notifications: number
+    verificationRequests: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1773,6 +1892,7 @@ export namespace Prisma {
     ownerConversations?: boolean | UserCountOutputTypeCountOwnerConversationsArgs
     messages?: boolean | UserCountOutputTypeCountMessagesArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
+    verificationRequests?: boolean | UserCountOutputTypeCountVerificationRequestsArgs
   }
 
   // Custom InputTypes
@@ -1840,6 +1960,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: NotificationWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountVerificationRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VerificationRequestWhereInput
   }
 
 
@@ -4535,6 +4662,7 @@ export namespace Prisma {
     ownerConversations?: boolean | User$ownerConversationsArgs<ExtArgs>
     messages?: boolean | User$messagesArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    verificationRequests?: boolean | User$verificationRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4590,6 +4718,7 @@ export namespace Prisma {
     ownerConversations?: boolean | User$ownerConversationsArgs<ExtArgs>
     messages?: boolean | User$messagesArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
+    verificationRequests?: boolean | User$verificationRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4606,6 +4735,7 @@ export namespace Prisma {
       ownerConversations: Prisma.$ConversationPayload<ExtArgs>[]
       messages: Prisma.$MessagePayload<ExtArgs>[]
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
+      verificationRequests: Prisma.$VerificationRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5021,6 +5151,7 @@ export namespace Prisma {
     ownerConversations<T extends User$ownerConversationsArgs<ExtArgs> = {}>(args?: Subset<T, User$ownerConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     messages<T extends User$messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    verificationRequests<T extends User$verificationRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$verificationRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5643,6 +5774,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
+  }
+
+  /**
+   * User.verificationRequests
+   */
+  export type User$verificationRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    where?: VerificationRequestWhereInput
+    orderBy?: VerificationRequestOrderByWithRelationInput | VerificationRequestOrderByWithRelationInput[]
+    cursor?: VerificationRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VerificationRequestScalarFieldEnum | VerificationRequestScalarFieldEnum[]
   }
 
   /**
@@ -12185,6 +12340,1134 @@ export namespace Prisma {
 
 
   /**
+   * Model VerificationRequest
+   */
+
+  export type AggregateVerificationRequest = {
+    _count: VerificationRequestCountAggregateOutputType | null
+    _min: VerificationRequestMinAggregateOutputType | null
+    _max: VerificationRequestMaxAggregateOutputType | null
+  }
+
+  export type VerificationRequestMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    idType: $Enums.IdDocumentType | null
+    idNumber: string | null
+    frontImage: string | null
+    backImage: string | null
+    status: $Enums.VerificationStatus | null
+    adminNote: string | null
+    reviewedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type VerificationRequestMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    idType: $Enums.IdDocumentType | null
+    idNumber: string | null
+    frontImage: string | null
+    backImage: string | null
+    status: $Enums.VerificationStatus | null
+    adminNote: string | null
+    reviewedAt: Date | null
+    createdAt: Date | null
+  }
+
+  export type VerificationRequestCountAggregateOutputType = {
+    id: number
+    userId: number
+    idType: number
+    idNumber: number
+    frontImage: number
+    backImage: number
+    status: number
+    adminNote: number
+    reviewedAt: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type VerificationRequestMinAggregateInputType = {
+    id?: true
+    userId?: true
+    idType?: true
+    idNumber?: true
+    frontImage?: true
+    backImage?: true
+    status?: true
+    adminNote?: true
+    reviewedAt?: true
+    createdAt?: true
+  }
+
+  export type VerificationRequestMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    idType?: true
+    idNumber?: true
+    frontImage?: true
+    backImage?: true
+    status?: true
+    adminNote?: true
+    reviewedAt?: true
+    createdAt?: true
+  }
+
+  export type VerificationRequestCountAggregateInputType = {
+    id?: true
+    userId?: true
+    idType?: true
+    idNumber?: true
+    frontImage?: true
+    backImage?: true
+    status?: true
+    adminNote?: true
+    reviewedAt?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type VerificationRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VerificationRequest to aggregate.
+     */
+    where?: VerificationRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationRequests to fetch.
+     */
+    orderBy?: VerificationRequestOrderByWithRelationInput | VerificationRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VerificationRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VerificationRequests
+    **/
+    _count?: true | VerificationRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VerificationRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VerificationRequestMaxAggregateInputType
+  }
+
+  export type GetVerificationRequestAggregateType<T extends VerificationRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateVerificationRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVerificationRequest[P]>
+      : GetScalarType<T[P], AggregateVerificationRequest[P]>
+  }
+
+
+
+
+  export type VerificationRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VerificationRequestWhereInput
+    orderBy?: VerificationRequestOrderByWithAggregationInput | VerificationRequestOrderByWithAggregationInput[]
+    by: VerificationRequestScalarFieldEnum[] | VerificationRequestScalarFieldEnum
+    having?: VerificationRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VerificationRequestCountAggregateInputType | true
+    _min?: VerificationRequestMinAggregateInputType
+    _max?: VerificationRequestMaxAggregateInputType
+  }
+
+  export type VerificationRequestGroupByOutputType = {
+    id: string
+    userId: string
+    idType: $Enums.IdDocumentType
+    idNumber: string
+    frontImage: string
+    backImage: string | null
+    status: $Enums.VerificationStatus
+    adminNote: string | null
+    reviewedAt: Date | null
+    createdAt: Date
+    _count: VerificationRequestCountAggregateOutputType | null
+    _min: VerificationRequestMinAggregateOutputType | null
+    _max: VerificationRequestMaxAggregateOutputType | null
+  }
+
+  type GetVerificationRequestGroupByPayload<T extends VerificationRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VerificationRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VerificationRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VerificationRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], VerificationRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VerificationRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    idType?: boolean
+    idNumber?: boolean
+    frontImage?: boolean
+    backImage?: boolean
+    status?: boolean
+    adminNote?: boolean
+    reviewedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["verificationRequest"]>
+
+  export type VerificationRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    idType?: boolean
+    idNumber?: boolean
+    frontImage?: boolean
+    backImage?: boolean
+    status?: boolean
+    adminNote?: boolean
+    reviewedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["verificationRequest"]>
+
+  export type VerificationRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    idType?: boolean
+    idNumber?: boolean
+    frontImage?: boolean
+    backImage?: boolean
+    status?: boolean
+    adminNote?: boolean
+    reviewedAt?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["verificationRequest"]>
+
+  export type VerificationRequestSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    idType?: boolean
+    idNumber?: boolean
+    frontImage?: boolean
+    backImage?: boolean
+    status?: boolean
+    adminNote?: boolean
+    reviewedAt?: boolean
+    createdAt?: boolean
+  }
+
+  export type VerificationRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "idType" | "idNumber" | "frontImage" | "backImage" | "status" | "adminNote" | "reviewedAt" | "createdAt", ExtArgs["result"]["verificationRequest"]>
+  export type VerificationRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VerificationRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type VerificationRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $VerificationRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VerificationRequest"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      idType: $Enums.IdDocumentType
+      idNumber: string
+      frontImage: string
+      backImage: string | null
+      status: $Enums.VerificationStatus
+      adminNote: string | null
+      reviewedAt: Date | null
+      createdAt: Date
+    }, ExtArgs["result"]["verificationRequest"]>
+    composites: {}
+  }
+
+  type VerificationRequestGetPayload<S extends boolean | null | undefined | VerificationRequestDefaultArgs> = $Result.GetResult<Prisma.$VerificationRequestPayload, S>
+
+  type VerificationRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VerificationRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VerificationRequestCountAggregateInputType | true
+    }
+
+  export interface VerificationRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VerificationRequest'], meta: { name: 'VerificationRequest' } }
+    /**
+     * Find zero or one VerificationRequest that matches the filter.
+     * @param {VerificationRequestFindUniqueArgs} args - Arguments to find a VerificationRequest
+     * @example
+     * // Get one VerificationRequest
+     * const verificationRequest = await prisma.verificationRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VerificationRequestFindUniqueArgs>(args: SelectSubset<T, VerificationRequestFindUniqueArgs<ExtArgs>>): Prisma__VerificationRequestClient<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VerificationRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VerificationRequestFindUniqueOrThrowArgs} args - Arguments to find a VerificationRequest
+     * @example
+     * // Get one VerificationRequest
+     * const verificationRequest = await prisma.verificationRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VerificationRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, VerificationRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VerificationRequestClient<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VerificationRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationRequestFindFirstArgs} args - Arguments to find a VerificationRequest
+     * @example
+     * // Get one VerificationRequest
+     * const verificationRequest = await prisma.verificationRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VerificationRequestFindFirstArgs>(args?: SelectSubset<T, VerificationRequestFindFirstArgs<ExtArgs>>): Prisma__VerificationRequestClient<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VerificationRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationRequestFindFirstOrThrowArgs} args - Arguments to find a VerificationRequest
+     * @example
+     * // Get one VerificationRequest
+     * const verificationRequest = await prisma.verificationRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VerificationRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, VerificationRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__VerificationRequestClient<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VerificationRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VerificationRequests
+     * const verificationRequests = await prisma.verificationRequest.findMany()
+     * 
+     * // Get first 10 VerificationRequests
+     * const verificationRequests = await prisma.verificationRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const verificationRequestWithIdOnly = await prisma.verificationRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VerificationRequestFindManyArgs>(args?: SelectSubset<T, VerificationRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VerificationRequest.
+     * @param {VerificationRequestCreateArgs} args - Arguments to create a VerificationRequest.
+     * @example
+     * // Create one VerificationRequest
+     * const VerificationRequest = await prisma.verificationRequest.create({
+     *   data: {
+     *     // ... data to create a VerificationRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends VerificationRequestCreateArgs>(args: SelectSubset<T, VerificationRequestCreateArgs<ExtArgs>>): Prisma__VerificationRequestClient<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VerificationRequests.
+     * @param {VerificationRequestCreateManyArgs} args - Arguments to create many VerificationRequests.
+     * @example
+     * // Create many VerificationRequests
+     * const verificationRequest = await prisma.verificationRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VerificationRequestCreateManyArgs>(args?: SelectSubset<T, VerificationRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VerificationRequests and returns the data saved in the database.
+     * @param {VerificationRequestCreateManyAndReturnArgs} args - Arguments to create many VerificationRequests.
+     * @example
+     * // Create many VerificationRequests
+     * const verificationRequest = await prisma.verificationRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VerificationRequests and only return the `id`
+     * const verificationRequestWithIdOnly = await prisma.verificationRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VerificationRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, VerificationRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VerificationRequest.
+     * @param {VerificationRequestDeleteArgs} args - Arguments to delete one VerificationRequest.
+     * @example
+     * // Delete one VerificationRequest
+     * const VerificationRequest = await prisma.verificationRequest.delete({
+     *   where: {
+     *     // ... filter to delete one VerificationRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VerificationRequestDeleteArgs>(args: SelectSubset<T, VerificationRequestDeleteArgs<ExtArgs>>): Prisma__VerificationRequestClient<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VerificationRequest.
+     * @param {VerificationRequestUpdateArgs} args - Arguments to update one VerificationRequest.
+     * @example
+     * // Update one VerificationRequest
+     * const verificationRequest = await prisma.verificationRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VerificationRequestUpdateArgs>(args: SelectSubset<T, VerificationRequestUpdateArgs<ExtArgs>>): Prisma__VerificationRequestClient<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VerificationRequests.
+     * @param {VerificationRequestDeleteManyArgs} args - Arguments to filter VerificationRequests to delete.
+     * @example
+     * // Delete a few VerificationRequests
+     * const { count } = await prisma.verificationRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VerificationRequestDeleteManyArgs>(args?: SelectSubset<T, VerificationRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VerificationRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VerificationRequests
+     * const verificationRequest = await prisma.verificationRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VerificationRequestUpdateManyArgs>(args: SelectSubset<T, VerificationRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VerificationRequests and returns the data updated in the database.
+     * @param {VerificationRequestUpdateManyAndReturnArgs} args - Arguments to update many VerificationRequests.
+     * @example
+     * // Update many VerificationRequests
+     * const verificationRequest = await prisma.verificationRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VerificationRequests and only return the `id`
+     * const verificationRequestWithIdOnly = await prisma.verificationRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VerificationRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, VerificationRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VerificationRequest.
+     * @param {VerificationRequestUpsertArgs} args - Arguments to update or create a VerificationRequest.
+     * @example
+     * // Update or create a VerificationRequest
+     * const verificationRequest = await prisma.verificationRequest.upsert({
+     *   create: {
+     *     // ... data to create a VerificationRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VerificationRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VerificationRequestUpsertArgs>(args: SelectSubset<T, VerificationRequestUpsertArgs<ExtArgs>>): Prisma__VerificationRequestClient<$Result.GetResult<Prisma.$VerificationRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VerificationRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationRequestCountArgs} args - Arguments to filter VerificationRequests to count.
+     * @example
+     * // Count the number of VerificationRequests
+     * const count = await prisma.verificationRequest.count({
+     *   where: {
+     *     // ... the filter for the VerificationRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends VerificationRequestCountArgs>(
+      args?: Subset<T, VerificationRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VerificationRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VerificationRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VerificationRequestAggregateArgs>(args: Subset<T, VerificationRequestAggregateArgs>): Prisma.PrismaPromise<GetVerificationRequestAggregateType<T>>
+
+    /**
+     * Group by VerificationRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VerificationRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VerificationRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VerificationRequestGroupByArgs['orderBy'] }
+        : { orderBy?: VerificationRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VerificationRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVerificationRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VerificationRequest model
+   */
+  readonly fields: VerificationRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VerificationRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VerificationRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VerificationRequest model
+   */
+  interface VerificationRequestFieldRefs {
+    readonly id: FieldRef<"VerificationRequest", 'String'>
+    readonly userId: FieldRef<"VerificationRequest", 'String'>
+    readonly idType: FieldRef<"VerificationRequest", 'IdDocumentType'>
+    readonly idNumber: FieldRef<"VerificationRequest", 'String'>
+    readonly frontImage: FieldRef<"VerificationRequest", 'String'>
+    readonly backImage: FieldRef<"VerificationRequest", 'String'>
+    readonly status: FieldRef<"VerificationRequest", 'VerificationStatus'>
+    readonly adminNote: FieldRef<"VerificationRequest", 'String'>
+    readonly reviewedAt: FieldRef<"VerificationRequest", 'DateTime'>
+    readonly createdAt: FieldRef<"VerificationRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VerificationRequest findUnique
+   */
+  export type VerificationRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationRequest to fetch.
+     */
+    where: VerificationRequestWhereUniqueInput
+  }
+
+  /**
+   * VerificationRequest findUniqueOrThrow
+   */
+  export type VerificationRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationRequest to fetch.
+     */
+    where: VerificationRequestWhereUniqueInput
+  }
+
+  /**
+   * VerificationRequest findFirst
+   */
+  export type VerificationRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationRequest to fetch.
+     */
+    where?: VerificationRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationRequests to fetch.
+     */
+    orderBy?: VerificationRequestOrderByWithRelationInput | VerificationRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VerificationRequests.
+     */
+    cursor?: VerificationRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationRequests.
+     */
+    distinct?: VerificationRequestScalarFieldEnum | VerificationRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationRequest findFirstOrThrow
+   */
+  export type VerificationRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationRequest to fetch.
+     */
+    where?: VerificationRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationRequests to fetch.
+     */
+    orderBy?: VerificationRequestOrderByWithRelationInput | VerificationRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VerificationRequests.
+     */
+    cursor?: VerificationRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationRequests.
+     */
+    distinct?: VerificationRequestScalarFieldEnum | VerificationRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationRequest findMany
+   */
+  export type VerificationRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which VerificationRequests to fetch.
+     */
+    where?: VerificationRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VerificationRequests to fetch.
+     */
+    orderBy?: VerificationRequestOrderByWithRelationInput | VerificationRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VerificationRequests.
+     */
+    cursor?: VerificationRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VerificationRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VerificationRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VerificationRequests.
+     */
+    distinct?: VerificationRequestScalarFieldEnum | VerificationRequestScalarFieldEnum[]
+  }
+
+  /**
+   * VerificationRequest create
+   */
+  export type VerificationRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a VerificationRequest.
+     */
+    data: XOR<VerificationRequestCreateInput, VerificationRequestUncheckedCreateInput>
+  }
+
+  /**
+   * VerificationRequest createMany
+   */
+  export type VerificationRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VerificationRequests.
+     */
+    data: VerificationRequestCreateManyInput | VerificationRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VerificationRequest createManyAndReturn
+   */
+  export type VerificationRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many VerificationRequests.
+     */
+    data: VerificationRequestCreateManyInput | VerificationRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VerificationRequest update
+   */
+  export type VerificationRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a VerificationRequest.
+     */
+    data: XOR<VerificationRequestUpdateInput, VerificationRequestUncheckedUpdateInput>
+    /**
+     * Choose, which VerificationRequest to update.
+     */
+    where: VerificationRequestWhereUniqueInput
+  }
+
+  /**
+   * VerificationRequest updateMany
+   */
+  export type VerificationRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VerificationRequests.
+     */
+    data: XOR<VerificationRequestUpdateManyMutationInput, VerificationRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which VerificationRequests to update
+     */
+    where?: VerificationRequestWhereInput
+    /**
+     * Limit how many VerificationRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VerificationRequest updateManyAndReturn
+   */
+  export type VerificationRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update VerificationRequests.
+     */
+    data: XOR<VerificationRequestUpdateManyMutationInput, VerificationRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which VerificationRequests to update
+     */
+    where?: VerificationRequestWhereInput
+    /**
+     * Limit how many VerificationRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * VerificationRequest upsert
+   */
+  export type VerificationRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the VerificationRequest to update in case it exists.
+     */
+    where: VerificationRequestWhereUniqueInput
+    /**
+     * In case the VerificationRequest found by the `where` argument doesn't exist, create a new VerificationRequest with this data.
+     */
+    create: XOR<VerificationRequestCreateInput, VerificationRequestUncheckedCreateInput>
+    /**
+     * In case the VerificationRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VerificationRequestUpdateInput, VerificationRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * VerificationRequest delete
+   */
+  export type VerificationRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+    /**
+     * Filter which VerificationRequest to delete.
+     */
+    where: VerificationRequestWhereUniqueInput
+  }
+
+  /**
+   * VerificationRequest deleteMany
+   */
+  export type VerificationRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VerificationRequests to delete
+     */
+    where?: VerificationRequestWhereInput
+    /**
+     * Limit how many VerificationRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VerificationRequest without action
+   */
+  export type VerificationRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VerificationRequest
+     */
+    select?: VerificationRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VerificationRequest
+     */
+    omit?: VerificationRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VerificationRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -12325,6 +13608,22 @@ export namespace Prisma {
   };
 
   export type NotificationScalarFieldEnum = (typeof NotificationScalarFieldEnum)[keyof typeof NotificationScalarFieldEnum]
+
+
+  export const VerificationRequestScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    idType: 'idType',
+    idNumber: 'idNumber',
+    frontImage: 'frontImage',
+    backImage: 'backImage',
+    status: 'status',
+    adminNote: 'adminNote',
+    reviewedAt: 'reviewedAt',
+    createdAt: 'createdAt'
+  };
+
+  export type VerificationRequestScalarFieldEnum = (typeof VerificationRequestScalarFieldEnum)[keyof typeof VerificationRequestScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -12500,6 +13799,34 @@ export namespace Prisma {
    * Reference to a field of type 'NotificationType[]'
    */
   export type ListEnumNotificationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NotificationType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'IdDocumentType'
+   */
+  export type EnumIdDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IdDocumentType'>
+    
+
+
+  /**
+   * Reference to a field of type 'IdDocumentType[]'
+   */
+  export type ListEnumIdDocumentTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'IdDocumentType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'VerificationStatus'
+   */
+  export type EnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'VerificationStatus[]'
+   */
+  export type ListEnumVerificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VerificationStatus[]'>
     
   /**
    * Deep Input Types
@@ -12725,6 +14052,7 @@ export namespace Prisma {
     ownerConversations?: ConversationListRelationFilter
     messages?: MessageListRelationFilter
     notifications?: NotificationListRelationFilter
+    verificationRequests?: VerificationRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -12747,6 +14075,7 @@ export namespace Prisma {
     ownerConversations?: ConversationOrderByRelationAggregateInput
     messages?: MessageOrderByRelationAggregateInput
     notifications?: NotificationOrderByRelationAggregateInput
+    verificationRequests?: VerificationRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -12772,6 +14101,7 @@ export namespace Prisma {
     ownerConversations?: ConversationListRelationFilter
     messages?: MessageListRelationFilter
     notifications?: NotificationListRelationFilter
+    verificationRequests?: VerificationRequestListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -13197,6 +14527,86 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
+  export type VerificationRequestWhereInput = {
+    AND?: VerificationRequestWhereInput | VerificationRequestWhereInput[]
+    OR?: VerificationRequestWhereInput[]
+    NOT?: VerificationRequestWhereInput | VerificationRequestWhereInput[]
+    id?: StringFilter<"VerificationRequest"> | string
+    userId?: StringFilter<"VerificationRequest"> | string
+    idType?: EnumIdDocumentTypeFilter<"VerificationRequest"> | $Enums.IdDocumentType
+    idNumber?: StringFilter<"VerificationRequest"> | string
+    frontImage?: StringFilter<"VerificationRequest"> | string
+    backImage?: StringNullableFilter<"VerificationRequest"> | string | null
+    status?: EnumVerificationStatusFilter<"VerificationRequest"> | $Enums.VerificationStatus
+    adminNote?: StringNullableFilter<"VerificationRequest"> | string | null
+    reviewedAt?: DateTimeNullableFilter<"VerificationRequest"> | Date | string | null
+    createdAt?: DateTimeFilter<"VerificationRequest"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type VerificationRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    idType?: SortOrder
+    idNumber?: SortOrder
+    frontImage?: SortOrder
+    backImage?: SortOrderInput | SortOrder
+    status?: SortOrder
+    adminNote?: SortOrderInput | SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type VerificationRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: VerificationRequestWhereInput | VerificationRequestWhereInput[]
+    OR?: VerificationRequestWhereInput[]
+    NOT?: VerificationRequestWhereInput | VerificationRequestWhereInput[]
+    userId?: StringFilter<"VerificationRequest"> | string
+    idType?: EnumIdDocumentTypeFilter<"VerificationRequest"> | $Enums.IdDocumentType
+    idNumber?: StringFilter<"VerificationRequest"> | string
+    frontImage?: StringFilter<"VerificationRequest"> | string
+    backImage?: StringNullableFilter<"VerificationRequest"> | string | null
+    status?: EnumVerificationStatusFilter<"VerificationRequest"> | $Enums.VerificationStatus
+    adminNote?: StringNullableFilter<"VerificationRequest"> | string | null
+    reviewedAt?: DateTimeNullableFilter<"VerificationRequest"> | Date | string | null
+    createdAt?: DateTimeFilter<"VerificationRequest"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type VerificationRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    idType?: SortOrder
+    idNumber?: SortOrder
+    frontImage?: SortOrder
+    backImage?: SortOrderInput | SortOrder
+    status?: SortOrder
+    adminNote?: SortOrderInput | SortOrder
+    reviewedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: VerificationRequestCountOrderByAggregateInput
+    _max?: VerificationRequestMaxOrderByAggregateInput
+    _min?: VerificationRequestMinOrderByAggregateInput
+  }
+
+  export type VerificationRequestScalarWhereWithAggregatesInput = {
+    AND?: VerificationRequestScalarWhereWithAggregatesInput | VerificationRequestScalarWhereWithAggregatesInput[]
+    OR?: VerificationRequestScalarWhereWithAggregatesInput[]
+    NOT?: VerificationRequestScalarWhereWithAggregatesInput | VerificationRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"VerificationRequest"> | string
+    userId?: StringWithAggregatesFilter<"VerificationRequest"> | string
+    idType?: EnumIdDocumentTypeWithAggregatesFilter<"VerificationRequest"> | $Enums.IdDocumentType
+    idNumber?: StringWithAggregatesFilter<"VerificationRequest"> | string
+    frontImage?: StringWithAggregatesFilter<"VerificationRequest"> | string
+    backImage?: StringNullableWithAggregatesFilter<"VerificationRequest"> | string | null
+    status?: EnumVerificationStatusWithAggregatesFilter<"VerificationRequest"> | $Enums.VerificationStatus
+    adminNote?: StringNullableWithAggregatesFilter<"VerificationRequest"> | string | null
+    reviewedAt?: DateTimeNullableWithAggregatesFilter<"VerificationRequest"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"VerificationRequest"> | Date | string
+  }
+
   export type ListingCreateInput = {
     id?: string
     title: string
@@ -13439,6 +14849,7 @@ export namespace Prisma {
     ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -13461,6 +14872,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -13483,6 +14895,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -13505,6 +14918,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -13941,6 +15355,96 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     link?: NullableStringFieldUpdateOperationsInput | string | null
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationRequestCreateInput = {
+    id?: string
+    idType: $Enums.IdDocumentType
+    idNumber: string
+    frontImage: string
+    backImage?: string | null
+    status?: $Enums.VerificationStatus
+    adminNote?: string | null
+    reviewedAt?: Date | string | null
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutVerificationRequestsInput
+  }
+
+  export type VerificationRequestUncheckedCreateInput = {
+    id?: string
+    userId: string
+    idType: $Enums.IdDocumentType
+    idNumber: string
+    frontImage: string
+    backImage?: string | null
+    status?: $Enums.VerificationStatus
+    adminNote?: string | null
+    reviewedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type VerificationRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idType?: EnumIdDocumentTypeFieldUpdateOperationsInput | $Enums.IdDocumentType
+    idNumber?: StringFieldUpdateOperationsInput | string
+    frontImage?: StringFieldUpdateOperationsInput | string
+    backImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutVerificationRequestsNestedInput
+  }
+
+  export type VerificationRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    idType?: EnumIdDocumentTypeFieldUpdateOperationsInput | $Enums.IdDocumentType
+    idNumber?: StringFieldUpdateOperationsInput | string
+    frontImage?: StringFieldUpdateOperationsInput | string
+    backImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationRequestCreateManyInput = {
+    id?: string
+    userId: string
+    idType: $Enums.IdDocumentType
+    idNumber: string
+    frontImage: string
+    backImage?: string | null
+    status?: $Enums.VerificationStatus
+    adminNote?: string | null
+    reviewedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type VerificationRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idType?: EnumIdDocumentTypeFieldUpdateOperationsInput | $Enums.IdDocumentType
+    idNumber?: StringFieldUpdateOperationsInput | string
+    frontImage?: StringFieldUpdateOperationsInput | string
+    backImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    idType?: EnumIdDocumentTypeFieldUpdateOperationsInput | $Enums.IdDocumentType
+    idNumber?: StringFieldUpdateOperationsInput | string
+    frontImage?: StringFieldUpdateOperationsInput | string
+    backImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -14397,6 +15901,12 @@ export namespace Prisma {
     none?: NotificationWhereInput
   }
 
+  export type VerificationRequestListRelationFilter = {
+    every?: VerificationRequestWhereInput
+    some?: VerificationRequestWhereInput
+    none?: VerificationRequestWhereInput
+  }
+
   export type ListingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -14414,6 +15924,10 @@ export namespace Prisma {
   }
 
   export type NotificationOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VerificationRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -14699,6 +16213,79 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
+  export type EnumIdDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IdDocumentType | EnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IdDocumentType[] | ListEnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IdDocumentType[] | ListEnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIdDocumentTypeFilter<$PrismaModel> | $Enums.IdDocumentType
+  }
+
+  export type EnumVerificationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusFilter<$PrismaModel> | $Enums.VerificationStatus
+  }
+
+  export type VerificationRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    idType?: SortOrder
+    idNumber?: SortOrder
+    frontImage?: SortOrder
+    backImage?: SortOrder
+    status?: SortOrder
+    adminNote?: SortOrder
+    reviewedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VerificationRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    idType?: SortOrder
+    idNumber?: SortOrder
+    frontImage?: SortOrder
+    backImage?: SortOrder
+    status?: SortOrder
+    adminNote?: SortOrder
+    reviewedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type VerificationRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    idType?: SortOrder
+    idNumber?: SortOrder
+    frontImage?: SortOrder
+    backImage?: SortOrder
+    status?: SortOrder
+    adminNote?: SortOrder
+    reviewedAt?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumIdDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IdDocumentType | EnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IdDocumentType[] | ListEnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IdDocumentType[] | ListEnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIdDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.IdDocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIdDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumIdDocumentTypeFilter<$PrismaModel>
+  }
+
+  export type EnumVerificationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel> | $Enums.VerificationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVerificationStatusFilter<$PrismaModel>
+    _max?: NestedEnumVerificationStatusFilter<$PrismaModel>
+  }
+
   export type ListingCreateimagesInput = {
     set: string[]
   }
@@ -14946,6 +16533,13 @@ export namespace Prisma {
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
+  export type VerificationRequestCreateNestedManyWithoutUserInput = {
+    create?: XOR<VerificationRequestCreateWithoutUserInput, VerificationRequestUncheckedCreateWithoutUserInput> | VerificationRequestCreateWithoutUserInput[] | VerificationRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VerificationRequestCreateOrConnectWithoutUserInput | VerificationRequestCreateOrConnectWithoutUserInput[]
+    createMany?: VerificationRequestCreateManyUserInputEnvelope
+    connect?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+  }
+
   export type ListingUncheckedCreateNestedManyWithoutOwnerInput = {
     create?: XOR<ListingCreateWithoutOwnerInput, ListingUncheckedCreateWithoutOwnerInput> | ListingCreateWithoutOwnerInput[] | ListingUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutOwnerInput | ListingCreateOrConnectWithoutOwnerInput[]
@@ -15000,6 +16594,13 @@ export namespace Prisma {
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
     createMany?: NotificationCreateManyUserInputEnvelope
     connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
+  }
+
+  export type VerificationRequestUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<VerificationRequestCreateWithoutUserInput, VerificationRequestUncheckedCreateWithoutUserInput> | VerificationRequestCreateWithoutUserInput[] | VerificationRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VerificationRequestCreateOrConnectWithoutUserInput | VerificationRequestCreateOrConnectWithoutUserInput[]
+    createMany?: VerificationRequestCreateManyUserInputEnvelope
+    connect?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -15122,6 +16723,20 @@ export namespace Prisma {
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
+  export type VerificationRequestUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VerificationRequestCreateWithoutUserInput, VerificationRequestUncheckedCreateWithoutUserInput> | VerificationRequestCreateWithoutUserInput[] | VerificationRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VerificationRequestCreateOrConnectWithoutUserInput | VerificationRequestCreateOrConnectWithoutUserInput[]
+    upsert?: VerificationRequestUpsertWithWhereUniqueWithoutUserInput | VerificationRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VerificationRequestCreateManyUserInputEnvelope
+    set?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+    disconnect?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+    delete?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+    connect?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+    update?: VerificationRequestUpdateWithWhereUniqueWithoutUserInput | VerificationRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VerificationRequestUpdateManyWithWhereWithoutUserInput | VerificationRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VerificationRequestScalarWhereInput | VerificationRequestScalarWhereInput[]
+  }
+
   export type ListingUncheckedUpdateManyWithoutOwnerNestedInput = {
     create?: XOR<ListingCreateWithoutOwnerInput, ListingUncheckedCreateWithoutOwnerInput> | ListingCreateWithoutOwnerInput[] | ListingUncheckedCreateWithoutOwnerInput[]
     connectOrCreate?: ListingCreateOrConnectWithoutOwnerInput | ListingCreateOrConnectWithoutOwnerInput[]
@@ -15232,6 +16847,20 @@ export namespace Prisma {
     update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
+  }
+
+  export type VerificationRequestUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<VerificationRequestCreateWithoutUserInput, VerificationRequestUncheckedCreateWithoutUserInput> | VerificationRequestCreateWithoutUserInput[] | VerificationRequestUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: VerificationRequestCreateOrConnectWithoutUserInput | VerificationRequestCreateOrConnectWithoutUserInput[]
+    upsert?: VerificationRequestUpsertWithWhereUniqueWithoutUserInput | VerificationRequestUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: VerificationRequestCreateManyUserInputEnvelope
+    set?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+    disconnect?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+    delete?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+    connect?: VerificationRequestWhereUniqueInput | VerificationRequestWhereUniqueInput[]
+    update?: VerificationRequestUpdateWithWhereUniqueWithoutUserInput | VerificationRequestUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: VerificationRequestUpdateManyWithWhereWithoutUserInput | VerificationRequestUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: VerificationRequestScalarWhereInput | VerificationRequestScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -15390,6 +17019,28 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutNotificationsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  }
+
+  export type UserCreateNestedOneWithoutVerificationRequestsInput = {
+    create?: XOR<UserCreateWithoutVerificationRequestsInput, UserUncheckedCreateWithoutVerificationRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVerificationRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumIdDocumentTypeFieldUpdateOperationsInput = {
+    set?: $Enums.IdDocumentType
+  }
+
+  export type EnumVerificationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.VerificationStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutVerificationRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutVerificationRequestsInput, UserUncheckedCreateWithoutVerificationRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutVerificationRequestsInput
+    upsert?: UserUpsertWithoutVerificationRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutVerificationRequestsInput, UserUpdateWithoutVerificationRequestsInput>, UserUncheckedUpdateWithoutVerificationRequestsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -15711,6 +17362,40 @@ export namespace Prisma {
     _max?: NestedEnumNotificationTypeFilter<$PrismaModel>
   }
 
+  export type NestedEnumIdDocumentTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.IdDocumentType | EnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IdDocumentType[] | ListEnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IdDocumentType[] | ListEnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIdDocumentTypeFilter<$PrismaModel> | $Enums.IdDocumentType
+  }
+
+  export type NestedEnumVerificationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusFilter<$PrismaModel> | $Enums.VerificationStatus
+  }
+
+  export type NestedEnumIdDocumentTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.IdDocumentType | EnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.IdDocumentType[] | ListEnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.IdDocumentType[] | ListEnumIdDocumentTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumIdDocumentTypeWithAggregatesFilter<$PrismaModel> | $Enums.IdDocumentType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumIdDocumentTypeFilter<$PrismaModel>
+    _max?: NestedEnumIdDocumentTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.VerificationStatus | EnumVerificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.VerificationStatus[] | ListEnumVerificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumVerificationStatusWithAggregatesFilter<$PrismaModel> | $Enums.VerificationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumVerificationStatusFilter<$PrismaModel>
+    _max?: NestedEnumVerificationStatusFilter<$PrismaModel>
+  }
+
   export type UserCreateWithoutListingsInput = {
     id?: string
     name: string
@@ -15730,6 +17415,7 @@ export namespace Prisma {
     ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutListingsInput = {
@@ -15751,6 +17437,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutListingsInput = {
@@ -15846,6 +17533,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListingsInput = {
@@ -15867,6 +17555,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type VisitRequestUpsertWithWhereUniqueWithoutListingInput = {
@@ -15993,6 +17682,7 @@ export namespace Prisma {
     ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutVisitRequestsInput = {
@@ -16014,6 +17704,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutVisitRequestsInput = {
@@ -16104,6 +17795,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutVisitRequestsInput = {
@@ -16125,6 +17817,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ListingCreateWithoutOwnerInput = {
@@ -16381,6 +18074,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type VerificationRequestCreateWithoutUserInput = {
+    id?: string
+    idType: $Enums.IdDocumentType
+    idNumber: string
+    frontImage: string
+    backImage?: string | null
+    status?: $Enums.VerificationStatus
+    adminNote?: string | null
+    reviewedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type VerificationRequestUncheckedCreateWithoutUserInput = {
+    id?: string
+    idType: $Enums.IdDocumentType
+    idNumber: string
+    frontImage: string
+    backImage?: string | null
+    status?: $Enums.VerificationStatus
+    adminNote?: string | null
+    reviewedAt?: Date | string | null
+    createdAt?: Date | string
+  }
+
+  export type VerificationRequestCreateOrConnectWithoutUserInput = {
+    where: VerificationRequestWhereUniqueInput
+    create: XOR<VerificationRequestCreateWithoutUserInput, VerificationRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type VerificationRequestCreateManyUserInputEnvelope = {
+    data: VerificationRequestCreateManyUserInput | VerificationRequestCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ListingUpsertWithWhereUniqueWithoutOwnerInput = {
     where: ListingWhereUniqueInput
     update: XOR<ListingUpdateWithoutOwnerInput, ListingUncheckedUpdateWithoutOwnerInput>
@@ -16586,6 +18313,38 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Notification"> | Date | string
   }
 
+  export type VerificationRequestUpsertWithWhereUniqueWithoutUserInput = {
+    where: VerificationRequestWhereUniqueInput
+    update: XOR<VerificationRequestUpdateWithoutUserInput, VerificationRequestUncheckedUpdateWithoutUserInput>
+    create: XOR<VerificationRequestCreateWithoutUserInput, VerificationRequestUncheckedCreateWithoutUserInput>
+  }
+
+  export type VerificationRequestUpdateWithWhereUniqueWithoutUserInput = {
+    where: VerificationRequestWhereUniqueInput
+    data: XOR<VerificationRequestUpdateWithoutUserInput, VerificationRequestUncheckedUpdateWithoutUserInput>
+  }
+
+  export type VerificationRequestUpdateManyWithWhereWithoutUserInput = {
+    where: VerificationRequestScalarWhereInput
+    data: XOR<VerificationRequestUpdateManyMutationInput, VerificationRequestUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type VerificationRequestScalarWhereInput = {
+    AND?: VerificationRequestScalarWhereInput | VerificationRequestScalarWhereInput[]
+    OR?: VerificationRequestScalarWhereInput[]
+    NOT?: VerificationRequestScalarWhereInput | VerificationRequestScalarWhereInput[]
+    id?: StringFilter<"VerificationRequest"> | string
+    userId?: StringFilter<"VerificationRequest"> | string
+    idType?: EnumIdDocumentTypeFilter<"VerificationRequest"> | $Enums.IdDocumentType
+    idNumber?: StringFilter<"VerificationRequest"> | string
+    frontImage?: StringFilter<"VerificationRequest"> | string
+    backImage?: StringNullableFilter<"VerificationRequest"> | string | null
+    status?: EnumVerificationStatusFilter<"VerificationRequest"> | $Enums.VerificationStatus
+    adminNote?: StringNullableFilter<"VerificationRequest"> | string | null
+    reviewedAt?: DateTimeNullableFilter<"VerificationRequest"> | Date | string | null
+    createdAt?: DateTimeFilter<"VerificationRequest"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name: string
@@ -16605,6 +18364,7 @@ export namespace Prisma {
     ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -16626,6 +18386,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -16663,6 +18424,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -16684,6 +18446,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -16705,6 +18468,7 @@ export namespace Prisma {
     ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -16726,6 +18490,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -16763,6 +18528,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -16784,6 +18550,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ListingCreateWithoutConversationsInput = {
@@ -16852,6 +18619,7 @@ export namespace Prisma {
     ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTenantConversationsInput = {
@@ -16873,6 +18641,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTenantConversationsInput = {
@@ -16899,6 +18668,7 @@ export namespace Prisma {
     tenantConversations?: ConversationCreateNestedManyWithoutTenantInput
     messages?: MessageCreateNestedManyWithoutSenderInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOwnerConversationsInput = {
@@ -16920,6 +18690,7 @@ export namespace Prisma {
     tenantConversations?: ConversationUncheckedCreateNestedManyWithoutTenantInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOwnerConversationsInput = {
@@ -17036,6 +18807,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTenantConversationsInput = {
@@ -17057,6 +18829,7 @@ export namespace Prisma {
     ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutOwnerConversationsInput = {
@@ -17089,6 +18862,7 @@ export namespace Prisma {
     tenantConversations?: ConversationUpdateManyWithoutTenantNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOwnerConversationsInput = {
@@ -17110,6 +18884,7 @@ export namespace Prisma {
     tenantConversations?: ConversationUncheckedUpdateManyWithoutTenantNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -17170,6 +18945,7 @@ export namespace Prisma {
     tenantConversations?: ConversationCreateNestedManyWithoutTenantInput
     ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -17191,6 +18967,7 @@ export namespace Prisma {
     tenantConversations?: ConversationUncheckedCreateNestedManyWithoutTenantInput
     ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -17257,6 +19034,7 @@ export namespace Prisma {
     tenantConversations?: ConversationUpdateManyWithoutTenantNestedInput
     ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -17278,6 +19056,7 @@ export namespace Prisma {
     tenantConversations?: ConversationUncheckedUpdateManyWithoutTenantNestedInput
     ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -17299,6 +19078,7 @@ export namespace Prisma {
     tenantConversations?: ConversationCreateNestedManyWithoutTenantInput
     ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
+    verificationRequests?: VerificationRequestCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -17320,6 +19100,7 @@ export namespace Prisma {
     tenantConversations?: ConversationUncheckedCreateNestedManyWithoutTenantInput
     ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    verificationRequests?: VerificationRequestUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -17357,6 +19138,7 @@ export namespace Prisma {
     tenantConversations?: ConversationUpdateManyWithoutTenantNestedInput
     ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    verificationRequests?: VerificationRequestUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -17378,6 +19160,111 @@ export namespace Prisma {
     tenantConversations?: ConversationUncheckedUpdateManyWithoutTenantNestedInput
     ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    verificationRequests?: VerificationRequestUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutVerificationRequestsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    phone?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    listings?: ListingCreateNestedManyWithoutOwnerInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestCreateNestedManyWithoutTenantInput
+    tenantConversations?: ConversationCreateNestedManyWithoutTenantInput
+    ownerConversations?: ConversationCreateNestedManyWithoutOwnerInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutVerificationRequestsInput = {
+    id?: string
+    name: string
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    password?: string | null
+    role?: $Enums.Role
+    verified?: boolean
+    phone?: string | null
+    bio?: string | null
+    createdAt?: Date | string
+    listings?: ListingUncheckedCreateNestedManyWithoutOwnerInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    visitRequests?: VisitRequestUncheckedCreateNestedManyWithoutTenantInput
+    tenantConversations?: ConversationUncheckedCreateNestedManyWithoutTenantInput
+    ownerConversations?: ConversationUncheckedCreateNestedManyWithoutOwnerInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutVerificationRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutVerificationRequestsInput, UserUncheckedCreateWithoutVerificationRequestsInput>
+  }
+
+  export type UserUpsertWithoutVerificationRequestsInput = {
+    update: XOR<UserUpdateWithoutVerificationRequestsInput, UserUncheckedUpdateWithoutVerificationRequestsInput>
+    create: XOR<UserCreateWithoutVerificationRequestsInput, UserUncheckedCreateWithoutVerificationRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutVerificationRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutVerificationRequestsInput, UserUncheckedUpdateWithoutVerificationRequestsInput>
+  }
+
+  export type UserUpdateWithoutVerificationRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: ListingUpdateManyWithoutOwnerNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUpdateManyWithoutTenantNestedInput
+    tenantConversations?: ConversationUpdateManyWithoutTenantNestedInput
+    ownerConversations?: ConversationUpdateManyWithoutOwnerNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutVerificationRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    verified?: BoolFieldUpdateOperationsInput | boolean
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    listings?: ListingUncheckedUpdateManyWithoutOwnerNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    visitRequests?: VisitRequestUncheckedUpdateManyWithoutTenantNestedInput
+    tenantConversations?: ConversationUncheckedUpdateManyWithoutTenantNestedInput
+    ownerConversations?: ConversationUncheckedUpdateManyWithoutOwnerNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type VisitRequestCreateManyListingInput = {
@@ -17534,6 +19421,18 @@ export namespace Prisma {
     body: string
     link?: string | null
     read?: boolean
+    createdAt?: Date | string
+  }
+
+  export type VerificationRequestCreateManyUserInput = {
+    id?: string
+    idType: $Enums.IdDocumentType
+    idNumber: string
+    frontImage: string
+    backImage?: string | null
+    status?: $Enums.VerificationStatus
+    adminNote?: string | null
+    reviewedAt?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -17791,6 +19690,42 @@ export namespace Prisma {
     body?: StringFieldUpdateOperationsInput | string
     link?: NullableStringFieldUpdateOperationsInput | string | null
     read?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationRequestUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idType?: EnumIdDocumentTypeFieldUpdateOperationsInput | $Enums.IdDocumentType
+    idNumber?: StringFieldUpdateOperationsInput | string
+    frontImage?: StringFieldUpdateOperationsInput | string
+    backImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationRequestUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idType?: EnumIdDocumentTypeFieldUpdateOperationsInput | $Enums.IdDocumentType
+    idNumber?: StringFieldUpdateOperationsInput | string
+    frontImage?: StringFieldUpdateOperationsInput | string
+    backImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VerificationRequestUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    idType?: EnumIdDocumentTypeFieldUpdateOperationsInput | $Enums.IdDocumentType
+    idNumber?: StringFieldUpdateOperationsInput | string
+    frontImage?: StringFieldUpdateOperationsInput | string
+    backImage?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumVerificationStatusFieldUpdateOperationsInput | $Enums.VerificationStatus
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    reviewedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
