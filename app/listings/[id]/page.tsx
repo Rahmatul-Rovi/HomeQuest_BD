@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
@@ -24,6 +25,11 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+const StaticLocationMap = dynamic(() => import("@/components/map/StaticLocationMap"), {
+  ssr: false,
+  loading: () => <div className="h-64 sm:h-72 rounded-xl bg-gray-100 animate-pulse" />,
+});
+
 type ListingDetail = {
   id: string;
   title: string;
@@ -36,6 +42,8 @@ type ListingDetail = {
   areaSize: number | null;
   bachelorAllowed: boolean;
   address: string;
+  lat: number | null;
+  lng: number | null;
   images: string[];
   owner: { id: string; name: string; verified: boolean; email: string };
 };
@@ -84,75 +92,62 @@ export default function ListingDetailsPage() {
       });
   }, [id]);
 
-  const handleBookVisit = () => {
-    if (!isLoggedIn) {
-      Swal.fire({
-        icon: "info",
-        title: "Login Required",
-        text: "Please log in to book a visit.",
-        showCancelButton: true,
-        confirmButtonText: "Log In",
-        cancelButtonText: "Cancel",
-        confirmButtonColor: "#16A34A",
-        cancelButtonColor: "#9CA3AF",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          router.push(`/login?redirect=/listings/${id}`);
-        }
-      });
-      return;
-    }
-
-    setShowBookingModal(true);
-  };
-
- const handleMessageOwner = async () => {
-  if (!isLoggedIn) {
+  const askLogin = (text: string) =>
     Swal.fire({
       icon: "info",
       title: "Login Required",
-      text: "Please log in to message the owner.",
+      text,
       showCancelButton: true,
       confirmButtonText: "Log In",
       cancelButtonText: "Cancel",
       confirmButtonColor: "#16A34A",
       cancelButtonColor: "#9CA3AF",
     }).then((result) => {
-      if (result.isConfirmed) {
-        router.push(`/login?redirect=/listings/${id}`);
-      }
-    });
-    return;
-  }
-
-  try {
-    const res = await fetch("/api/conversations", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ listingId: id }),
+      if (result.isConfirmed) router.push(`/login?redirect=/listings/${id}`);
     });
 
-    if (!res.ok) {
-      const data = await res.json();
-      Swal.fire({
-        icon: "error",
-        title: "Cannot Start Chat",
-        text: data.error || "Something went wrong.",
-        confirmButtonColor: "#16A34A",
-      });
+  const handleBookVisit = () => {
+    if (!isLoggedIn) {
+      askLogin("Please log in to book a visit.");
+      return;
+    }
+    setShowBookingModal(true);
+  };
+
+  const handleMessageOwner = async () => {
+    if (!isLoggedIn) {
+      askLogin("Please log in to message the owner.");
       return;
     }
 
-    const conversation = await res.json();
-    router.push(`/messages/${conversation.id}`);
-  } catch {
-    Swal.fire({
-      icon: "error",
-      title: "Something Went Wrong",
-      confirmButtonColor: "#16A34A",
-    });
-  }
-};
+    try {
+      const res = await fetch("/api/conversations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ listingId: id }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        Swal.fire({
+          icon: "error",
+          title: "Cannot Start Chat",
+          text: data.error || "Something went wrong.",
+          confirmButtonColor: "#16A34A",
+        });
+        return;
+      }
+
+      const conversation = await res.json();
+      router.push(`/messages/${conversation.id}`);
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something Went Wrong",
+        confirmButtonColor: "#16A34A",
+      });
+    }
+  };
 
   if (loading || status === "loading") {
     return (
@@ -298,7 +293,6 @@ export default function ListingDetailsPage() {
               )}
             </p>
 
-            {/* Quick Specs */}
             <div className="flex flex-wrap gap-4 mb-6 border-y border-gray-200 py-4">
               {listing.bedroom && (
                 <div className="flex items-center gap-2 text-gray-600 text-sm">
@@ -325,6 +319,17 @@ export default function ListingDetailsPage() {
             <p className="text-gray-600 text-sm leading-relaxed whitespace-pre-line">
               {listing.description}
             </p>
+
+            {typeof listing.lat === "number" && typeof listing.lng === "number" && (
+              <div className="mt-8">
+                <h2 className="font-semibold text-gray-900 mb-3">Location</h2>
+                <StaticLocationMap
+                  lat={listing.lat}
+                  lng={listing.lng}
+                  title={listing.title}
+                />
+              </div>
+            )}
           </div>
 
           {/* Right: Owner Card + Actions */}
