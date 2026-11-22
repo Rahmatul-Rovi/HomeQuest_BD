@@ -1,11 +1,19 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
-import { SearchX, X, ArrowUpDown } from "lucide-react";
+import { SearchX, X, ArrowUpDown, LayoutGrid, Map as MapIcon, MapPin } from "lucide-react";
 import ListingCard from "@/components/ListingCard";
 import { Button } from "@/components/ui/button";
+
+const ListingMap = dynamic(() => import("@/components/map/ListingMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[70vh] min-h-[420px] rounded-2xl bg-gray-100 animate-pulse" />
+  ),
+});
 
 type Listing = {
   id: string;
@@ -17,6 +25,8 @@ type Listing = {
   listingType: "RENT" | "SALE";
   category: string;
   images: string[];
+  lat: number | null;
+  lng: number | null;
   owner: { name: string; verified: boolean };
 };
 
@@ -42,6 +52,7 @@ export default function ListingGrid() {
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [sort, setSort] = useState("newest");
+  const [view, setView] = useState<"grid" | "map">("grid");
 
   useEffect(() => {
     let cancelled = false;
@@ -79,6 +90,13 @@ export default function ListingGrid() {
     if (sort === "price-desc") copy.sort((a, b) => b.price - a.price);
     return copy;
   }, [listings, sort]);
+
+  const mappableCount = useMemo(
+    () =>
+      listings.filter((l) => typeof l.lat === "number" && typeof l.lng === "number")
+        .length,
+    [listings]
+  );
 
   // Active filter chips
   const chips: { label: string; keys: string[] }[] = [];
@@ -121,7 +139,6 @@ export default function ListingGrid() {
 
   const clearAll = () => router.push("/listings");
 
-  // Loading skeleton
   if (loading) {
     return (
       <div>
@@ -150,23 +167,53 @@ export default function ListingGrid() {
       {/* Results Bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <p className="text-sm text-gray-600">
-          <span className="font-bold text-gray-900">{sortedListings.length}</span>{" "}
-          propert{sortedListings.length === 1 ? "y" : "ies"} found
+          <span className="font-bold text-gray-900">{listings.length}</span>{" "}
+          propert{listings.length === 1 ? "y" : "ies"} found
         </p>
 
-        <div className="flex items-center gap-2">
-          <ArrowUpDown size={15} className="text-gray-400" />
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-            className="border border-gray-200 bg-white rounded-lg px-3 py-2 text-sm text-gray-700 outline-none focus:border-primary cursor-pointer"
-          >
-            {SORT_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+        <div className="flex items-center gap-3">
+          {/* Grid / Map toggle */}
+          <div className="flex items-center gap-1 bg-gray-100 p-1 rounded-lg">
+            <button
+              type="button"
+              onClick={() => setView("grid")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition ${
+                view === "grid"
+                  ? "bg-white text-primary shadow-sm"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <LayoutGrid size={15} /> Grid
+            </button>
+            <button
+              type="button"
+              onClick={() => setView("map")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-md transition ${
+                view === "map"
+                  ? "bg-white text-primary shadow-sm"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <MapIcon size={15} /> Map
+            </button>
+          </div>
+
+          {view === "grid" && (
+            <div className="flex items-center gap-2">
+              <ArrowUpDown size={15} className="text-gray-400" />
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                className="border border-gray-200 bg-white rounded-lg px-3 py-2 text-sm text-gray-700 outline-none focus:border-primary cursor-pointer"
+              >
+                {SORT_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </div>
 
@@ -200,7 +247,7 @@ export default function ListingGrid() {
       )}
 
       {/* Results */}
-      {sortedListings.length === 0 ? (
+      {listings.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-2xl border border-gray-100">
           <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
             <SearchX size={28} className="text-gray-300" />
@@ -219,6 +266,32 @@ export default function ListingGrid() {
             </Button>
           )}
         </div>
+      ) : view === "map" ? (
+        mappableCount === 0 ? (
+          <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
+            <MapPin size={32} className="text-gray-300 mx-auto mb-3" />
+            <p className="text-gray-700 font-semibold">No map locations yet</p>
+            <p className="text-gray-400 text-sm mt-1 mb-5">
+              None of these properties have a pinned location.
+            </p>
+            <Button
+              onClick={() => setView("grid")}
+              className="bg-primary hover:bg-primary-dark text-white"
+            >
+              Back to Grid
+            </Button>
+          </div>
+        ) : (
+          <>
+            {mappableCount < listings.length && (
+              <p className="text-xs text-gray-400 mb-2">
+                Showing {mappableCount} of {listings.length} properties that have a pinned
+                location.
+              </p>
+            )}
+            <ListingMap listings={listings} />
+          </>
+        )
       ) : (
         <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
           {sortedListings.map((listing) => (
