@@ -222,6 +222,19 @@ exports.Prisma.NotificationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.VerificationRequestScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  idType: 'idType',
+  idNumber: 'idNumber',
+  frontImage: 'frontImage',
+  backImage: 'backImage',
+  status: 'status',
+  adminNote: 'adminNote',
+  reviewedAt: 'reviewedAt',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -278,7 +291,20 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   VISIT_CANCELLED: 'VISIT_CANCELLED',
   OWNER_VERIFIED: 'OWNER_VERIFIED',
   OWNER_UNVERIFIED: 'OWNER_UNVERIFIED',
-  LISTING_REMOVED: 'LISTING_REMOVED'
+  LISTING_REMOVED: 'LISTING_REMOVED',
+  VERIFICATION_SUBMITTED: 'VERIFICATION_SUBMITTED'
+};
+
+exports.IdDocumentType = exports.$Enums.IdDocumentType = {
+  NID: 'NID',
+  PASSPORT: 'PASSPORT',
+  DRIVING_LICENSE: 'DRIVING_LICENSE'
+};
+
+exports.VerificationStatus = exports.$Enums.VerificationStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
 };
 
 exports.Prisma.ModelName = {
@@ -290,7 +316,8 @@ exports.Prisma.ModelName = {
   VerificationToken: 'VerificationToken',
   Conversation: 'Conversation',
   Message: 'Message',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  VerificationRequest: 'VerificationRequest'
 };
 
 /**
