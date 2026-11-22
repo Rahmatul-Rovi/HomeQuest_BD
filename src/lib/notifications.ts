@@ -7,6 +7,7 @@ export type NotificationKind =
   | "VISIT_CANCELLED"
   | "OWNER_VERIFIED"
   | "OWNER_UNVERIFIED"
+    | "VERIFICATION_SUBMITTED"
   | "LISTING_REMOVED";
 
 type CreateNotificationParams = {
