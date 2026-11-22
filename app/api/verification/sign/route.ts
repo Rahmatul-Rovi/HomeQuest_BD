@@ -28,3 +28,27 @@ export async function POST() {
       select: { id: true },
     }),
   ]);
+
+  if (user?.verified) {
+    return NextResponse.json({ error: "Your account is already verified." }, { status: 400 });
+  }
+  if (pending) {
+    return NextResponse.json(
+      { error: "You already have a request under review." },
+      { status: 400 }
+    );
+  }
+
+  const timestamp = Math.round(Date.now() / 1000);
+  const type = "authenticated";
+  const signature = signUploadParams({ folder: VERIFICATION_FOLDER, timestamp, type });
+
+  return NextResponse.json({
+    cloudName,
+    apiKey,
+    timestamp,
+    signature,
+    folder: VERIFICATION_FOLDER,
+    type,
+  });
+}
