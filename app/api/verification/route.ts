@@ -82,3 +82,32 @@ export async function POST(req: NextRequest) {
   if (!idNumber) {
     return NextResponse.json({ error: ID_NUMBER_HINTS[idType] }, { status: 400 });
   }
+
+   if (!isVerificationImageUrl(body.frontImage)) {
+    return NextResponse.json(
+      { error: "Please upload the front photo of your ID." },
+      { status: 400 }
+    );
+  }
+
+  let backImage: string | null = null;
+  if (idType !== "PASSPORT") {
+    if (!isVerificationImageUrl(body.backImage)) {
+      return NextResponse.json(
+        { error: "Please upload the back photo of your ID." },
+        { status: 400 }
+      );
+    }
+    backImage = body.backImage;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { name: true, verified: true },
+  });
+  if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+  if (user.verified) {
+    return NextResponse.json({ error: "Your account is already verified." }, { status: 400 });
+  }
