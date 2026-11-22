@@ -111,3 +111,38 @@ export async function POST(req: NextRequest) {
   if (user.verified) {
     return NextResponse.json({ error: "Your account is already verified." }, { status: 400 });
   }
+
+  const pending = await prisma.verificationRequest.findFirst({
+    where: { userId, status: "PENDING" },
+    select: { id: true },
+  });
+  if (pending) {
+    return NextResponse.json(
+      { error: "You already have a request under review." },
+      { status: 409 }
+    );
+  }
+
+  const created = await prisma.verificationRequest.create({
+    data: {
+      userId,
+      idType,
+      idNumber,
+      frontImage: body.frontImage,
+      backImage,
+    },
+  });
+
+  // Shob admin ke notify kora
+  const admins = await prisma.user.findMany({
+    where: { role: "ADMIN" },
+    select: { id: true },
+  });
+  await Promise.all(
+    admins.map((admin) =>
+      createNotification({
+        userId: admin.id,
+        type: "VERIFICATION_SUBMITTED",
+        title: "New verification request",
+        body: `${user.name} submitted a ${ID_LABELS[idType]} for verification.`,
+        link: "/admin/verifications",
