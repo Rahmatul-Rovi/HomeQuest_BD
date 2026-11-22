@@ -50,3 +50,35 @@ export async function GET() {
   return NextResponse.json({
     verified: Boolean(user?.verified),
     request: latest
+     ? {
+          id: latest.id,
+          idType: latest.idType,
+          idNumberMasked: `•••• ${latest.idNumber.slice(-4)}`,
+          status: latest.status,
+          adminNote: latest.adminNote,
+          createdAt: latest.createdAt,
+          reviewedAt: latest.reviewedAt,
+        }
+      : null,
+  });
+}
+
+// POST - Notun verification request submit
+export async function POST(req: NextRequest) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const userId = session.user.id;
+
+  const body = await req.json();
+
+  const idType = body.idType as IdType;
+  if (!ID_TYPES.includes(idType)) {
+    return NextResponse.json({ error: "Invalid ID type" }, { status: 400 });
+  }
+
+  const idNumber = normalizeIdNumber(idType, String(body.idNumber ?? ""));
+  if (!idNumber) {
+    return NextResponse.json({ error: ID_NUMBER_HINTS[idType] }, { status: 400 });
+  }
