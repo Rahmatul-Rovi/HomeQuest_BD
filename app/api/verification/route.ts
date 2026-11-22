@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { createNotification } from "@/lib/notifications";
 import { isVerificationImageUrl } from "@/lib/cloudinary";
+import { createNotification } from "@/src/lib/notifications";
 
 export const dynamic = "force-dynamic";
 
@@ -30,6 +30,7 @@ function normalizeIdNumber(type: IdType, raw: string): string | null {
   return /^[A-Za-z0-9]{8,20}$/.test(value) ? value.toUpperCase() : null;
 }
 
+// GET - Personal verification status
 export async function GET() {
   const session = await auth();
   if (!session?.user?.id) {
@@ -50,7 +51,7 @@ export async function GET() {
   return NextResponse.json({
     verified: Boolean(user?.verified),
     request: latest
-     ? {
+      ? {
           id: latest.id,
           idType: latest.idType,
           idNumberMasked: `•••• ${latest.idNumber.slice(-4)}`,
@@ -63,7 +64,7 @@ export async function GET() {
   });
 }
 
-// POST - Notun verification request submit
+// POST - New verification request submit
 export async function POST(req: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
@@ -83,7 +84,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: ID_NUMBER_HINTS[idType] }, { status: 400 });
   }
 
-   if (!isVerificationImageUrl(body.frontImage)) {
+  if (!isVerificationImageUrl(body.frontImage)) {
     return NextResponse.json(
       { error: "Please upload the front photo of your ID." },
       { status: 400 }
@@ -133,7 +134,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  // Shob admin ke notify kora
+  // All admin get notify
   const admins = await prisma.user.findMany({
     where: { role: "ADMIN" },
     select: { id: true },
@@ -146,3 +147,9 @@ export async function POST(req: NextRequest) {
         title: "New verification request",
         body: `${user.name} submitted a ${ID_LABELS[idType]} for verification.`,
         link: "/admin/verifications",
+      })
+    )
+  );
+
+  return NextResponse.json({ id: created.id }, { status: 201 });
+}
