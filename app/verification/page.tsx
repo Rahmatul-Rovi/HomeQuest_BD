@@ -33,3 +33,10 @@ type VerificationInfo = {
     reviewedAt: string | null;
   };
 };
+
+
+const ID_OPTIONS: { value: IdType; label: string; hasBack: boolean; placeholder: string }[] = [
+  { value: "NID", label: "National ID (NID)", hasBack: true, placeholder: "10, 13 or 17 digit NID number" },
+  { value: "PASSPORT", label: "Passport", hasBack: false, placeholder: "Passport number" },
+  { value: "DRIVING_LICENSE", label: "Driving License", hasBack: true, placeholder: "License number" },
+];
