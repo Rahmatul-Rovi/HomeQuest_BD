@@ -56,3 +56,20 @@ export async function PATCH(
         data: { verified: true },
       }),
     ]);
+
+    await createNotification({
+      userId: request.userId,
+      type: "OWNER_VERIFIED",
+      title: "You are now verified",
+      body: "Your ID was approved. Your listings now show the Verified Owner badge.",
+      link: "/profile",
+    });
+
+    return NextResponse.json(updated);
+  }
+
+  const updated = await prisma.verificationRequest.update({
+    where: { id },
+    data: { status: "REJECTED", adminNote: cleanNote, reviewedAt: new Date() },
+    select,
+  });
