@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/admin";
-import { createNotification } from "@/lib/notifications";
+import { requireAdmin } from "@/src/lib/admin";
+import { createNotification } from "@/src/lib/notifications";
 
 export async function PATCH(
   req: NextRequest,
@@ -34,7 +34,6 @@ export async function PATCH(
   if (!request) {
     return NextResponse.json({ error: "Request not found" }, { status: 404 });
   }
-
   if (request.status !== "PENDING") {
     return NextResponse.json(
       { error: "This request has already been reviewed." },
@@ -73,3 +72,14 @@ export async function PATCH(
     data: { status: "REJECTED", adminNote: cleanNote, reviewedAt: new Date() },
     select,
   });
+
+  await createNotification({
+    userId: request.userId,
+    type: "OWNER_UNVERIFIED",
+    title: "Verification not approved",
+    body: `Reason: ${cleanNote}. You can submit a new request with clearer documents.`,
+    link: "/verification",
+  });
+
+  return NextResponse.json(updated);
+}
