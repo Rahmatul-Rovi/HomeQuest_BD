@@ -20,3 +20,16 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 
 type IdType = "NID" | "PASSPORT" | "DRIVING_LICENSE";
+
+type VerificationInfo = {
+  verified: boolean;
+  request: null | {
+    id: string;
+    idType: IdType;
+    idNumberMasked: string;
+    status: "PENDING" | "APPROVED" | "REJECTED";
+    adminNote: string | null;
+    createdAt: string;
+    reviewedAt: string | null;
+  };
+};
