@@ -20,7 +20,7 @@ export async function GET() {
   ] = await Promise.all([
     prisma.user.count(),
     prisma.listing.count(),
-    prisma.user.count({ where: { role: "OWNER", verified: false } }),
+    prisma.verificationRequest.count({ where: { status: "PENDING" } }),
     prisma.visitRequest.count(),
     prisma.listing.count({ where: { listingType: "RENT" } }),
     prisma.listing.count({ where: { listingType: "SALE" } }),
