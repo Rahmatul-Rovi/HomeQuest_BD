@@ -34,3 +34,25 @@ export async function PATCH(
   if (!request) {
     return NextResponse.json({ error: "Request not found" }, { status: 404 });
   }
+
+  if (request.status !== "PENDING") {
+    return NextResponse.json(
+      { error: "This request has already been reviewed." },
+      { status: 409 }
+    );
+  }
+
+  const select = { status: true, adminNote: true, reviewedAt: true } as const;
+
+  if (action === "APPROVE") {
+    const [updated] = await prisma.$transaction([
+      prisma.verificationRequest.update({
+        where: { id },
+        data: { status: "APPROVED", adminNote: cleanNote || null, reviewedAt: new Date() },
+        select,
+      }),
+      prisma.user.update({
+        where: { id: request.userId },
+        data: { verified: true },
+      }),
+    ]);
