@@ -112,3 +112,25 @@ function UploadBox({
       });
       return;
     }
+
+     setUploading(true);
+    try {
+      const url = await uploadPrivateImage(file);
+      setPreview(URL.createObjectURL(file));
+      onChange(url);
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Upload failed",
+        text: err instanceof Error ? err.message : "Please try again.",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const remove = () => {
+    setPreview(null);
+    onChange(null);
+  };
