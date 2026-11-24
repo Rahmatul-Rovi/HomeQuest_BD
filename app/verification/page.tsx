@@ -162,3 +162,29 @@ function UploadBox({
               <span className="text-xs text-gray-400">JPG, PNG or WebP, max 5 MB</span>
             </>
           )}
+
+            <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleFile}
+            disabled={uploading}
+            className="hidden"
+          />
+        </label>
+      )}
+    </div>
+  );
+}
+
+export default function VerificationPage() {
+  const router = useRouter();
+  const { status } = useSession();
+
+  const [info, setInfo] = useState<VerificationInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const [idType, setIdType] = useState<IdType>("NID");
+  const [idNumber, setIdNumber] = useState("");
+  const [front, setFront] = useState<string | null>(null);
+  const [back, setBack] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
