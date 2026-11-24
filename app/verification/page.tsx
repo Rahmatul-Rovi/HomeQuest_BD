@@ -134,3 +134,31 @@ function UploadBox({
     setPreview(null);
     onChange(null);
   };
+
+  return (
+    <div>
+      <label className="text-sm font-medium text-gray-700 mb-1.5 block">{label}</label>
+      {value && preview ? (
+        <div className="relative h-40 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={preview} alt={label} className="w-full h-full object-contain" />
+          <button
+            type="button"
+            onClick={remove}
+            aria-label="Remove photo"
+            className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1.5 transition"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      ) : (
+        <label className="h-40 border-2 border-dashed border-gray-300 hover:border-primary rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer transition text-center px-4">
+          {uploading ? (
+            <Loader2 size={22} className="animate-spin text-primary" />
+          ) : (
+            <>
+              <UploadCloud size={22} className="text-gray-400" />
+              <span className="text-sm text-gray-500">Click to upload</span>
+              <span className="text-xs text-gray-400">JPG, PNG or WebP, max 5 MB</span>
+            </>
+          )}
