@@ -232,3 +232,24 @@ export default function VerificationPage() {
 
     setSubmitting(true);
     try {
+       const res = await fetch("/api/verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idType, idNumber, frontImage: front, backImage: back }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Could not submit",
+          text: data.error || "Something went wrong.",
+          confirmButtonColor: "#16A34A",
+        });
+        return;
+      }
+
+      setIdNumber("");
+      setFront(null);
+      setBack(null);
+      await loadInfo();
