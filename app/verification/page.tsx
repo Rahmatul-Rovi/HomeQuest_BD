@@ -40,3 +40,22 @@ const ID_OPTIONS: { value: IdType; label: string; hasBack: boolean; placeholder:
   { value: "PASSPORT", label: "Passport", hasBack: false, placeholder: "Passport number" },
   { value: "DRIVING_LICENSE", label: "Driving License", hasBack: true, placeholder: "License number" },
 ];
+
+const ID_LABELS: Record<IdType, string> = {
+  NID: "NID",
+  PASSPORT: "Passport",
+  DRIVING_LICENSE: "Driving License",
+};
+
+async function uploadPrivateImage(file: File): Promise<string> {
+  const signRes = await fetch("/api/verification/sign", { method: "POST" });
+  const sign = await signRes.json();
+  if (!signRes.ok) throw new Error(sign.error || "Could not start the upload.");
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("api_key", sign.apiKey);
+  formData.append("timestamp", String(sign.timestamp));
+  formData.append("signature", sign.signature);
+  formData.append("folder", sign.folder);
+  formData.append("type", sign.type);
