@@ -82,3 +82,33 @@ function UploadBox({
 }) {
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+
+   useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Unsupported file",
+        text: "Please upload a JPG, PNG or WebP photo.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      Swal.fire({
+        icon: "warning",
+        title: "Photo is too large",
+        text: "Please choose a photo under 5 MB.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
