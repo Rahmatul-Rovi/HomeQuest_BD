@@ -40,3 +40,233 @@ const ID_OPTIONS: { value: IdType; label: string; hasBack: boolean; placeholder:
   { value: "PASSPORT", label: "Passport", hasBack: false, placeholder: "Passport number" },
   { value: "DRIVING_LICENSE", label: "Driving License", hasBack: true, placeholder: "License number" },
 ];
+
+const ID_LABELS: Record<IdType, string> = {
+  NID: "NID",
+  PASSPORT: "Passport",
+  DRIVING_LICENSE: "Driving License",
+};
+
+async function uploadPrivateImage(file: File): Promise<string> {
+  const signRes = await fetch("/api/verification/sign", { method: "POST" });
+  const sign = await signRes.json();
+  if (!signRes.ok) throw new Error(sign.error || "Could not start the upload.");
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("api_key", sign.apiKey);
+  formData.append("timestamp", String(sign.timestamp));
+  formData.append("signature", sign.signature);
+  formData.append("folder", sign.folder);
+  formData.append("type", sign.type);
+
+   const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`,
+    { method: "POST", body: formData }
+  );
+  const data = await res.json();
+  if (!res.ok || !data.secure_url) {
+    throw new Error(data?.error?.message || "Upload failed.");
+  }
+  return data.secure_url as string;
+}
+
+function UploadBox({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string | null;
+  onChange: (url: string | null) => void;
+}) {
+  const [preview, setPreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+
+   useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Unsupported file",
+        text: "Please upload a JPG, PNG or WebP photo.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      Swal.fire({
+        icon: "warning",
+        title: "Photo is too large",
+        text: "Please choose a photo under 5 MB.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+
+     setUploading(true);
+    try {
+      const url = await uploadPrivateImage(file);
+      setPreview(URL.createObjectURL(file));
+      onChange(url);
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: "Upload failed",
+        text: err instanceof Error ? err.message : "Please try again.",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const remove = () => {
+    setPreview(null);
+    onChange(null);
+  };
+
+  return (
+    <div>
+      <label className="text-sm font-medium text-gray-700 mb-1.5 block">{label}</label>
+      {value && preview ? (
+        <div className="relative h-40 rounded-xl overflow-hidden border border-gray-200 bg-gray-50">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={preview} alt={label} className="w-full h-full object-contain" />
+          <button
+            type="button"
+            onClick={remove}
+            aria-label="Remove photo"
+            className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1.5 transition"
+          >
+            <X size={14} />
+          </button>
+        </div>
+      ) : (
+        <label className="h-40 border-2 border-dashed border-gray-300 hover:border-primary rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer transition text-center px-4">
+          {uploading ? (
+            <Loader2 size={22} className="animate-spin text-primary" />
+          ) : (
+            <>
+              <UploadCloud size={22} className="text-gray-400" />
+              <span className="text-sm text-gray-500">Click to upload</span>
+              <span className="text-xs text-gray-400">JPG, PNG or WebP, max 5 MB</span>
+            </>
+          )}
+
+            <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleFile}
+            disabled={uploading}
+            className="hidden"
+          />
+        </label>
+      )}
+    </div>
+  );
+}
+
+export default function VerificationPage() {
+  const router = useRouter();
+  const { status } = useSession();
+
+  const [info, setInfo] = useState<VerificationInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const [idType, setIdType] = useState<IdType>("NID");
+  const [idNumber, setIdNumber] = useState("");
+  const [front, setFront] = useState<string | null>(null);
+  const [back, setBack] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?redirect=/verification");
+    }
+  }, [status, router]);
+
+  const loadInfo = useCallback(async () => {
+    try {
+      const res = await fetch("/api/verification");
+      if (res.ok) setInfo(await res.json());
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (status === "authenticated") loadInfo();
+  }, [status, loadInfo]);
+
+  const selected = ID_OPTIONS.find((o) => o.value === idType)!;
+
+  const selectType = (type: IdType) => {
+    setIdType(type);
+    if (type === "PASSPORT") setBack(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!idNumber.trim() || !front || (selected.hasBack && !back)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Incomplete details",
+        text: selected.hasBack
+          ? "Please enter your ID number and upload both front and back photos."
+          : "Please enter your ID number and upload the photo.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+       const res = await fetch("/api/verification", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ idType, idNumber, frontImage: front, backImage: back }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Could not submit",
+          text: data.error || "Something went wrong.",
+          confirmButtonColor: "#16A34A",
+        });
+        return;
+      }
+
+      setIdNumber("");
+      setFront(null);
+      setBack(null);
+      await loadInfo();
+
+      Swal.fire({
+        icon: "success",
+        title: "Request submitted",
+        text: "Our team will review your ID and notify you.",
+        confirmButtonColor: "#16A34A",
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
