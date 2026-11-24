@@ -59,3 +59,26 @@ async function uploadPrivateImage(file: File): Promise<string> {
   formData.append("signature", sign.signature);
   formData.append("folder", sign.folder);
   formData.append("type", sign.type);
+
+   const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`,
+    { method: "POST", body: formData }
+  );
+  const data = await res.json();
+  if (!res.ok || !data.secure_url) {
+    throw new Error(data?.error?.message || "Upload failed.");
+  }
+  return data.secure_url as string;
+}
+
+function UploadBox({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string | null;
+  onChange: (url: string | null) => void;
+}) {
+  const [preview, setPreview] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
