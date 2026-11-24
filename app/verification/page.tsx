@@ -209,3 +209,26 @@ export default function VerificationPage() {
   }, [status, loadInfo]);
 
   const selected = ID_OPTIONS.find((o) => o.value === idType)!;
+
+  const selectType = (type: IdType) => {
+    setIdType(type);
+    if (type === "PASSPORT") setBack(null);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!idNumber.trim() || !front || (selected.hasBack && !back)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Incomplete details",
+        text: selected.hasBack
+          ? "Please enter your ID number and upload both front and back photos."
+          : "Please enter your ID number and upload the photo.",
+        confirmButtonColor: "#16A34A",
+      });
+      return;
+    }
+
+    setSubmitting(true);
+    try {
