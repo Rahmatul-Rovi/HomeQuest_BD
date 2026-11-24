@@ -188,3 +188,24 @@ export default function VerificationPage() {
   const [front, setFront] = useState<string | null>(null);
   const [back, setBack] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login?redirect=/verification");
+    }
+  }, [status, router]);
+
+  const loadInfo = useCallback(async () => {
+    try {
+      const res = await fetch("/api/verification");
+      if (res.ok) setInfo(await res.json());
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (status === "authenticated") loadInfo();
+  }, [status, loadInfo]);
+
+  const selected = ID_OPTIONS.find((o) => o.value === idType)!;
