@@ -253,3 +253,20 @@ export default function VerificationPage() {
       setFront(null);
       setBack(null);
       await loadInfo();
+
+      Swal.fire({
+        icon: "success",
+        title: "Request submitted",
+        text: "Our team will review your ID and notify you.",
+        confirmButtonColor: "#16A34A",
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  };
