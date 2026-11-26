@@ -386,3 +386,31 @@ export default function VerificationPage() {
         className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 space-y-5"
       >
         {rejected && (
+            <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl p-4">
+            <XCircle size={20} className="text-red-500 shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-semibold text-red-800">Your last request was not approved</p>
+              {rejected.adminNote && (
+                <p className="text-red-700/90 mt-0.5">Reason: {rejected.adminNote}</p>
+              )}
+              <p className="text-red-700/80 mt-1">Please submit again with clearer photos.</p>
+            </div>
+          </div>
+        )}
+
+        <div>
+          <label className="text-sm font-medium text-gray-700 mb-2 block">Document type</label>
+          <div className="grid sm:grid-cols-3 gap-2">
+            {ID_OPTIONS.map((opt) => (
+              <button
+                key={opt.value}
+                type="button"
+                onClick={() => selectType(opt.value)}
+                className={`px-3 py-2.5 text-sm font-medium rounded-lg border transition ${
+                  idType === opt.value
+                    ? "bg-primary text-white border-primary"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-primary hover:text-primary"
+                }`}
+              >
+                {opt.label}
+              </button>
