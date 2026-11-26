@@ -290,3 +290,35 @@ export default function VerificationPage() {
       <Footer />
     </div>
   );
+
+   if (status === "loading" || loading || !info) {
+    return shell(
+      <div className="grid lg:grid-cols-[1fr_1.4fr] gap-6 animate-pulse">
+        <div className="h-64 bg-gray-100 rounded-2xl" />
+        <div className="h-96 bg-gray-100 rounded-2xl" />
+      </div>
+    );
+  }
+
+  // Already verified
+  if (info.verified) {
+    return shell(
+      <div className="max-w-lg mx-auto text-center bg-white border border-gray-100 rounded-2xl shadow-sm p-10">
+        <div className="w-16 h-16 rounded-full bg-primary-light flex items-center justify-center mx-auto mb-4">
+          <BadgeCheck size={32} className="text-primary" />
+        </div>
+        <h2 className="text-xl font-bold text-gray-900">You&apos;re a Verified Owner</h2>
+        <p className="text-gray-500 text-sm mt-2">
+          Your listings now show the Verified Owner badge.
+        </p>
+        <div className="flex justify-center gap-3 mt-6">
+          <Link href="/listings/new">
+            <Button className="bg-primary hover:bg-primary-dark text-white">List a Property</Button>
+          </Link>
+          <Link href="/profile">
+            <Button variant="outline">My Profile</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
