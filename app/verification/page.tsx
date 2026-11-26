@@ -34,7 +34,6 @@ type VerificationInfo = {
   };
 };
 
-
 const ID_OPTIONS: { value: IdType; label: string; hasBack: boolean; placeholder: string }[] = [
   { value: "NID", label: "National ID (NID)", hasBack: true, placeholder: "10, 13 or 17 digit NID number" },
   { value: "PASSPORT", label: "Passport", hasBack: false, placeholder: "Passport number" },
@@ -47,6 +46,7 @@ const ID_LABELS: Record<IdType, string> = {
   DRIVING_LICENSE: "Driving License",
 };
 
+// Cloudinary te private (signed) upload; URL return kore
 async function uploadPrivateImage(file: File): Promise<string> {
   const signRes = await fetch("/api/verification/sign", { method: "POST" });
   const sign = await signRes.json();
@@ -60,7 +60,7 @@ async function uploadPrivateImage(file: File): Promise<string> {
   formData.append("folder", sign.folder);
   formData.append("type", sign.type);
 
-   const res = await fetch(
+  const res = await fetch(
     `https://api.cloudinary.com/v1_1/${sign.cloudName}/image/upload`,
     { method: "POST", body: formData }
   );
@@ -83,7 +83,7 @@ function UploadBox({
   const [preview, setPreview] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
 
-   useEffect(() => {
+  useEffect(() => {
     return () => {
       if (preview) URL.revokeObjectURL(preview);
     };
@@ -113,7 +113,7 @@ function UploadBox({
       return;
     }
 
-     setUploading(true);
+    setUploading(true);
     try {
       const url = await uploadPrivateImage(file);
       setPreview(URL.createObjectURL(file));
@@ -162,8 +162,7 @@ function UploadBox({
               <span className="text-xs text-gray-400">JPG, PNG or WebP, max 5 MB</span>
             </>
           )}
-
-            <input
+          <input
             type="file"
             accept="image/jpeg,image/png,image/webp"
             onChange={handleFile}
@@ -232,7 +231,7 @@ export default function VerificationPage() {
 
     setSubmitting(true);
     try {
-       const res = await fetch("/api/verification", {
+      const res = await fetch("/api/verification", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idType, idNumber, frontImage: front, backImage: back }),
@@ -271,7 +270,7 @@ export default function VerificationPage() {
     }
   };
 
-   const shell = (children: React.ReactNode) => (
+  const shell = (children: React.ReactNode) => (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
       <main className="flex-1">
@@ -291,7 +290,7 @@ export default function VerificationPage() {
     </div>
   );
 
-   if (status === "loading" || loading || !info) {
+  if (status === "loading" || loading || !info) {
     return shell(
       <div className="grid lg:grid-cols-[1fr_1.4fr] gap-6 animate-pulse">
         <div className="h-64 bg-gray-100 rounded-2xl" />
@@ -347,7 +346,7 @@ export default function VerificationPage() {
     );
   }
 
-   const rejected = info.request?.status === "REJECTED" ? info.request : null;
+  const rejected = info.request?.status === "REJECTED" ? info.request : null;
 
   return shell(
     <div className="grid lg:grid-cols-[1fr_1.4fr] gap-6 items-start">
@@ -386,7 +385,7 @@ export default function VerificationPage() {
         className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 space-y-5"
       >
         {rejected && (
-            <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl p-4">
+          <div className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl p-4">
             <XCircle size={20} className="text-red-500 shrink-0 mt-0.5" />
             <div className="text-sm">
               <p className="font-semibold text-red-800">Your last request was not approved</p>
@@ -414,7 +413,7 @@ export default function VerificationPage() {
               >
                 {opt.label}
               </button>
-               ))}
+            ))}
           </div>
         </div>
 
@@ -436,3 +435,22 @@ export default function VerificationPage() {
             onChange={setFront}
           />
           {selected.hasBack && (
+            <UploadBox label="Back side" value={back} onChange={setBack} />
+          )}
+        </div>
+
+        <p className="text-xs text-gray-400">
+          Make sure the photo is clear, uncropped and all text is readable.
+        </p>
+
+        <Button
+          type="submit"
+          disabled={submitting}
+          className="w-full bg-primary hover:bg-primary-dark text-white py-5"
+        >
+          {submitting ? "Submitting..." : "Submit for Verification"}
+        </Button>
+      </form>
+    </div>
+  );
+}
