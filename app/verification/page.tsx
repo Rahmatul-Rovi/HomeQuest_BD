@@ -368,3 +368,21 @@ export default function VerificationPage() {
             ))}
           </ul>
         </div>
+
+        <div className="bg-primary-light/50 border border-primary/15 rounded-2xl p-6">
+          <h2 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+            <Lock size={16} className="text-primary" /> Your ID stays private
+          </h2>
+          <p className="text-sm text-gray-600 leading-relaxed">
+            Your documents are stored privately and are only visible to HomeQuest BD admins for
+            review. They are never shown on your profile or listings.
+          </p>
+        </div>
+      </div>
+
+      {/* Right: form */}
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6 space-y-5"
+      >
+        {rejected && (
