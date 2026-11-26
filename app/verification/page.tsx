@@ -322,3 +322,27 @@ export default function VerificationPage() {
       </div>
     );
   }
+
+  // Under review
+  if (info.request?.status === "PENDING") {
+    return shell(
+      <div className="max-w-lg mx-auto text-center bg-white border border-gray-100 rounded-2xl shadow-sm p-10">
+        <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center mx-auto mb-4">
+          <Clock size={30} className="text-amber-600" />
+        </div>
+        <h2 className="text-xl font-bold text-gray-900">Under review</h2>
+        <p className="text-gray-500 text-sm mt-2">
+          We received your {ID_LABELS[info.request.idType]} ({info.request.idNumberMasked}) on{" "}
+          {new Date(info.request.createdAt).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          })}
+          . You&apos;ll get a notification once it&apos;s reviewed.
+        </p>
+        <Link href="/dashboard">
+          <Button variant="outline" className="mt-6">Back to Dashboard</Button>
+        </Link>
+      </div>
+    );
+  }
