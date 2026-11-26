@@ -270,3 +270,23 @@ export default function VerificationPage() {
       setSubmitting(false);
     }
   };
+
+   const shell = (children: React.ReactNode) => (
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <Navbar />
+      <main className="flex-1">
+        <section className="bg-gradient-to-b from-primary-light/60 to-gray-50 border-b border-gray-100">
+          <div className="max-w-5xl mx-auto px-4 md:px-8 py-10">
+            <h1 className="text-2xl md:text-4xl font-extrabold text-gray-900 tracking-tight flex items-center gap-3">
+              <ShieldCheck className="text-primary" size={32} /> Get Verified
+            </h1>
+            <p className="text-gray-500 text-sm md:text-base mt-2 max-w-xl">
+              Verify your identity to earn the Verified Owner badge and build trust with tenants.
+            </p>
+          </div>
+        </section>
+        <div className="max-w-5xl mx-auto px-4 md:px-8 py-8">{children}</div>
+      </main>
+      <Footer />
+    </div>
+  );
