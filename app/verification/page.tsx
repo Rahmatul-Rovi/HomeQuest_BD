@@ -414,3 +414,25 @@ export default function VerificationPage() {
               >
                 {opt.label}
               </button>
+               ))}
+          </div>
+        </div>
+
+        <div>
+          <label className="text-sm font-medium text-gray-700 mb-1.5 block">ID number</label>
+          <input
+            type="text"
+            value={idNumber}
+            onChange={(e) => setIdNumber(e.target.value)}
+            placeholder={selected.placeholder}
+            className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition"
+          />
+        </div>
+
+        <div className={`grid gap-4 ${selected.hasBack ? "sm:grid-cols-2" : ""}`}>
+          <UploadBox
+            label={selected.hasBack ? "Front side" : "Photo page"}
+            value={front}
+            onChange={setFront}
+          />
+          {selected.hasBack && (
