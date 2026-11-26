@@ -346,3 +346,25 @@ export default function VerificationPage() {
       </div>
     );
   }
+
+   const rejected = info.request?.status === "REJECTED" ? info.request : null;
+
+  return shell(
+    <div className="grid lg:grid-cols-[1fr_1.4fr] gap-6 items-start">
+      {/* Left: why + privacy */}
+      <div className="space-y-4">
+        <div className="bg-white border border-gray-100 rounded-2xl shadow-sm p-6">
+          <h2 className="font-bold text-gray-900 mb-4">Why get verified?</h2>
+          <ul className="space-y-3 text-sm text-gray-600">
+            {[
+              "A Verified Owner badge on all your listings",
+              "Tenants trust verified owners more, so you get more visit requests",
+              "Helps us keep fake listings off the platform",
+            ].map((item) => (
+              <li key={item} className="flex items-start gap-2.5">
+                <BadgeCheck size={17} className="text-primary shrink-0 mt-0.5" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
