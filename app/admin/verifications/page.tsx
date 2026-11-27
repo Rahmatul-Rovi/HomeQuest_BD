@@ -131,3 +131,30 @@ export default function AdminVerificationsPage() {
         body: JSON.stringify({ action, note }),
       });
       const data = await res.json();
+
+       if (!res.ok) {
+        Swal.fire({
+          icon: "error",
+          title: "Could not update",
+          text: data.error || "Something went wrong.",
+          confirmButtonColor: "#16A34A",
+        });
+        return;
+      }
+
+      setItems((prev) =>
+        prev.map((i) =>
+          i.id === item.id
+            ? {
+                ...i,
+                status: data.status,
+                adminNote: data.adminNote,
+                reviewedAt: data.reviewedAt,
+                user: {
+                  ...i.user,
+                  verified: action === "APPROVE" ? true : i.user.verified,
+                },
+              }
+            : i
+        )
+      );
