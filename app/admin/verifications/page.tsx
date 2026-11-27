@@ -233,3 +233,31 @@ export default function AdminVerificationsPage() {
                     <div className="w-11 h-11 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold shrink-0">
                       {item.user.name.charAt(0).toUpperCase()}
                     </div>
+
+                     )}
+                  <div className="min-w-0">
+                    <p className="font-semibold text-gray-900 flex items-center gap-1.5 truncate">
+                      {item.user.name}
+                      {item.user.verified && (
+                        <BadgeCheck size={15} className="text-primary shrink-0" />
+                      )}
+                    </p>
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-xs text-gray-500 mt-0.5">
+                      <span className="flex items-center gap-1 truncate">
+                        <Mail size={12} /> {item.user.email}
+                      </span>
+                      {item.user.phone && (
+                        <span className="flex items-center gap-1">
+                          <Phone size={12} /> {item.user.phone}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <span
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-full shrink-0 ${STATUS_STYLES[item.status]}`}
+                >
+                  {item.status}
+                </span>
+              </div>
