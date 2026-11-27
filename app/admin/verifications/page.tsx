@@ -208,3 +208,28 @@ export default function AdminVerificationsPage() {
           </button>
         ))}
       </div>
+
+        {visible.length === 0 ? (
+        <div className="text-center py-16 bg-white border border-gray-100 rounded-2xl">
+          <Inbox size={36} className="text-gray-300 mx-auto mb-3" />
+          <p className="text-gray-500 font-medium">Nothing here</p>
+          <p className="text-gray-400 text-sm mt-1">No requests in this category.</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {visible.map((item) => (
+            <div key={item.id} className="bg-white border border-gray-100 rounded-2xl shadow-sm p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3 min-w-0">
+                  {item.user.image ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={item.user.image}
+                      alt={item.user.name}
+                      referrerPolicy="no-referrer"
+                      className="w-11 h-11 rounded-full object-cover shrink-0"
+                    />
+                  ) : (
+                    <div className="w-11 h-11 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold shrink-0">
+                      {item.user.name.charAt(0).toUpperCase()}
+                    </div>
