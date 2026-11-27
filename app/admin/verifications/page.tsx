@@ -103,3 +103,31 @@ export default function AdminVerificationsPage() {
       });
       if (!confirm.isConfirmed) return;
     } else {
+
+          const result = await Swal.fire({
+        title: "Reject verification?",
+        input: "textarea",
+        inputLabel: "Reason (the user will see this)",
+        inputPlaceholder: "e.g. The NID photo is blurry. Please upload a clearer photo.",
+        inputAttributes: { maxlength: "300" },
+        showCancelButton: true,
+        confirmButtonText: "Reject",
+        confirmButtonColor: "#DC2626",
+        cancelButtonColor: "#9CA3AF",
+        inputValidator: (value) =>
+          !value || value.trim().length < 5
+            ? "Please write a short reason (at least 5 characters)."
+            : undefined,
+      });
+      if (!result.isConfirmed) return;
+      note = String(result.value).trim();
+    }
+
+    setBusyId(item.id);
+    try {
+      const res = await fetch(`/api/admin/verifications/${item.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, note }),
+      });
+      const data = await res.json();
