@@ -103,8 +103,7 @@ export default function AdminVerificationsPage() {
       });
       if (!confirm.isConfirmed) return;
     } else {
-
-          const result = await Swal.fire({
+      const result = await Swal.fire({
         title: "Reject verification?",
         input: "textarea",
         inputLabel: "Reason (the user will see this)",
@@ -132,7 +131,7 @@ export default function AdminVerificationsPage() {
       });
       const data = await res.json();
 
-       if (!res.ok) {
+      if (!res.ok) {
         Swal.fire({
           icon: "error",
           title: "Could not update",
@@ -209,7 +208,7 @@ export default function AdminVerificationsPage() {
         ))}
       </div>
 
-        {visible.length === 0 ? (
+      {visible.length === 0 ? (
         <div className="text-center py-16 bg-white border border-gray-100 rounded-2xl">
           <Inbox size={36} className="text-gray-300 mx-auto mb-3" />
           <p className="text-gray-500 font-medium">Nothing here</p>
@@ -233,8 +232,7 @@ export default function AdminVerificationsPage() {
                     <div className="w-11 h-11 rounded-full bg-primary-light flex items-center justify-center text-primary font-bold shrink-0">
                       {item.user.name.charAt(0).toUpperCase()}
                     </div>
-
-                     )}
+                  )}
                   <div className="min-w-0">
                     <p className="font-semibold text-gray-900 flex items-center gap-1.5 truncate">
                       {item.user.name}
@@ -262,7 +260,7 @@ export default function AdminVerificationsPage() {
                 </span>
               </div>
 
-               <div className="mt-4 pt-4 border-t border-gray-100 grid sm:grid-cols-[1fr_auto] gap-4">
+              <div className="mt-4 pt-4 border-t border-gray-100 grid sm:grid-cols-[1fr_auto] gap-4">
                 <div className="space-y-2 text-sm">
                   <p className="text-gray-500">
                     Document:{" "}
@@ -336,3 +334,22 @@ export default function AdminVerificationsPage() {
           onClick={() => setZoom(null)}
         >
           <button
+            type="button"
+            onClick={() => setZoom(null)}
+            aria-label="Close"
+            className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 transition"
+          >
+            <XIcon size={20} />
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={zoom}
+            alt="ID document"
+            onClick={(e) => e.stopPropagation()}
+            className="max-w-full max-h-[88vh] rounded-lg object-contain"
+          />
+        </div>
+      )}
+    </div>
+  );
+}
