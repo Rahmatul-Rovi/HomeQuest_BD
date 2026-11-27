@@ -28,3 +28,22 @@ type VerificationItem = {
     verified: boolean;
   };
 };
+
+const ID_LABELS = {
+  NID: "NID",
+  PASSPORT: "Passport",
+  DRIVING_LICENSE: "Driving License",
+} as const;
+
+const STATUS_STYLES: Record<Status, string> = {
+  PENDING: "bg-amber-100 text-amber-700",
+  APPROVED: "bg-emerald-100 text-emerald-700",
+  REJECTED: "bg-red-100 text-red-600",
+};
+
+const TABS: { value: Tab; label: string }[] = [
+  { value: "PENDING", label: "Pending" },
+  { value: "APPROVED", label: "Approved" },
+  { value: "REJECTED", label: "Rejected" },
+  { value: "ALL", label: "All" },
+];
