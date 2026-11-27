@@ -304,3 +304,35 @@ export default function AdminVerificationsPage() {
                     ))}
                 </div>
               </div>
+
+              {item.status === "PENDING" && (
+                <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+                  <Button
+                    onClick={() => review(item, "APPROVE")}
+                    disabled={busyId === item.id}
+                    className="flex-1 bg-primary hover:bg-primary-dark text-white flex items-center justify-center gap-1.5 text-sm"
+                  >
+                    <Check size={15} /> Approve
+                  </Button>
+                  <Button
+                    onClick={() => review(item, "REJECT")}
+                    disabled={busyId === item.id}
+                    variant="outline"
+                    className="flex-1 border-red-200 text-red-500 hover:bg-red-50 flex items-center justify-center gap-1.5 text-sm"
+                  >
+                    <XIcon size={15} /> Reject
+                  </Button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Image Lightbox */}
+      {zoom && (
+        <div
+          className="fixed inset-0 z-[60] bg-black/80 flex items-center justify-center p-4"
+          onClick={() => setZoom(null)}
+        >
+          <button
