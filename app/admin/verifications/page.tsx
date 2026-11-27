@@ -158,3 +158,30 @@ export default function AdminVerificationsPage() {
             : i
         )
       );
+
+      Swal.fire({
+        icon: "success",
+        title: action === "APPROVE" ? "Owner verified" : "Request rejected",
+        timer: 1200,
+        showConfirmButton: false,
+      });
+    } catch {
+      Swal.fire({
+        icon: "error",
+        title: "Something went wrong",
+        confirmButtonColor: "#16A34A",
+      });
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="p-6 md:p-10 animate-pulse space-y-4">
+        <div className="h-8 w-56 bg-gray-200 rounded" />
+        <div className="h-48 bg-gray-100 rounded-2xl" />
+        <div className="h-48 bg-gray-100 rounded-2xl" />
+      </div>
+    );
+  }
