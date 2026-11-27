@@ -47,3 +47,31 @@ const TABS: { value: Tab; label: string }[] = [
   { value: "REJECTED", label: "Rejected" },
   { value: "ALL", label: "All" },
 ];
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+export default function AdminVerificationsPage() {
+  const [items, setItems] = useState<VerificationItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [tab, setTab] = useState<Tab>("PENDING");
+  const [zoom, setZoom] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch("/api/admin/verifications");
+        if (res.ok) setItems(await res.json());
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
