@@ -261,3 +261,46 @@ export default function AdminVerificationsPage() {
                   {item.status}
                 </span>
               </div>
+
+               <div className="mt-4 pt-4 border-t border-gray-100 grid sm:grid-cols-[1fr_auto] gap-4">
+                <div className="space-y-2 text-sm">
+                  <p className="text-gray-500">
+                    Document:{" "}
+                    <span className="font-semibold text-gray-900">{ID_LABELS[item.idType]}</span>
+                  </p>
+                  <p className="text-gray-500">
+                    ID number:{" "}
+                    <span className="font-mono font-semibold text-gray-900">{item.idNumber}</span>
+                  </p>
+                  <p className="text-gray-400 text-xs flex items-center gap-1">
+                    <Clock size={12} /> Submitted {formatDate(item.createdAt)}
+                  </p>
+                  {item.status !== "PENDING" && item.reviewedAt && (
+                    <p className="text-gray-400 text-xs">
+                      Reviewed {formatDate(item.reviewedAt)}
+                      {item.adminNote ? ` · Note: ${item.adminNote}` : ""}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex gap-3">
+                  {[item.frontImage, item.backImage]
+                    .filter((src): src is string => Boolean(src))
+                    .map((src, index) => (
+                      <button
+                        key={src}
+                        type="button"
+                        onClick={() => setZoom(src)}
+                        className="w-28 h-20 rounded-lg overflow-hidden border border-gray-200 bg-gray-50 hover:border-primary transition"
+                        title="Click to enlarge"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={src}
+                          alt={index === 0 ? "ID front" : "ID back"}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                </div>
+              </div>
