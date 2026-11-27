@@ -75,3 +75,31 @@ export default function AdminVerificationsPage() {
     };
     load();
   }, []);
+
+  const counts = useMemo(
+    () => ({
+      PENDING: items.filter((i) => i.status === "PENDING").length,
+      APPROVED: items.filter((i) => i.status === "APPROVED").length,
+      REJECTED: items.filter((i) => i.status === "REJECTED").length,
+      ALL: items.length,
+    }),
+    [items]
+  );
+
+  const visible = tab === "ALL" ? items : items.filter((i) => i.status === tab);
+
+  const review = async (item: VerificationItem, action: "APPROVE" | "REJECT") => {
+    let note: string | undefined;
+
+    if (action === "APPROVE") {
+      const confirm = await Swal.fire({
+        icon: "question",
+        title: "Approve this verification?",
+        text: `${item.user.name} will get the Verified Owner badge.`,
+        showCancelButton: true,
+        confirmButtonText: "Yes, approve",
+        confirmButtonColor: "#16A34A",
+        cancelButtonColor: "#9CA3AF",
+      });
+      if (!confirm.isConfirmed) return;
+    } else {
